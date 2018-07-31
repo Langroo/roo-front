@@ -43,6 +43,9 @@ const botReplier = (payload, reply, actions = null) => {
 
 }
 
+// -- Chatbot referral handling (when users use the m.link)
+bot.on('referral', (payload, reply, actions) => botReplier(payload, reply, actions))
+
 // -- Chatbot Error handling
 bot.on('error', (err) => console.log(err.message))
 

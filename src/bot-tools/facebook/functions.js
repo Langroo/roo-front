@@ -96,26 +96,15 @@ class FacebookAPI {
             locale: 'default',
             composer_input_disabled: false,
             call_to_actions: [
-              { title: '▶ Learn', type: 'postback', payload: 'next phrase' },
-              { title: '🙍 Request Personal Tutor', type: 'postback', payload: 'TALK_TO_TUTOR' },
-              { title: '❓ More Options',
+              { title: '❤ Share', type: 'postback', payload: 'share' },
+              { title: '🙍 Explore Tutors', type: 'postback', payload: 'TALK_TO_TUTOR' },
+              { title: '👉 More',
                 type: 'nested',
                 call_to_actions:
                 [
-                    { title: '🔐 Upgrade Plan', type: 'postback', payload: 'subscribe me' },
-                    { title: '📓 User Manual', type: 'postback', payload: 'get how to converse' },
-                    { title: '📝 Questionnaire', type: 'postback', payload: 'start_survey_flow_now' },
-                  {
-                    title: '😺 Other',
-                    type: 'nested',
-                    call_to_actions: [
-                        { title: '🙋 Help', type: 'postback', payload: 'help' },
-                        { title: '💳 Pricing', type: 'postback', payload: 'show pricing' },
-                        { title: '🎓 Change level', type: 'postback', payload: 'change level' },
-                        { title: '🔊 Change accent', type: 'postback', payload: 'change accent' },
-                        { title: '📵 Stop All Messages', type: 'postback', payload: 'FREEZE THE CURRENT FLOW' },
-                    ],
-                  },
+                  { title: '🔐 Pay', type: 'postback', payload: 'subscribe me' },
+                  { title: '🙋 Help', type: 'postback', payload: 'help' },
+                  { title: '📵 Stop All Messages', type: 'postback', payload: 'FREEZE THE CURRENT FLOW' },
                 ],
               },
             ],
