@@ -388,11 +388,11 @@ const getReply = async (message, params, userFromDB) => {
   case 'newAccentConfirmation':
     if (params.rawUserInput === 'change_accent_to_uk') {
       await API.updateAccent(message.senderId, { accent: 'uk' })
-      await BotCache.saveUserDataCache(message.senderId, message.conversationId, message.userHash, 'introduction', 'rooEnglishAccentQuestion', 'uk', false)
+      await BotCache.saveUserDataCache(message.senderId, message.userHash, 'introduction', 'rooEnglishAccentQuestion', 'uk', false)
       wildcard = { newAccent: 'UK' }
     } else {
       await API.updateAccent(message.senderId, { accent: 'us' })
-      await BotCache.saveUserDataCache(message.senderId, message.conversationId, message.userHash, 'introduction', 'rooEnglishAccentQuestion', 'us', false)
+      await BotCache.saveUserDataCache(message.senderId, message.userHash, 'introduction', 'rooEnglishAccentQuestion', 'us', false)
       wildcard = { newAccent: 'US' }
     }
     flowControlUpdate = { open_question: 'false', next_pos: 'TBD', prev_pos: 'newAccentConfirmation', current_flow: 'autoresponder' }

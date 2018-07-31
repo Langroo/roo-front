@@ -17,7 +17,7 @@ npm manifest:
   {
     "name": "Recast-ai-starter-kit",
     "version": "1.0.0",
-    "description": "A bot built with Recast.AI",
+    "description": "A frontReceiver built with Recast.AI",
     "main": "server.js",
     "scripts": {
       "start": "nodemon --exec babel-node -- src/server.js",
@@ -102,4 +102,4 @@ Lockfile:
   No lockfile
 
 Trace: 
-  Error: EACCES: permission denied, mkdir '/home/miguel/facebook-amazing-bot/node_modules/eslint/node_modules/doctrine'
+  Error: EACCES: permission denied, mkdir '/home/miguel/facebook-amazing-frontReceiver/node_modules/eslint/node_modules/doctrine'

@@ -17,7 +17,7 @@ const adminDialogs = (input, senderId) => {
   // -- Sets the user in the OpenTalk context and allows access to all contexts
   if (flowResetRegex.test(input)) {
     API.updateFlow(senderId, flowPositions('adminFlowReset'))
-      .then(() => API.createInitialUserProfile(senderId, process.env.USER_CONV)
+      .then(() => API.createInitialUserProfile(senderId)
         .then(() => FacebookAPI.SendMessages('text', '✔ CONTEXT ADMIN RESET SUCCESSFUL 👍. \nYou are now in the OpenTalk Context. 👀')
           .then(() => { return true })))
   }
@@ -104,15 +104,15 @@ const replier = async(messageToSend, dialog, userFromDB, senderId) => {
   return true
 }
 
-const getUserName = (message) => {
+const getUserName = payload => {
 
   // -- Define the variables with the first name and the full name
   let senderName, fullName
 
   try {
-    if (message.message.data) {
-      senderName = message.message.data.userName.split(' ')[0]
-      fullName = message.message.data.userName
+    if (payload.profile) {
+      senderName = payload.profile.first_name
+      fullName = `${payload.profile.first_name} ${payload.profile.last_name}`
     } else { senderName = 'buddy' }
   } catch (error) {
     console.log('Unable to obtain the username from the data inside the message')
@@ -142,7 +142,7 @@ const lockedContext = (params, isPostback) => {
 }
 
 // -- flowLauncher
-const flowLauncher = (message, conversation) => {
+const flowLauncher = (payload, conversation) => {
 
   /**
    * Requiring and importing libraries and modules
@@ -168,36 +168,36 @@ const flowLauncher = (message, conversation) => {
   let entityAndFlow = {}
 
   // -- Include the userHash inside the object message received
-  const userHash = generateHash(message.senderId)
-  message = Object.assign({}, message, { userHash })
+  const userHash = generateHash(payload.sender.id)
+  payload = Object.assign({}, payload, { userHash })
 
-  const brain = async (conversation, message, userFlow) => {
+  const brain = async (conversation, payload, userFlow) => {
 
     // -- Initialize variable that indicates if user input comes from pressing a button
     let isPostback
-    message.type === 'payload'
+    payload.type === 'payload'
       ? isPostback = true
       : isPostback = false
 
     // -- Create/Update conversation log
-    const channel = message.origin
-    ConversationLogs.conversationLogger(message.senderId, senderName, conversation.source, isPostback, channel)
+    const channel = 'Facebook'
+    ConversationLogs.conversationLogger(payload.sender.id, senderName, conversation.source, isPostback, channel)
 
     // -- Get the first name (senderName) and full name of the user
-    senderName = getUserName(message).senderName
-    fullName = getUserName(message).fullName
+    senderName = getUserName(payload).senderName
+    fullName = getUserName(payload).fullName
 
     // -- Retrieve the flow control variables of the user FROM REDIS
-    userFlow = await API.retrieveFlow(message.senderId)
+    userFlow = await API.retrieveFlow(payload.sender.id)
 
     // -- Allow the bot to reply the user after a few seconds after the last reply
     Cron.scheduleJob(timeOfSending, () => {
-      API.updateFlow(message.senderId, { ready_to_reply: true })
+      API.updateFlow(payload.sender.id, { ready_to_reply: true })
     })
 
     // -- Retrieve the user profile from MongoDB using the APIDB endpoint
     try {
-      userFromDB = await API.retrieveUser(message.senderId)
+      userFromDB = await API.retrieveUser(payload.sender.id)
       if (!userFromDB.data) {
         console.error('->>> User Account could not be retrieved <<<-')
         userFromDB.data = null
@@ -220,7 +220,7 @@ const flowLauncher = (message, conversation) => {
 
     // If the user is on the DB, register the time when he last send a message to the bot
     // Hold any further reply until the last message is completely processed
-    await API.updateFlow(message.senderId, { last_interaction: Date(), ready_to_reply: 'false' })
+    await API.updateFlow(payload.sender.id, { last_interaction: Date(), ready_to_reply: 'false' })
 
     // -- Initializing flow controlling variables
     try {
@@ -259,7 +259,7 @@ const flowLauncher = (message, conversation) => {
 
     // -- Set the currentEntity according to its current value after the inputHandler
     if (params.currentEntity) {
-      await API.updateFlow(message.senderId, { prev_pos: params.currentPos })
+      await API.updateFlow(payload.sender.id, { prev_pos: params.currentPos })
     } else if (!params.currentEntity) {
 
       params.OpQ
@@ -275,7 +275,7 @@ const flowLauncher = (message, conversation) => {
     // -- Console logs for Flow control
     console.info('\n################## FLOW CONTROL REDIS VARIABLES ######################')
     console.info('- Raw Input :: %s\n- SenderId :: [%s]\n- Username: [%s]\n- Last Interaction :: [%s]\n- Entity :: [%s]\n- Current Flow :: [%s]\n- PrevPos :: [%s]\n- CurrentPos :: [%s]\n- NextPos :: [%s]\n- OpenQuestion :: [%s]\n- PrevFlow :: [%s]\n- Translate Next Dialog :: [%s]\n- This position has been repeated :: [%s] times\n- User surveyed :: [%s]\n- User Reminders :: [%s]',
-      params.rawUserInput, message.senderId, params.fullName, params.lastInteraction, params.currentEntity, params.currentFlow, params.prevPos, params.currentPos, params.nextPos, params.OpQ, params.prevFlow, params.translateDialog, params.repeatedThisPos, params.surveyDone, params.reminderList)
+      params.rawUserInput, payload.sender.id, params.fullName, params.lastInteraction, params.currentEntity, params.currentFlow, params.prevPos, params.currentPos, params.nextPos, params.OpQ, params.prevFlow, params.translateDialog, params.repeatedThisPos, params.surveyDone, params.reminderList)
     console.info('#######################################################################\n')
 
     // -- CONDITIONAL'S GROUP: CONTROLLER OF MAIN ENTITIES AND CONVERSATIONAL FLOWS
@@ -326,10 +326,10 @@ const flowLauncher = (message, conversation) => {
     }
 
     // -- Send data to chatbase to store statistics
-    if (process.env.NODE_ENV === 'production') {
+    /* if (process.env.NODE_ENV === 'production') {
       await ChatBaseAPI.analyticReceived(conversation.source, process.env.USER_CONV, entityAndFlow.entity, false)
-        .catch(e => { console.error('ERROR sending data to CHATBASE.\nVariables:\nRaw User Input :: [%s]\nUser conversation :: [%s]\nEntity :: [%s]\nMessage Details :: ', conversation.source, process.env.USER_CONV, entityAndFlow.entity, e.message) })
-    }
+        .catch(e => { console.error('ERROR sending data to CHATBASE.\nVariables:\nRaw User Input :: [%s]\nEntity :: [%s]\nMessage Details :: ', conversation.source, entityAndFlow.entity, e.message) })
+    }*/
 
     return reply
   }

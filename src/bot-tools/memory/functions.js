@@ -6,9 +6,8 @@ const curatedData = require('./curated-data')
 
 class CacheDataPoints {
 
-  async setUserIDsInRedis (senderId, userHash, conversationId) {
+  async setUserIDsInRedis (senderId, userHash) {
     try {
-      await API.setRedisIds(userHash, 'conversationId', conversationId)
       await API.setRedisIds(userHash, 'senderId', senderId)
       return 0
     } catch (e) {
@@ -16,7 +15,7 @@ class CacheDataPoints {
     }
   }
 
-  async saveUserDataCache (senderId, conversationId, userHash, context, slug, value) {
+  async saveUserDataCache (senderId, userHash, context, slug, value) {
 
     let valueToStore
     let res
@@ -25,7 +24,7 @@ class CacheDataPoints {
 
     if (context === 'survey') {
       try {
-        res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+        res = await this.setUserIDsInRedis(senderId, userHash)
         if (res) { throw new Error(`${res}`) }
         await API.setRedisDataPoint(userHash, slug, valueToStore)
         return 0
@@ -37,7 +36,7 @@ class CacheDataPoints {
 
       case 'rooLocationQuestion':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'source_type', valueToStore)
           return 0
@@ -45,7 +44,7 @@ class CacheDataPoints {
 
       case 'rooSpecifyLocation':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'source_name', valueToStore)
           return 0
@@ -53,7 +52,7 @@ class CacheDataPoints {
 
       case 'rooSpecifyInfluencer':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'source_name', valueToStore)
           return 0
@@ -61,7 +60,7 @@ class CacheDataPoints {
 
       case 'rooAgeQuestion':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'age', valueToStore)
           return 0
@@ -69,7 +68,7 @@ class CacheDataPoints {
 
       case 'rooIntroduction':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'accent', valueToStore)
           return 0
@@ -77,7 +76,7 @@ class CacheDataPoints {
 
       case 'rooEnglishLevelQuestion':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'level', valueToStore)
           return 0
@@ -85,7 +84,7 @@ class CacheDataPoints {
 
       case 'rooBigMotivQuestion':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'motivation_to_learn_english', valueToStore)
           return 0
@@ -93,7 +92,7 @@ class CacheDataPoints {
 
       case 'rooBigInterest':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'biggest_interests_personal', valueToStore)
           return 0
@@ -101,7 +100,7 @@ class CacheDataPoints {
 
       case 'rooOtherInterest':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'biggest_interests_personal', valueToStore)
           return 0
@@ -115,7 +114,7 @@ class CacheDataPoints {
 
       case 'initiateUpsellingFlow':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'upselling_flow_input', valueToStore)
           return 0
@@ -123,7 +122,7 @@ class CacheDataPoints {
 
       case 'retakePreTutorFromReminder':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'retaking_tutor_flow_input', valueToStore)
           return 0
@@ -131,7 +130,7 @@ class CacheDataPoints {
 
       case 'initiatePreTutorFlow':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'tutor_flow_starting_input', valueToStore)
           return 0
@@ -139,21 +138,21 @@ class CacheDataPoints {
 
       case 'PTnextWeekOrMonth':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'tutor_flow_when_to_remind', valueToStore)
           return 0
         } catch (error) { console.log(`Error saving ${slug} redis :: `, error); return error }
       case 'PTneverRemindUser':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'tutor_flow_never_remind', valueToStore)
           return 0
         } catch (error) { console.log(`Error saving ${slug} redis :: `, error); return error }
       case 'PTtellUserNow':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'tutor_flow_tell_user_input', valueToStore)
           return 0
@@ -161,7 +160,7 @@ class CacheDataPoints {
 
       case 'PTshowPrices':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'tutor_flow_show_prices_input', valueToStore)
           return 0
@@ -169,7 +168,7 @@ class CacheDataPoints {
 
       case 'initiateTutorFlow':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'input_before_confirming_tutor', valueToStore)
           return 0
@@ -177,7 +176,7 @@ class CacheDataPoints {
 
       case 'tb0':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'input_before_tutor_flow', valueToStore)
           return 0
@@ -185,7 +184,7 @@ class CacheDataPoints {
 
       case 'tutorAskCountryOfUser':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'currentCountry', valueToStore)
           return 0
@@ -193,7 +192,7 @@ class CacheDataPoints {
 
       case 'describeYourself':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'selfDescription', valueToStore)
           return 0
@@ -201,7 +200,7 @@ class CacheDataPoints {
 
       case 'describeYourInterests':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'interests', valueToStore)
           return 0
@@ -209,7 +208,7 @@ class CacheDataPoints {
 
       case 'whenToCallTutor':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'timeOfDayForCalls', valueToStore)
           return 0
@@ -217,7 +216,7 @@ class CacheDataPoints {
 
       case 'confirmWhenToCallTutor':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'timeOfDayForCalls', valueToStore)
           return 0
@@ -225,7 +224,7 @@ class CacheDataPoints {
 
       case 'whenToCallTutor2':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'timeOfDayForCalls', valueToStore)
           return 0
@@ -233,7 +232,7 @@ class CacheDataPoints {
 
       case 'daysGroupForCalls':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'timeOfWeekForCalls', valueToStore)
           return 0
@@ -241,7 +240,7 @@ class CacheDataPoints {
 
       case 'daysToCallTutor':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'daysOfWeekForCalls', valueToStore)
           return 0
@@ -249,7 +248,7 @@ class CacheDataPoints {
 
       case 'knowThePrice':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'input_know_the_price', valueToStore)
           return 0
@@ -257,7 +256,7 @@ class CacheDataPoints {
 
       case 'internetSpeedDescription':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'internet_speed_description', valueToStore)
           return 0
@@ -265,7 +264,7 @@ class CacheDataPoints {
 
       case 'userHasNoMoney':
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'other_information', valueToStore)
           return 0
@@ -273,7 +272,7 @@ class CacheDataPoints {
 
       default:
         try {
-          res = await this.setUserIDsInRedis(senderId, userHash, conversationId)
+          res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, slug, valueToStore)
           return 0

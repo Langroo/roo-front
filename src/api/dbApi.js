@@ -203,8 +203,8 @@ class Api {
 
     // USER collection sub-section
 
-  async createInitialUserProfile (senderId, conversationId) {
-    return Api.request('post', 'user/initRegister', { senderId, conversationId })
+  async createInitialUserProfile (senderId) {
+    return Api.request('post', 'user/initRegister', { senderId })
   }
 
   async createFullUserProfile (senderId) {

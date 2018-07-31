@@ -17,7 +17,7 @@ class chatbaseFunctions {
         method: 'post',
         data: `{
           "sender": {"id": "${process.env.SENDER_ID}"},
-          "recipient": {"id": "${process.env.USER_CONV}"},
+          "recipient": {"id": "${process.env.SENDER_ID}"},
           "timestamp": ${(new Date()).getTime()},
           "message": {
             "mid": "${messageId}",
@@ -48,11 +48,11 @@ class chatbaseFunctions {
         method: 'post',
         data: `{
           "request_body": {
-            "recipient": {"id": '${process.env.USER_CONV}'},
+            "recipient": {"id": '${process.env.SENDER_ID}'},
             "message": '${messageContent}' 
           },
           "response_body": {
-            "recipient_id": '${process.env.USER_CONV}',
+            "recipient_id": '${process.env.SENDER_ID}',
             "message_id": '${messageId}'
           },
           "chatbase_fields": {

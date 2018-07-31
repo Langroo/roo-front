@@ -120,7 +120,7 @@ const getReply = async (message, params, userFromDB) => {
     reply = standardReplies('tellHowRooCanHelp', params.senderName)
     reminderToContinueOn = true
     FlowUpdate = { current_pos: 'tellHowRooCanHelp', open_question: true, prev_pos: 'tellHowRooCanHelp', next_pos: 'whyRooIsDifferent', current_flow: 'introduction', prev_flow: 'introduction' }
-    await BotCache.saveUserDataCache(message.senderId, message.conversationId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
+    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
       .catch(err => console.error('Error saving accent at intro flow in redis :: ', err))
     if (params.rawUserInput === 'uk_accent_opt') { await API.updateAccent(message.senderId, { accent: 'uk' }) } else { await API.updateAccent(message.senderId, { accent: 'us' }) }
     break
@@ -158,28 +158,28 @@ const getReply = async (message, params, userFromDB) => {
     reply = standardReplies('rooLocationQuestion', params.senderName)
     reminderToContinueOn = true
     FlowUpdate = { current_pos: 'rooLocationQuestion', open_question: 'false', prev_pos: 'rooLocationQuestion', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', repeated_this_pos: '0' }
-    await BotCache.saveUserDataCache(message.senderId, message.conversationId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
+    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
     break
 
   case 'rooSpecifyLocation':
     reply = standardReplies('rooSpecifyLocation', params.senderName)
     reminderToContinueOn = true
     FlowUpdate = { current_pos: 'rooSpecifyLocation', open_question: true, prev_pos: 'rooSpecifyLocation', next_pos: 'rooBigMotivQuestion', current_flow: 'introduction', prev_flow: 'introduction', repeated_this_pos: '0' }
-    await BotCache.saveUserDataCache(message.senderId, message.conversationId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
+    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
     break
 
   case 'rooSpecifyInfluencer':
     reply = standardReplies('rooSpecifyInfluencer', params.senderName)
     reminderToContinueOn = true
     FlowUpdate = { current_pos: 'rooSpecifyInfluencer', open_question: true, prev_pos: 'rooSpecifyInfluencer', next_pos: 'rooBigMotivQuestion', current_flow: 'introduction', prev_flow: 'introduction', repeated_this_pos: '0' }
-    await BotCache.saveUserDataCache(message.senderId, message.conversationId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
+    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
     break
 
   case 'rooBigMotivQuestion':
     reply = standardReplies('rooBigMotivQuestion', params.senderName)
     reminderToContinueOn = true
     FlowUpdate = { current_pos: 'rooBigMotivQuestion', open_question: 'false', prev_pos: 'rooBigMotivQuestion', next_pos: 'rooEnglishLevelQuestion', current_flow: 'introduction', prev_flow: 'introduction' }
-    await BotCache.saveUserDataCache(message.senderId, message.conversationId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
+    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
     break
 
   case 'rooOtherMotivation':
@@ -192,14 +192,14 @@ const getReply = async (message, params, userFromDB) => {
     reply = standardReplies('rooEnglishLevelQuestion', params.senderName)
     reminderToContinueOn = true
     FlowUpdate = { current_pos: 'rooEnglishLevelQuestion', open_question: 'false', prev_pos: 'rooEnglishLevelQuestion', next_pos: 'rooTwoSecrets', current_flow: 'introduction', prev_flow: 'introduction' }
-    await BotCache.saveUserDataCache(message.senderId, message.conversationId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
+    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
     break
 
   case 'rooBigInterest':
     reply = standardReplies('rooBigInterest', params.senderName)
     reminderToContinueOn = true
     FlowUpdate = { current_pos: 'rooBigInterest', open_question: 'false', prev_pos: 'rooBigInterest', next_pos: 'introFinal', current_flow: 'introduction', prev_flow: 'introduction' }
-    await BotCache.saveUserDataCache(message.senderId, message.conversationId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
+    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
     break
 
   case 'rooOtherInterest':
@@ -281,7 +281,6 @@ const getReply = async (message, params, userFromDB) => {
     }
     const data = {
       senderId: message.senderId,
-      conversationId: process.env.USER_CONV,
     }
 
     controllerSmash.killCronJob(params.prevPos, message.senderId)

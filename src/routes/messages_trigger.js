@@ -17,11 +17,10 @@ const generateHash = (str) => crypto.createHash('md5').update(str).digest('hex')
  * @param conversation_id
  * @param sender_id
  */
-router.post('/:senderId/:conversationId', async function(req, res){
+router.post('/:senderId', async function(req, res){
   try {
     let senderId = req.params.senderId
-    let conversationId = req.params.conversationId
-    if (!senderId || !conversationId) {
+    if (!senderId) {
       throw new Error("ERROR :: Missing parameters in request at MessageTrigger")
     }
   } catch (reason) {

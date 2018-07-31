@@ -61,7 +61,6 @@ Promise.all([Redis])
       switch (event) {
       case 'paymentSubscriptionFinished':
         console.log('--------------- PAYMENT FINISHED -------------------')
-        console.log('User conversation ID :: ', payload.conversationId)
         console.log('Plan target :: ', payload.plan)
         console.log('Payment subscription status :: ', payload.status)
         console.log('----------------------------------------------------')
