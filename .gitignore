@@ -1,0 +1,15 @@
+node_modules
+npm-debug.log
+# config/index.js
+lib
+yarn.lock
+ngrok
+.env
+dist
+src/config.js
+.idea
+*.swp
+.vscode
+conversation_logs
+Dockerfile
+deploy.sh
