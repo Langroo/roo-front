@@ -38,7 +38,7 @@ const getReply = async (message, params, userFromDB) => {
         console.error('ERROR saving the rating in redis :: ', err)
         return reply = [{ type: '', content: `Oh! ${params.senderName}, there was an issue saving your rating. I will remind you next sunday to do it :)` }]
       })
-    await API.sendRating(message.senderId)
+    await API.sendRating(message.sender.id)
       .then(() => {
         console.log('Rating stored successfully')
         flowUpdate = { current_pos: 'fallback', open_question: true, prev_pos: 'fallback', next_pos: 'fallback', prev_flow: 'OpenTalk', current_flow: 'OpenTalk', repeated_this_pos: '0' }
@@ -56,7 +56,7 @@ const getReply = async (message, params, userFromDB) => {
 
   // -- update the user's flow
   if (flowUpdate) {
-    await API.updateFlow(message.senderId, flowUpdate)
+    await API.updateFlow(message.sender.id, flowUpdate)
   }
 
   return reply

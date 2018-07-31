@@ -9,32 +9,37 @@ const bot = new Bot({
 
 const botReplier = (payload, reply, actions = null) => {
 
-  const text = payload.message.text
-
-  // -- Define the env variable to pass data to Chatbase
-  process.env.SENDER_ID = payload.sender.id
-
-  const conversation = { source: text }
-
+  // -- Retrieve the user profile and then proceed
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) { throw err }
+
+    // -- Add the user profile to the payload object
     payload.profile = profile
+
+    const text = payload.message.text
+
+    // -- Define the env variable to pass data to Chatbase
+    process.env.SENDER_ID = payload.sender.id
+
+    // -- Set the Raw Input
+    const conversation = { source: text }
+
+    const adminRegex = /(activate message delay|deactivate message delay|roo masters 101)/i
+
+    // -- Handle ADMIN input
+    if (adminRegex.test(conversation.source)) {
+      replyLauncher.adminDialogs(conversation.source, payload.sender.id)
+      console.info('<< Admin Request received and processed >>')
+    }
+
+    // -- Register the date and hour of this message in the logs
+    const userInputDate = new Date()
+    console.log('\n############# USER INPUT DATE \n[%s]############', userInputDate)
+
+    // -- Handle User Input and Return Replies
+    replyLauncher.flowLauncher(payload, conversation)
+
   })
-
-  const adminRegex = /(activate message delay|deactivate message delay|roo masters 101)/i
-
-  // -- Handle ADMIN input
-  if (adminRegex.test(conversation.source)) {
-    replyLauncher.adminDialogs(conversation.source, payload.sender.id)
-    console.info('<< Admin Request received and processed >>')
-  }
-
-  // -- Register the date and hour of this message in the logs
-  const userInputDate = new Date()
-  console.log('\n############# USER INPUT DATE \n[%s]############', userInputDate)
-
-  // -- Handle User Input and Return Replies
-  replyLauncher.flowLauncher(payload, conversation)
 
 }
 

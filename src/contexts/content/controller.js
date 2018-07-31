@@ -54,7 +54,7 @@ const getReply = async (message, params, userFromDB) => {
   case 'sendContent':
     futureMsg.doSend = true
     flowControlUpdate = { current_pos: 'sendContent', prev_pos: 'sendContent', open_question: true, next_pos: 'sendContent', current_flow: 'content', prev_flow: 'content' }
-    info = await API.sendLesson(message.senderId)
+    info = await API.sendLesson(message.sender.id)
     if (info.statusCode >= 200 && info.statusCode < 222) {
       console.info('[✔️] API informed: Content sent correctly.')
       reply = []
@@ -94,7 +94,7 @@ const getReply = async (message, params, userFromDB) => {
     reply = standardReplies('contentFailMsg', senderName)
   }
 
-  await API.updateFlow(message.senderId, flowControlUpdate)
+  await API.updateFlow(message.sender.id, flowControlUpdate)
   return reply
 }
 

@@ -51,7 +51,7 @@ const getReply = async (message, params, userFromDB) => {
   if (userFromDB.data) {
     if (params.prevFlow === 'introduction' && params.currentEntity !== 'fromIntroPreTutorFlow') {
       params.currentEntity = params.currentPos
-      await API.updateFlow(message.senderId, { tutor_flow_status: 'requested' })
+      await API.updateFlow(message.sender.id, { tutor_flow_status: 'requested' })
       const tempReply = await flows.introduction(message, params, userFromDB)
       const trueReply = [tempReply.pop()]
       return reply = [standardReplies('mustRegisterFirst', senderName)[0]].concat(trueReply)
@@ -290,7 +290,7 @@ const getReply = async (message, params, userFromDB) => {
       flowControlUpdate = { current_pos: 'describeYourself', prev_pos: 'describeYourself', open_question: true, next_pos: 'describeYourInterests' }
       futureMsgFlowUpdate = flowControlUpdate
       futureRepliesToSend = standardReplies('askUserToContinue', senderName)
-      await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
+      await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
       reminderToContinueOn = true
       break
     case 'describeYourInterests':
@@ -298,7 +298,7 @@ const getReply = async (message, params, userFromDB) => {
       flowControlUpdate = { current_pos: 'describeYourInterests', prev_pos: 'describeYourInterests', open_question: true, next_pos: 'whenToCallTutor', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }
       futureMsgFlowUpdate = flowControlUpdate
       futureRepliesToSend = standardReplies('askUserToContinue', senderName)
-      await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
+      await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
       reminderToContinueOn = true
       break
     case 'whenToCallTutor':
@@ -306,7 +306,7 @@ const getReply = async (message, params, userFromDB) => {
       flowControlUpdate = { current_pos: 'whenToCallTutor', prev_pos: 'whenToCallTutor', open_question: 'false', next_pos: 'confirmWhenToCallTutor', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }
       futureMsgFlowUpdate = flowControlUpdate
       futureRepliesToSend = standardReplies('askUserToContinue', senderName)
-      await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
+      await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
       reminderToContinueOn = true
       break
     case 'confirmWhenToCallTutor':
@@ -314,7 +314,7 @@ const getReply = async (message, params, userFromDB) => {
       flowControlUpdate = { current_pos: 'confirmWhenToCallTutor', prev_pos: 'confirmWhenToCallTutor', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }
       futureMsgFlowUpdate = flowControlUpdate
       futureRepliesToSend = standardReplies('askUserToContinue', senderName)
-      await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
+      await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
       reminderToContinueOn = true
       break
     case 'whenToCallTutor2':
@@ -329,7 +329,7 @@ const getReply = async (message, params, userFromDB) => {
       futureMsgFlowUpdate = flowControlUpdate
       futureRepliesToSend = standardReplies('askUserToContinue', senderName)
       if (params.rawUserInput === 'TFB_NO_ADD') {
-        await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
+        await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
       } else {
         const userFromRedis = await API.getUserFromRedis(message.userHash)
           .catch(() => console.error('Could not get user from Redis to add second tutorCallDaytime'))
@@ -337,7 +337,7 @@ const getReply = async (message, params, userFromDB) => {
         if (userFromRedis) {
           tutorCallDaytime = userFromRedis.data.timeOfDayForCalls
           tutorCallDaytime = `${tutorCallDaytime},${params.rawUserInput}`
-          await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, params.prevPos, tutorCallDaytime)
+          await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, tutorCallDaytime)
         }
       }
       reminderToContinueOn = true
@@ -347,7 +347,7 @@ const getReply = async (message, params, userFromDB) => {
       flowControlUpdate = { current_pos: 'internetSpeedDescription', prev_pos: 'internetSpeedDescription', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }
       futureMsgFlowUpdate = flowControlUpdate
       futureRepliesToSend = standardReplies('askUserToContinue', senderName)
-      await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
+      await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
       reminderToContinueOn = true
       break
 
@@ -356,7 +356,7 @@ const getReply = async (message, params, userFromDB) => {
       flowControlUpdate = { current_pos: 'knowThePrice', prev_pos: 'knowThePrice', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }
       futureMsgFlowUpdate = flowControlUpdate
       futureRepliesToSend = standardReplies('askUserToContinue', senderName)
-      await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
+      await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
       reminderToContinueOn = true
       break
 
@@ -382,7 +382,7 @@ const getReply = async (message, params, userFromDB) => {
       await API.createTutorRequest(message.userHash)
       reply = standardReplies('userHasNoMoney', senderName)
       flowControlUpdate = { current_pos: 'userHasNoMoney', open_question: true, next_pos: 'tutorFlowFinished', prev_flow: 'OpenTalk', current_flow: 'OpenTalk', tutor_flow_status: 'finished' }
-      await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, params.currentEntity, params.rawUserInput)
+      await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.currentEntity, params.rawUserInput)
       break
 
     case 'willDoTutorLater':
@@ -428,7 +428,7 @@ const getReply = async (message, params, userFromDB) => {
 
   // -- Controller of the position of the user in the conversation
   if (flowControlUpdate) {
-    API.updateFlow(message.senderId, flowControlUpdate)
+    API.updateFlow(message.sender.id, flowControlUpdate)
   }
 
   // -- Delayed reply
@@ -436,7 +436,7 @@ const getReply = async (message, params, userFromDB) => {
     if (process.env.DEBUG_MODE === 'true' || process.env.DEBUG_MODE === '1') {
       futureMsgTime = 40
     }
-    controllerSmash.CronReminder(params.currentEntity, futureRepliesToSend, futureMsgTime, futureMsgFlowUpdate, message.senderId, userFromDB)
+    controllerSmash.CronReminder(params.currentEntity, futureRepliesToSend, futureMsgTime, futureMsgFlowUpdate, message.sender.id, userFromDB)
   }
 
   return reply

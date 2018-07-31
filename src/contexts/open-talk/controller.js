@@ -466,7 +466,7 @@ const getReply = async (message, params, userFromDB) => {
       trueReply = [tempReply.pop()]
       delayedRepliesToSend = failsafeReplies('lostInConversation', senderName)[Math.floor(Math.random() * failsafeReplies('lostInConversation', senderName).length)]
       delayedRepliesToSend = delayedRepliesToSend.concat(trueReply)
-      controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.prevPos, repeated_this_pos: params.repeatedThisPos }, message.senderId, userFromDB)
+      controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.prevPos, repeated_this_pos: params.repeatedThisPos }, message.sender.id, userFromDB)
 
     } else if (params.prevFlow === 'introduction') {
 
@@ -477,7 +477,7 @@ const getReply = async (message, params, userFromDB) => {
       trueReply = [tempReply.pop()]
       delayedRepliesToSend = failsafeReplies('lostInConversation', senderName)[Math.floor(Math.random() * failsafeReplies('lostInConversation', senderName).length)]
       delayedRepliesToSend = delayedRepliesToSend.concat(trueReply)
-      controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.prevPos, repeated_this_pos: params.repeatedThisPos }, message.senderId, userFromDB)
+      controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.prevPos, repeated_this_pos: params.repeatedThisPos }, message.sender.id, userFromDB)
 
     } else if (params.prevFlow === 'survey') {
 
@@ -488,7 +488,7 @@ const getReply = async (message, params, userFromDB) => {
       trueReply = [tempReply.pop()]
       delayedRepliesToSend = failsafeReplies('lostInConversation', senderName)[Math.floor(Math.random() * failsafeReplies('lostInConversation', senderName).length)]
       delayedRepliesToSend = delayedRepliesToSend.concat(trueReply)
-      controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.prevPos, repeated_this_pos: params.repeatedThisPos }, message.senderId, userFromDB)
+      controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.prevPos, repeated_this_pos: params.repeatedThisPos }, message.sender.id, userFromDB)
 
     } else if (params.prevFlow === 'content') {
 
@@ -497,15 +497,15 @@ const getReply = async (message, params, userFromDB) => {
       params.repeatedThisPos = repeatedPosNumber.toString()
       params.currentEntity = 'sendContent'
       params.currentPos = 'sendContent'
-      controllerSmash.CronFunction(delayedMsgTime, API.sendLesson, null, message.senderId)
+      controllerSmash.CronFunction(delayedMsgTime, API.sendLesson, null, message.sender.id)
     }
   }
 
   // -- Calls to store data at MongoDB/Redis
   if (flowControlUpdate) {
-    await API.updateFlow(message.senderId, flowControlUpdate)
+    await API.updateFlow(message.sender.id, flowControlUpdate)
   } else if (metadataUpdate) {
-    await API.updateUserProfile(message.senderId, metadataUpdate, 'metadata')
+    await API.updateUserProfile(message.sender.id, metadataUpdate, 'metadata')
   }
 
   return reply

@@ -16,7 +16,7 @@ const getReply = async (message, params, userFromDB) => {
 
   // -- Instantiations
   const controllerSmash = new OneForAll()
-  const FacebookAPI = new FbAPIClass(message.senderId)
+  const FacebookAPI = new FbAPIClass(message.sender.id)
 
   // -- general usage variables
   const flows = require('../index')
@@ -31,8 +31,8 @@ const getReply = async (message, params, userFromDB) => {
   const ifHereGoBack = ['FORTUNE_QUOTE', 'TRANSLATE_RETURNER', 'DIRECT_TRANSLATE', 'mustRegisterFirst', 'userRequestsHelp', 'showSubscriptions', 'howToConverseMenu', 'showPricing', 'askRoo']
 
   // -- Define the user first name and full name
-  const senderName = message.senderName
-  const userFullName = message.fullName
+  const senderName = params.senderName
+  const userFullName = params.fullName
 
   /**
    * Disable the following options during the following flow
@@ -155,13 +155,13 @@ const getReply = async (message, params, userFromDB) => {
     actualText = actualText.split('pronounce ')[1]
     if (userFromDB.data) {
       if (userFromDB.data.gender && userFromDB.data.content) {
-        textToAudio = await controllerSmash.textToAudio(actualText, message.senderId, userFromDB.data.gender, userFromDB.data.content.plan.accent)
+        textToAudio = await controllerSmash.textToAudio(actualText, message.sender.id, userFromDB.data.gender, userFromDB.data.content.plan.accent)
       } else {
-        textToAudio = await controllerSmash.textToAudio(actualText, message.senderId)
+        textToAudio = await controllerSmash.textToAudio(actualText, message.sender.id)
       }
     } else {
 
-      textToAudio = await controllerSmash.textToAudio(actualText, message.senderId)
+      textToAudio = await controllerSmash.textToAudio(actualText, message.sender.id)
     }
     if (textToAudio) {
       const error = await FacebookAPI.SendMessages('audio', textToAudio)
@@ -194,7 +194,7 @@ const getReply = async (message, params, userFromDB) => {
 
   case 'BS_FEEDBACK':
     try {
-      await API.deleteUser(message.senderId)
+      await API.deleteUser(message.sender.id)
     } catch (error) {
       console.log('(!) ERROR (!) :: THE USER WAS NOT UNSUBSCRIBED SUCCESSFULLY')
     }
@@ -236,9 +236,9 @@ const getReply = async (message, params, userFromDB) => {
   case 'showSubscriptions':
     currency = params.rawUserInput.substr(0, 3)
     paymentUrl = {
-      casualURL: `${process.env.API_BASE_URL}/payment/casual/${message.senderId}/${currency}`,
-      standardURL: `${process.env.API_BASE_URL}/payment/standard/${message.senderId}/${currency}`,
-      eliteURL: `${process.env.API_BASE_URL}/payment/elite/${message.senderId}/${currency}`,
+      casualURL: `${process.env.API_BASE_URL}/payment/casual/${message.sender.id}/${currency}`,
+      standardURL: `${process.env.API_BASE_URL}/payment/standard/${message.sender.id}/${currency}`,
+      eliteURL: `${process.env.API_BASE_URL}/payment/elite/${message.sender.id}/${currency}`,
       currency,
     }
     flowControlUpdate = { open_question: 'false', next_pos: 'TBD', prev_pos: 'showSubscriptions', current_flow: 'general' }
@@ -248,7 +248,7 @@ const getReply = async (message, params, userFromDB) => {
   case 'restartUserContent':
     let userSenderId = params.rawUserInput.split('[')[1].split(']')[0]
     if ((/me/i).test(userSenderId)) {
-      userSenderId = message.senderId
+      userSenderId = message.sender.id
       await API.createFullUserProfile(userSenderId)
       await API.sendLesson(userSenderId)
       reply = [{ type: 'text', content: 'Content restarted for you ( ˘ ³˘)♥ ' }]
@@ -308,7 +308,7 @@ const getReply = async (message, params, userFromDB) => {
     break
 
   case 'userProfile':
-    await API.updateFlow(message.senderId, { current_pos: 'userProfile', current_flow: 'autoresponder', open_question: 'false' })
+    await API.updateFlow(message.sender.id, { current_pos: 'userProfile', current_flow: 'autoresponder', open_question: 'false' })
     if (upgradableMemberships.indexOf(userProduct) > -1 || userSubscriptionStatus === 'TRIAL_FINISHED') {
       reply = accountReplies('userProfileUpgradeable', senderName, wildcard)
     }
@@ -318,7 +318,7 @@ const getReply = async (message, params, userFromDB) => {
   case 'RESET':
     let standingFlow
     try {
-      standingFlow = (await API.retrieveFlow(message.senderId)).data.current_flow
+      standingFlow = (await API.retrieveFlow(message.sender.id)).data.current_flow
     } catch (error) { console.log('Error retrieving user flow to determine action to RESET trigger') }
     if (!userFromDB.data || standingFlow === 'introduction' || params.rawUserInput === 'restart full conversation') {
 
@@ -368,15 +368,15 @@ const getReply = async (message, params, userFromDB) => {
     } else {
       switch (params.rawUserInput) {
       case 'change_lvl_to_beg':
-        await API.updateLevel(message.senderId, { level: 'beginner' })
+        await API.updateLevel(message.sender.id, { level: 'beginner' })
         wildcard = { newLevel: 'beginner' }
         break
       case 'change_lvl_to_int':
-        await API.updateLevel(message.senderId, { level: 'intermediate' })
+        await API.updateLevel(message.sender.id, { level: 'intermediate' })
         wildcard = { newLevel: 'intermediate' }
         break
       case 'change_lvl_to_adv':
-        await API.updateLevel(message.senderId, { level: 'advanced' })
+        await API.updateLevel(message.sender.id, { level: 'advanced' })
         wildcard = { newLevel: 'advanced' }
         break
       }
@@ -387,12 +387,12 @@ const getReply = async (message, params, userFromDB) => {
 
   case 'newAccentConfirmation':
     if (params.rawUserInput === 'change_accent_to_uk') {
-      await API.updateAccent(message.senderId, { accent: 'uk' })
-      await BotCache.saveUserDataCache(message.senderId, message.userHash, 'introduction', 'rooEnglishAccentQuestion', 'uk', false)
+      await API.updateAccent(message.sender.id, { accent: 'uk' })
+      await BotCache.saveUserDataCache(message.sender.id, message.userHash, 'introduction', 'rooEnglishAccentQuestion', 'uk', false)
       wildcard = { newAccent: 'UK' }
     } else {
-      await API.updateAccent(message.senderId, { accent: 'us' })
-      await BotCache.saveUserDataCache(message.senderId, message.userHash, 'introduction', 'rooEnglishAccentQuestion', 'us', false)
+      await API.updateAccent(message.sender.id, { accent: 'us' })
+      await BotCache.saveUserDataCache(message.sender.id, message.userHash, 'introduction', 'rooEnglishAccentQuestion', 'us', false)
       wildcard = { newAccent: 'US' }
     }
     flowControlUpdate = { open_question: 'false', next_pos: 'TBD', prev_pos: 'newAccentConfirmation', current_flow: 'autoresponder' }
@@ -449,7 +449,7 @@ const getReply = async (message, params, userFromDB) => {
 
   case 'accountDeletedMsg':
     try {
-      await API.deleteUser(message.senderId)
+      await API.deleteUser(message.sender.id)
     } catch (error) {
       console.log('Error deleting the user')
       break
@@ -469,7 +469,7 @@ const getReply = async (message, params, userFromDB) => {
   }
   if (flowControlUpdate) {
     try {
-      await API.updateFlow(message.senderId, flowControlUpdate)
+      await API.updateFlow(message.sender.id, flowControlUpdate)
     } catch (e) {
       (console.error('Error updating flow ::', e))
     }
@@ -486,7 +486,7 @@ const getReply = async (message, params, userFromDB) => {
       trueReply = [tempReply.pop()]
       delayedRepliesToSend = generalReplies('returningMessages', senderName)[Math.floor(Math.random() * generalReplies('returningMessages', senderName).length)]
       delayedRepliesToSend = delayedRepliesToSend.concat(trueReply)
-      controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.currentPos, prev_pos: params.prevPos, repeated_this_pos: '1' }, message.senderId, userFromDB)
+      controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.currentPos, prev_pos: params.prevPos, repeated_this_pos: '1' }, message.sender.id, userFromDB)
 
     } else if (params.prevFlow === 'introduction') {
       params.currentEntity = params.currentPos
@@ -496,7 +496,7 @@ const getReply = async (message, params, userFromDB) => {
       trueReply = [tempReply.pop()]
       delayedRepliesToSend = generalReplies('returningMessages', senderName)[Math.floor(Math.random() * generalReplies('returningMessages', senderName).length)]
       delayedRepliesToSend = delayedRepliesToSend.concat(trueReply)
-      controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.currentPos, prev_pos: params.prevPos, repeated_this_pos: '1' }, message.senderId, userFromDB)
+      controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.currentPos, prev_pos: params.prevPos, repeated_this_pos: '1' }, message.sender.id, userFromDB)
 
     } else if (params.prevFlow === 'content') {
       params.currentEntity = 'afterGeneralFunctionReply'
@@ -504,7 +504,7 @@ const getReply = async (message, params, userFromDB) => {
       params.repeatedThisPos = '1'
       params.currentFlow = 'content'
       trueReply = await flows.content(message, params, userFromDB)
-      controllerSmash.CronReminder(params.currentPos, trueReply, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.currentPos, prev_pos: params.prevPos, repeated_this_pos: '1' }, message.senderId, userFromDB)
+      controllerSmash.CronReminder(params.currentPos, trueReply, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.currentPos, prev_pos: params.prevPos, repeated_this_pos: '1' }, message.sender.id, userFromDB)
 
     } else if (params.prevFlow === 'survey') {
       params.currentEntity = params.currentPos
@@ -512,7 +512,7 @@ const getReply = async (message, params, userFromDB) => {
       params.currentFlow = 'survey'
       trueReply = await flows.survey(message, params, userFromDB)
       delayedRepliesToSend = trueReply
-      controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.currentPos, prev_pos: params.prevPos, repeated_this_pos: '1' }, message.senderId, userFromDB)
+      controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.currentPos, prev_pos: params.prevPos, repeated_this_pos: '1' }, message.sender.id, userFromDB)
 
     }
   }

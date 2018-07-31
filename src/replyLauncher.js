@@ -156,7 +156,7 @@ const flowLauncher = (payload, conversation) => {
   const FbAPIClass = BotTools.FacebookAPI
   const ChatBaseAPI = new BotTools.ChatBaseAPI()
   const ConversationLogs = require('./persistence').filesystem
-  const FacebookAPI = new FbAPIClass(message.senderId)
+  const FacebookAPI = new FbAPIClass(payload.sender.id)
 
   // -- Time of restoring the bot's receiving window
   const timeOfSending = new Date(Date.now() + 11000)
@@ -280,54 +280,54 @@ const flowLauncher = (payload, conversation) => {
 
     // -- CONDITIONAL'S GROUP: CONTROLLER OF MAIN ENTITIES AND CONVERSATIONAL FLOWS
     if (params.currentFlow === 'OpenTalk') {
-      reply = context.OpenTalk(message, params, userFromDB)
+      reply = context.OpenTalk(payload, params, userFromDB)
 
     } else if (params.currentFlow === 'general') {
 
       console.log('----------------------------\nGeneral option requested\n----------------------------')
       try { FacebookAPI.HandoverSwitch(1) } catch (error) { console.log('Error sending request to switch user conversation control back to the Bot') }
-      reply = context.general(message, params, userFromDB)
+      reply = context.general(payload, params, userFromDB)
 
     } else if (params.currentFlow === 'introduction') {
 
       console.log('----------------------------\nEntering introduction flow\n----------------------------')
-      await API.updateFlow(message.senderId, { current_flow: 'introduction' })
-      reply = context.introduction(message, params, userFromDB)
+      await API.updateFlow(payload.sender.id, { current_flow: 'introduction' })
+      reply = context.introduction(payload, params, userFromDB)
 
     } else if (params.currentFlow === 'tutor') {
 
       console.log('----------------------------\nEntering tutor flow\n----------------------------')
-      await API.updateFlow(message.senderId, { current_flow: 'tutor' })
-      reply = context.tutor(message, params, userFromDB)
+      await API.updateFlow(payload.sender.id, { current_flow: 'tutor' })
+      reply = context.tutor(payload, params, userFromDB)
 
     } else if (params.currentFlow === 'survey') {
 
       console.log('----------------------------\nEntering survey flow\n----------------------------')
-      await API.updateFlow(message.senderId, { current_flow: 'survey' })
-      reply = context.survey(message, params, userFromDB)
+      await API.updateFlow(payload.sender.id, { current_flow: 'survey' })
+      reply = context.survey(payload, params, userFromDB)
 
     } else if (params.currentFlow === 'content') {
 
       console.log('----------------------------\nEntering content flow\n----------------------------')
-      await API.updateFlow(message.senderId, { current_flow: 'content' })
-      reply = context.content(message, params, userFromDB)
+      await API.updateFlow(payload.sender.id, { current_flow: 'content' })
+      reply = context.content(payload, params, userFromDB)
 
     } else if (params.currentFlow === 'rating') {
 
       console.log('----------------------------\nEntering rating flow\n----------------------------')
-      await API.updateFlow(message.senderId, { current_flow: 'rating' })
-      reply = context.content(message, params, userFromDB)
+      await API.updateFlow(payload.sender.id, { current_flow: 'rating' })
+      reply = context.content(payload, params, userFromDB)
 
     } else {
 
       console.log('----------------------------\nEntering open-talk flow\n----------------------------')
-      reply = context.OpenTalk(message, params, userFromDB)
+      reply = context.OpenTalk(payload, params, userFromDB)
 
     }
 
     // -- Send data to chatbase to store statistics
     /* if (process.env.NODE_ENV === 'production') {
-      await ChatBaseAPI.analyticReceived(conversation.source, process.env.USER_CONV, entityAndFlow.entity, false)
+      await ChatBaseAPI.analyticReceived(conversation.source, payload.sender.id, entityAndFlow.entity, false)
         .catch(e => { console.error('ERROR sending data to CHATBASE.\nVariables:\nRaw User Input :: [%s]\nEntity :: [%s]\nMessage Details :: ', conversation.source, entityAndFlow.entity, e.message) })
     }*/
 
@@ -336,20 +336,20 @@ const flowLauncher = (payload, conversation) => {
 
  /* Section where the message is received and processed */
   try {
-    API.retrieveFlow(message.senderId)
+    API.retrieveFlow(payload.sender.id)
       .then(async (userFlowData) => {
         try {
           if (!userFlowData.data) {
             console.info('This user lacks a Flow Collection, creating it!!!')
             firstTime = true
-            await API.createFlow(message.senderId, flowPositions('newUser'))
-            userFlowData = await API.retrieveFlow(message.senderId)
+            await API.createFlow(payload.sender.id, flowPositions('newUser'))
+            userFlowData = await API.retrieveFlow(payload.sender.id)
           }
 
           // -- Allow user input processing after 6 seconds of the last interaction
           if ((userFlowData.data.last_interaction + 10000) < Date()) {
 
-            await API.updateFlow(message.senderId, { ready_to_reply: 'true' })
+            await API.updateFlow(payload.sender.id, { ready_to_reply: 'true' })
             readyToReply = true
 
           } else {
@@ -363,15 +363,15 @@ const flowLauncher = (payload, conversation) => {
         // -- If the bot is ready to reply
         if (readyToReply !== 'false') {
           // -- Bot is shut down to prevent more replies being triggered from additional user input before the actual one is sent
-          await API.updateFlow(message.senderId, { ready_to_reply: 'false' })
-          if (!message.message.data) {
+          await API.updateFlow(payload.sender.id, { ready_to_reply: 'false' })
+          if (!payload.profile) {
             console.log('The user\'s userName is undefined, probably writing from a phone.\nSetting it as "buddy"')
-            console.log('The content of data in message is :: ', message.message.data)
+            console.log('The content of data in message is :: ', payload)
           }
             // -- Brain function processing the input of the user
-          brain(conversation, message, userFlowData)
+          brain(conversation, payload, userFlowData)
             .then(async replyToSend => {
-              if (replyToSend) { await replier(0, replyToSend, userFromDB, message.senderId) }
+              if (replyToSend) { await replier(0, replyToSend, userFromDB, payload.sender.id) }
             })
         } else {
           console.info('\n### BOT STILL REPLYING ###\n')
@@ -381,7 +381,7 @@ const flowLauncher = (payload, conversation) => {
     console.error('Error starting processing of user input :: ', error)
     Raven.captureException(error)
   }
-  API.updateFlow(message.senderId, { ready_to_reply: 'true' })
+  API.updateFlow(payload.sender.id, { ready_to_reply: 'true' })
 }
 
 module.exports = {

@@ -83,8 +83,8 @@ const getReply = async (message, params, userFromDB) => {
     break
 
   case 'surveyQuestion2':
-    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, 'importance', params.rawUserInput, true)
-    API.createSurveyCollection(message.senderId)
+    await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, 'importance', params.rawUserInput, true)
+    API.createSurveyCollection(message.sender.id)
     reply = standardReplies('surveyQuestion2', senderName)
     FlowUpdate = { current_pos: 'surveyQuestion2', open_question: 'false', prev_pos: 'surveyQuestion2', next_pos: 'TBD', survey_done: params.currentEntity }
     reminderToContinueOn = true
@@ -97,40 +97,40 @@ const getReply = async (message, params, userFromDB) => {
     break
 
   case 'surveyQuestion3':
-    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, 'problem', params.rawUserInput, true)
-    API.createSurveyCollection(message.senderId)
+    await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, 'problem', params.rawUserInput, true)
+    API.createSurveyCollection(message.sender.id)
     reply = standardReplies('surveyQuestion3', senderName)
     FlowUpdate = { current_pos: 'surveyQuestion3', open_question: true, prev_pos: 'surveyQuestion3', next_pos: 'surveyQuestion4', survey_done: params.currentEntity }
     reminderToContinueOn = true
     break
 
   case 'surveyQuestion4':
-    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, 'help', params.rawUserInput, false)
-    API.createSurveyCollection(message.senderId)
+    await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, 'help', params.rawUserInput, false)
+    API.createSurveyCollection(message.sender.id)
     reply = standardReplies('surveyQuestion4', senderName)
     FlowUpdate = { current_pos: 'surveyQuestion4', open_question: 'false', prev_pos: 'surveyQuestion4', next_pos: 'surveyQuestion5', survey_done: params.currentEntity }
     reminderToContinueOn = true
     break
 
   case 'surveyQuestion5':
-    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, 'most_important1', params.rawUserInput, true)
-    API.createSurveyCollection(message.senderId)
+    await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, 'most_important1', params.rawUserInput, true)
+    API.createSurveyCollection(message.sender.id)
     reply = standardReplies('surveyQuestion5', senderName)
     FlowUpdate = { current_pos: 'surveyQuestion5', open_question: true, prev_pos: 'surveyQuestion5', next_pos: 'surveyQuestion6', survey_done: params.currentEntity }
     reminderToContinueOn = true
     break
 
   case 'surveyQuestion6':
-    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, 'currently_using', params.rawUserInput, false)
-    API.createSurveyCollection(message.senderId)
+    await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, 'currently_using', params.rawUserInput, false)
+    API.createSurveyCollection(message.sender.id)
     reply = standardReplies('surveyQuestion6', senderName)
     FlowUpdate = { current_pos: 'surveyQuestion6', open_question: true, prev_pos: 'surveyQuestion6', next_pos: 'surveyQuestion7', survey_done: params.currentEntity }
     reminderToContinueOn = true
     break
 
   case 'surveyQuestion7':
-    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, 'likes_dislikes', params.rawUserInput, false)
-    API.createSurveyCollection(message.senderId)
+    await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, 'likes_dislikes', params.rawUserInput, false)
+    API.createSurveyCollection(message.sender.id)
     reply = standardReplies('surveyQuestion7', senderName)
     FlowUpdate = { current_pos: 'surveyQuestion7', open_question: 'false', prev_pos: 'surveyQuestion7', next_pos: 'surveyQuestion8', survey_done: params.currentEntity }
     reminderToContinueOn = true
@@ -143,40 +143,40 @@ const getReply = async (message, params, userFromDB) => {
     break
 
   case 'surveyQuestion8':
-    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, 'most_important2', params.rawUserInput, true)
-    API.createSurveyCollection(message.senderId)
+    await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, 'most_important2', params.rawUserInput, true)
+    API.createSurveyCollection(message.sender.id)
     reply = standardReplies('surveyQuestion8', senderName)
     FlowUpdate = { current_pos: 'surveyQuestion8', open_question: 'false', prev_pos: 'surveyQuestion8', next_pos: 'surveyQuestion9', survey_done: params.currentEntity }
     reminderToContinueOn = true
     break
 
   case 'surveyQuestion9':
-    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, 'friend_idea', params.rawUserInput, true)
-    API.createSurveyCollection(message.senderId)
+    await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, 'friend_idea', params.rawUserInput, true)
+    API.createSurveyCollection(message.sender.id)
     reply = standardReplies('surveyQuestion9', senderName)
     FlowUpdate = { current_pos: 'surveyQuestion9', open_question: 'false', prev_pos: 'surveyQuestion9', next_pos: 'TBD', survey_done: params.currentEntity }
     reminderToContinueOn = true
     break
 
   case 'surveyQuestion10':
-    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, 'correction_idea', params.rawUserInput, true)
-    API.createSurveyCollection(message.senderId)
+    await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, 'correction_idea', params.rawUserInput, true)
+    API.createSurveyCollection(message.sender.id)
     reply = standardReplies('surveyQuestion10', senderName)
     FlowUpdate = { current_pos: 'surveyQuestion10', open_question: 'false', prev_pos: 'surveyQuestion10', next_pos: 'noJoinCommunity', survey_done: params.currentEntity }
     reminderToContinueOn = true
     break
 
   case 'noJoinCommunity':
-    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, 'join_community', params.rawUserInput, true)
-    API.createSurveyCollection(message.senderId)
+    await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, 'join_community', params.rawUserInput, true)
+    API.createSurveyCollection(message.sender.id)
     reply = standardReplies('noJoinCommunity', senderName)
     FlowUpdate = { current_pos: 'noJoinCommunity', open_question: true, prev_pos: undefined, next_pos: 'fallback', prev_flow: 'OpenTalk', current_flow: 'OpenTalk', survey_done: 'yes' }
     reminderToContinueOn = false
     break
 
   case 'yesJoinCommunity':
-    await BotCache.saveUserDataCache(message.senderId, message.userHash, params.currentFlow, 'join_community', params.rawUserInput, true)
-    API.createSurveyCollection(message.senderId)
+    await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, 'join_community', params.rawUserInput, true)
+    API.createSurveyCollection(message.sender.id)
     reply = standardReplies('yesJoinCommunity', senderName)
     FlowUpdate = { current_pos: 'yesJoinCommunity', open_question: true, prev_pos: undefined, next_pos: 'fallback', prev_flow: 'OpenTalk', current_flow: 'OpenTalk', survey_done: 'yes' }
     reminderToContinueOn = false
@@ -206,7 +206,7 @@ const getReply = async (message, params, userFromDB) => {
    * Update Flow Collection of the User in MongoDB
    * */
   if (FlowUpdate) {
-    API.updateFlow(message.senderId, FlowUpdate)
+    API.updateFlow(message.sender.id, FlowUpdate)
   }
 
   if (reminderToContinueOn) {
@@ -223,17 +223,17 @@ const getReply = async (message, params, userFromDB) => {
     }
 
     reminderReplies = standardReplies('after5HoursReminder', senderName)
-    controllerSmash.CronReminder(params.currentEntity, reminderReplies, waitingTime, flowUpdateReminderMsg, message.senderId, userFromDB)
+    controllerSmash.CronReminder(params.currentEntity, reminderReplies, waitingTime, flowUpdateReminderMsg, message.sender.id, userFromDB)
   }
 
   if (willSendDelayedReply) {
-    controllerSmash.CronReminder(params.currentEntity, delayedReplies, delayTime, DelayedUpdate, message.senderId, userFromDB)
+    controllerSmash.CronReminder(params.currentEntity, delayedReplies, delayTime, DelayedUpdate, message.sender.id, userFromDB)
   }
 
   if (userMustPressButton) {
     let time = 6
     if (params.repeatedThisPos) { time = 12 }
-    controllerSmash.CronReminder(params.currentPos, delayedReplies, time, DelayedUpdate, message.senderId, userFromDB)
+    controllerSmash.CronReminder(params.currentPos, delayedReplies, time, DelayedUpdate, message.sender.id, userFromDB)
     return
   }
   return await reply
