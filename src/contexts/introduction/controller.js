@@ -205,8 +205,8 @@ const getReply = async (message, params, userFromDB) => {
     * the conversation, we will send as the reminder the next message/dialog
     * */
     if (params.currentEntity === 'getStarted') {
-      FlowUpdate = Object.assign({}, FlowUpdate, { current_pos: 'howAreYouReply' })
-      params.currentEntity = 'howAreYouReply'
+      FlowUpdate = Object.assign({}, FlowUpdate, { current_pos: 'introDialog2' })
+      params.currentEntity = 'introDialog2'
       controllerSmash.CronReminder(params.currentEntity, standardReplies('gifForReminder', params.senderName).concat(standardReplies(params.currentEntity, params.senderName).pop()), waitingTime, FlowUpdate, message.sender.id, userFromDB)
     } else {
       controllerSmash.CronReminder(params.currentEntity, standardReplies('gifForReminder', params.senderName).concat(standardReplies(params.currentEntity, params.senderName).pop()), waitingTime, FlowUpdate, message.sender.id, userFromDB)
