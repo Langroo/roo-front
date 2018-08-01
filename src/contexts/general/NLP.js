@@ -1,6 +1,12 @@
 const getEntity = (exp) => {
   let expressions
 
+  expressions = /^help_paying_postback$/i
+  if (expressions.test(exp)) { return 'paymentHelpDialog' }
+
+  expressions = /^payment_complete_postback$/i
+  if (expressions.test(exp)) { return 'paymentDialog_Final' }
+
   expressions = /^(share roo|share langroo|share this chatbot)$/i
   if (expressions.test(exp)) { return 'generalShareDialog' }
 
