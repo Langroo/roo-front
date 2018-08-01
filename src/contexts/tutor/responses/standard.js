@@ -175,10 +175,9 @@ const replyChooser = (replyName, senderName) => {
       { type: 'image', content: 'https://s3.amazonaws.com/langroo/images/man-dialing-smartphone-suit.gif' },
       { type: 'text', content: 'Awesome 👏! I am going to ring your tutor now!📲' },
       { type: 'text', content: 'Here are the next steps:\n☑️We will select a tutor for you in 24 hours\n☑️They will add you on Facebook\n☑️You will organise a time for a 15 minute call\n☑️They will explain the classes to you\n☑️They will add you on Facebook\n☑️You can pay for classes with that tutor by writing UPGRADE PLAN here any paying using a debit card subscription' },
-      { type: 'text', content: 'Now if you want to continue learning 📖, write NEXT PHRASE' },
     ],
     userHasNoMoney: [
-      { type: 'text', content: `I understand ${senderName}, 👍 you can still continue to learn with my phrases everyday! Write 📝 NEXT PHRASE to continue!` },
+      { type: 'text', content: `I understand ${senderName}, 👍 you can still continue to learn with me.` },
     ],
     tutorFlowFinished: [
       { type: 'text', content: `I'm sorry ${senderName}, you already have requested a tutor. If you have any questions, you can use the hashtag #AskRoo to make them or just write HELP`},

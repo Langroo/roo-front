@@ -88,7 +88,6 @@ const replyChooser = (replyName, senderName) => {
       { type: 'text', content: 'Hey, I\'m a guy (male) 💪🏽 !! I have some brothers and sisters, but they\'re a bit too shy to come online! 👫' },
     ],
     teachMeReply: [
-      { type: 'text', content: `Hey, ${senderName}, write NEXT LESSON to see if you have any more lessons available this week! ;) :D` },
       { type: 'text', content: `${senderName} I love your spirit, let's finish this conversation for the english lesson to come.` },
     ],
     tutorTryoutReply: [
@@ -465,38 +464,11 @@ const replyChooser = (replyName, senderName) => {
       { type: 'text', content: 'Great!, please give me a few seconds to load it 😁⏳' },
       { type: 'text', content: '⌚' },
       { type: 'video', content: 'https://s3.amazonaws.com/langroo/videos/video_of_the_day.mp4' },
-      { type: 'text', content: `Enjoy today's video ${senderName} 💥, and when you want to continue your course 🎓, write NEXT` },
-    ],
-    justOneStoryPerDay: [
-      [{ type: 'text', content: 'Hey, it is just one story per day 🌟! Wait until tomorrow for the next one.' }],
-      [{ type: 'text', content: 'Are you looking for another story or perhaps for a tutor? If that is the case, check my menu options :)' }],
-      [
-        { type: 'image', content: 'https://media1.tenor.com/images/ef540663411e5df56f1dc5a742c6fb10/tenor.gif?itemid=5001372' },
-        { type: 'text', content: '(Wait for tomorrow 😁☝)' },
-      ],
-    ],
-    storyNotAvailableYet: [
-      [{ type: 'text', content: 'We have a conversation to finish before I can give you access to that feature 😉☝' }],
-      [{ type: 'text', content: 'Hey hey, your turn will come. Just not yet 😁' }],
-      [{ type: 'text', content: 'You\'re being too fast!' }],
-      [{ type: 'text', content: 'I need a couple of answers from you before I can let you see our super-duper daily video!' }],
-      [{ type: 'text', content: '👽 Inhabitant of earth, in the name of this chatbot, I require you to finish the current conversation first' }],
-      [{ type: 'text', content: 'Well well, someone wants to run before learning to walk. Wait a bit and I will give you access to that.' }],
-      [{ type: 'text', content: '😳 You caught me off guard and the video is not ready! Finish this conversation with me while my team prepares it.' }],
+      { type: 'text', content: `Enjoy today's video ${senderName} 💥` },
     ],
     finishedReply: [
       { type: 'text', content: 'Finished! I hope you enjoyed it 😉☝' },
       { type: 'text', content: 'Good, good 👍' },
-    ],
-    writeNextPhrase: [
-      { type: 'quickReplies',
-        content:
-        {
-          title: `${senderName}, where are you on your current level? Click below NEXT PHRASE to beat your friends 🏆 and become a master at English! 💪`,
-          buttons: [
-            { title: 'Next Phrase', value: 'next phrase' },
-          ],
-        } },
     ],
     noVideoBeforeIntro: [
       { type: 'text', content: `Ow, you can watch my daily story in a few seconds ⌚ ${senderName}, let's get you started on a course first! 🎓` },

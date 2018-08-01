@@ -22,9 +22,6 @@ const replyChooser = (replyName, senderName, aux = {}) => {
         },
       },
     ],
-    finishLessonsReminder: [
-      { type: 'text', content: `Hey ${senderName}, don't forget you have some lessons to finish this week, say Next Phrase, to continue if you want ;)` },
-    ],
     // if [not now], remind in [one week] again
     initiateUpsellingFlow: [
       { type: 'text', content: 'Hey, how are you? Just to tell you, I have amazing connections to native English tutors in the UK and the US! 🇬🇧 🇺🇸' },

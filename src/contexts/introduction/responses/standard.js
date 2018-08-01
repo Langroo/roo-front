@@ -39,7 +39,7 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'text', content: 'Well, who is the Langroo team?' },
       { type: 'text', content: 'Here is a welcome video for you! 📹' },
       { type: 'video', content: 'https://s3.amazonaws.com/langroo/videos/video_of_the_day1.mp4' },
-      { type: 'delay', content: 10 },
+      { type: 'delay', content: 20 },
       { type: 'text', content: 'We send members of the Langroo community a daily quiz ⁉️' },
       { type: 'text', content: 'And every day a winner gets a free 15 minute video class with a tutor! 🏆🙋' },
       { type: 'text', content: 'Ready to start?' },
@@ -64,65 +64,11 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
     introDialog4Branch1: [
       { type: 'text', content: 'Nice, tell me more please 😄' },
     ],
-    rooIntroduction: [
-      { type: 'text', content: 'My name’s Bond, James Bond. 🎩' },
-      { type: 'text', content: 'Just joking, haha!' },
-      { type: 'text', content: 'My nickname is Roo. I’m an English chatbot teacher here on Messenger ;)' },
-      { type: 'image', content: 'https://s3.amazonaws.com/langroo/images/roo_logo_plane.png' },
+    introDialog5: [
+      { type: 'audio', content: 'Before we help you with that, what’s your English level right now?' },
       { type: 'quickReplies',
         content: {
-          title: `I can specialise in British or American English ${senderName}, which do you prefer? 😋`,
-          buttons: [
-            { title: 'British 🇬🇧', value: 'uk_accent_opt' },
-            { title: 'American 🇺🇸', value: 'us_accent_opt' },
-          ],
-        },
-      },
-    ],
-    tellHowRooCanHelp: [
-      { type: 'audio', content: 'As you wish!' },
-      { type: 'text', content: 'As you wish!' },
-      { type: 'text', content: 'Want to know how I can help you? 😁' },
-    ],
-    whyRooIsDifferent: [
-      { type: 'text', content: 'Well, until now, this was most people’s reaction when studying English: 📚' },
-      { type: 'image', content: 'https://media1.tenor.com/images/638aa37a11f9fac63b79337ad725be24/tenor.gif?itemid=3553193' },
-      { type: 'audio', content: 'But, not until I was created' },
-      { type: 'quickReplies',
-        content: {
-          title: 'But, not until I was created! 💥',
-          buttons: [
-            { title: 'Why?', value: 'why different' },
-          ],
-        },
-      },
-    ],
-    rooLocationQuestion: [
-      { type: 'audio', content: 'Do we have mutual friends?' },
-      { type: 'quickReplies',
-        content: {
-          title: 'Do we have mutual friends?😂 How did you hear about me?',
-          buttons: [
-            { title: 'Search 🔍', value: 'Found Roo Searching' },
-            { title: 'School 🎒', value: 'Found Roo from School' },
-            { title: 'Facebook Group 👥', value: 'Found Roo from Facebook Group' },
-            { title: 'Influencer 👸', value: 'Found Roo by Influencer' },
-            { title: 'Other', value: 'Found Roo by other means' },
-          ],
-        },
-      },
-    ],
-    rooSpecifyInfluencer: [
-      { type: 'text', content: 'Ow, please mention who? Love hearing about my celebrity friends! 🙌' },
-    ],
-    rooSpecifyLocation: [
-      { type: 'text', content: 'Ow can you enter the name please? :P' },
-    ],
-    rooEnglishLevelQuestion: [
-      { type: 'audio', content: 'What’s your English level right now?' },
-      { type: 'quickReplies',
-        content: {
-          title: 'What’s your English level right now? 😬',
+          title: 'Before we help you with that, what’s your English level right now? 😬',
           buttons: [
             { title: 'Bad (beginner) 👎', value: 'pd_beginner_level' },
             { title: 'Ok (intermediate) 👍', value: 'pd_intermediate_level' },
@@ -131,37 +77,28 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
         },
       },
     ],
-    rooBigInterest: [
+    introDialog6: [
       { type: 'quickReplies',
         content: {
-          title: 'Good, I’ll help you improve ;) Finally 😬, what’s your one biggest interest? ',
+          title: 'Finally, to help find more people like you ☝️ How did you hear about Langroo? 📣',
           buttons: [
-            { title: 'Sports ⚽️', value: 'interested in Sports' },
-            { title: 'Reading/Learning 📚', value: 'interested in Reading/Learning' },
-            { title: 'Series/Films 🎬', value: 'interested in Series/Films' },
-            { title: 'Music 🎵', value: 'interested in Music' },
-            { title: 'Travelling ✈', value: 'interested in Travelling' },
-            { title: 'Other', value: 'other interest and will ask' },
+            { title: 'Influencer 🌟', value: 'Found Roo by Influencer' },
+            { title: 'Social Media 📲', value: 'Found Roo from Social Media' },
+            { title: 'Search 🔍', value: 'Found Roo Searching' },
+            { title: 'Article 📰', value: 'Found Roo from Article' },
+            { title: 'Other', value: 'Found Roo by other means' },
           ],
         },
       },
     ],
-    rooOtherInterest: [
-      { type: 'text', content: '😯 I\'m curious, what other interest do you have? 😊' },
+    introDialog7: [
+      { type: 'text', content: 'Hmm… Can you specify? 🙂' },
     ],
     introFinal: [
-      { type: 'audio', content: 'Great' },
-      { type: 'text', content: 'Great! 👏' },
-      { type: 'audio', content: 'are you ready to start learning?' },
-      { type: 'quickReplies',
-        content: {
-          title: 'So, are you ready to start learning?! 🚀',
-          buttons: [
-            { title: 'Sure 👍', value: 'on_demand_content_messages' },
-            { title: 'Later 😅', value: 'start_content_later_intro' },
-          ],
-        },
-      },
+      { type: 'text', content: `${senderName}` },
+      { type: 'text', content: 'You are now OFFICIALLY ready to start 📱👏' },
+      { type: 'text', content: 'I will send the Daily Quiz tomorrow at 12 p.m. GMT +0 ⌚' },
+      { type: 'text', content: 'Then… the day’s results will be at 14:00 GMT +0 📊' },
     ],
     jumpToTutorFlow: [
       { type: 'text', content: 'Great! 👏' },
@@ -174,9 +111,6 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
           ],
         },
       },
-    ],
-    introStartLater: [
-      { type: 'text', content: `No problem ${senderName}, just write NEXT PHRASE when you want to start ;) ;)` },
     ],
   }
   return replies[replyName]

@@ -20,7 +20,7 @@ const getReply = async (message, params, userFromDB) => {
   let waitingTime
 
   // -- Messages positions to skip from translating
-  let skipTranslationIndex = []
+  const skipTranslationIndex = []
 
   // -- Variable to control which dialogs will be translated
   let translateActive = params.translateDialog
@@ -99,70 +99,45 @@ const getReply = async (message, params, userFromDB) => {
   case 'introDialog4':
     reply = standardReplies('introDialog4', params.senderName)
     reminderToContinueOn = true
-    FlowUpdate = { current_pos: 'introDialog4', open_question: true, prev_pos: 'introDialog4', next_pos: 'determineLanguage', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
+    FlowUpdate = { current_pos: 'introDialog4', open_question: 'false', prev_pos: 'introDialog4', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
     break
 
-  case 'userSpeakLanguage':
-    skipTranslationIndex = [0, 1]
-    langVar = langNames(userLanguage)
-    langVar = langVar.charAt(0).toUpperCase() + langVar.slice(1)
-    reply = standardReplies('userSpeakLanguage', params.senderName, langVar)
+  case 'introDialog4Branch1':
+    reply = standardReplies('introDialog4Branch1', params.senderName)
     reminderToContinueOn = true
-    FlowUpdate = { current_pos: 'userSpeakLanguage', open_question: 'false', prev_pos: 'userSpeakLanguage', next_pos: 'askWhoIsRoo', current_flow: 'introduction', prev_flow: 'introduction' }
-    translateActive = true
+    FlowUpdate = { current_pos: 'introDialog4Branch1', open_question: true, prev_pos: 'introDialog4Branch1', next_pos: 'introDialog5', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
     break
 
-  case 'askWhoIsRoo':
-    if (params.prevPos === 'userSpeakLanguage') {
-      reply = standardReplies('askWhoIsRoo', params.senderName)
-    } else {
-      reply = standardReplies('askWhoIsRoo', params.senderName)
-    }
+  case 'introDialog5':
+    reply = standardReplies('introDialog5', params.senderName)
     reminderToContinueOn = true
-    FlowUpdate = { current_pos: 'askWhoIsRoo', open_question: true, prev_pos: 'askWhoIsRoo', next_pos: 'rooIntroduction', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: translateActive }
+    FlowUpdate = { current_pos: 'introDialog5', open_question: 'false', prev_pos: 'introDialog5', next_pos: 'introDialog6', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
     break
 
-  case 'whyRooIsDifferent':
-    reply = standardReplies('whyRooIsDifferent', params.senderName)
+  case 'introDialog6':
+    reply = standardReplies('introDialog6', params.senderName)
     reminderToContinueOn = true
-    FlowUpdate = { current_pos: 'whyRooIsDifferent', open_question: true, prev_pos: 'whyRooIsDifferent', next_pos: 'whatRooTeaches', current_flow: 'introduction', prev_flow: 'introduction', repeated_this_pos: '0' }
+    FlowUpdate = { current_pos: 'introDialog4Branch1', open_question: 'false', prev_pos: 'introDialog6', next_pos: 'introDialog7', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
     break
 
-  case 'whatRooTeaches':
-    let userAccent = 'accent you chose'
-    await API.getUserFromRedis(message.userHash)
-      .catch(() => userAccent = 'accent you chose')
-      .then((res) => userAccent = res.data.accent)
-    userAccent === 'us' ? userAccent = 'United States' : userAccent = 'United Kingdom'
-    reply = standardReplies('whatRooTeaches', params.senderName, userAccent)
+  case 'introDialog7':
+    reply = standardReplies('introDialog7', params.senderName)
     reminderToContinueOn = true
-    FlowUpdate = { current_pos: 'whatRooTeaches', open_question: true, prev_pos: 'whatRooTeaches', next_pos: 'willAskQuestions', current_flow: 'introduction', prev_flow: 'introduction', repeated_this_pos: '0' }
-    break
-
-  case 'willAskQuestions':
-    reply = standardReplies('willAskQuestions', params.senderName)
-    reminderToContinueOn = true
-    FlowUpdate = { current_pos: 'willAskQuestions', open_question: true, prev_pos: 'willAskQuestions', next_pos: 'rooAgeQuestion', current_flow: 'introduction', prev_flow: 'introduction', repeated_this_pos: '0' }
-    break
-
-  case 'rooAgeQuestion':
-    reply = standardReplies('rooAgeQuestion', params.senderName)
-    reminderToContinueOn = true
-    FlowUpdate = { current_pos: 'rooAgeQuestion', open_question: 'false', prev_pos: 'rooAgeQuestion', next_pos: 'rooLocationQuestion', current_flow: 'introduction', prev_flow: 'introduction' }
+    FlowUpdate = { current_pos: 'introDialog7', open_question: true, prev_pos: 'introDialog7', next_pos: 'introFinal', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
     break
 
   case 'introFinal':
     if (params.tutorFlowStatus === 'requested') {
       reply = standardReplies('jumpToTutorFlow', params.senderName)
-      FlowUpdate = { current_pos: 'introFinal', open_question: 'false', prev_pos: 'introFinal', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', repeated_this_pos: '0' }
       willCreateUser = true
       reminderToContinueOn = false
+      FlowUpdate = { current_pos: 'introFinal', open_question: 'false', prev_pos: 'introFinal', next_pos: 'TBD', current_flow: 'OpenTalk', prev_flow: 'introduction', repeated_this_pos: '0' }
 
     } else {
       reply = standardReplies('introFinal', params.senderName)
       willCreateUser = true
       reminderToContinueOn = false
-      FlowUpdate = { current_pos: 'introFinal', open_question: 'false', prev_pos: 'introFinal', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'content', repeated_this_pos: '0' }
+      FlowUpdate = { current_pos: 'introFinal', open_question: 'false', prev_pos: 'introFinal', next_pos: 'TBD', current_flow: 'OpenTalk', prev_flow: 'content', repeated_this_pos: '0' }
     }
     break
 

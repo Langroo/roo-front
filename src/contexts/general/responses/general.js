@@ -112,8 +112,6 @@ const replyChooser = (replyName, senderName) => {
     ],
     broadcastStartLater: [
       { type: 'text', content: `${senderName}, what is more important than learning to speak native English? Do you have a hot date or something? 💕 🍴 😂` },
-      { type: 'text', content: 'No problem haha, 😀 when you are ready to start, tell me this' },
-      { type: 'text', content: 'No problem haha, 😀 just write NEXT PHRASE when you want to continue!' },
     ],
     broadcastShare: [
       { type: 'text', content: `Super! 👏Send this link to your friend ${senderName} www.m.me/langroo` },
