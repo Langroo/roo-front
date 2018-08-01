@@ -3,7 +3,7 @@
  */
 module.exports = {
   accountReplies: require('./account'),
-  subscriptionReplies: require('./payment'),
+  paymentReplies: require('./payment'),
   generalReplies: require('./general'),
   translateReplies: require('./translate'),
 }

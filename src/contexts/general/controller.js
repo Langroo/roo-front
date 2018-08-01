@@ -7,12 +7,11 @@ const getReply = async (message, params, userFromDB) => {
   const API = require('../../api/index').dbApi
   const axios = require('axios')
   const accountReplies = require('./responses').accountReplies
-  const subscriptionReplies = require('./responses').subscriptionReplies
+  const paymentReplies = require('./responses').paymentReplies
   const generalReplies = require('./responses').generalReplies
   const translateReplies = require('./responses').translateReplies
   const OneForAll = require('../../bot-tools').OneForAll
   const FbAPIClass = require('../../bot-tools').FacebookAPI
-  const BotCache = require('../../bot-tools').BotCache
 
   // -- Instantiations
   const controllerSmash = new OneForAll()
@@ -28,7 +27,7 @@ const getReply = async (message, params, userFromDB) => {
   let delayedMsgTime = 15
   let wildcard = {}
   const upgradableMemberships = ['2 Week Free Trial', 'Content Only Programme', 'Casual Tutor Programme', 'Standard Tutor Programme']
-  const ifHereGoBack = ['FORTUNE_QUOTE', 'TRANSLATE_RETURNER', 'DIRECT_TRANSLATE', 'mustRegisterFirst', 'helpUser1', 'showSubscriptions', 'howToConverseMenu', 'showPricing', 'askRoo']
+  const ifHereGoBack = ['FORTUNE_QUOTE', 'TRANSLATE_RETURNER', 'DIRECT_TRANSLATE', 'mustRegisterFirst', 'helpUser1', 'paymentDialog1', 'howToConverseMenu', 'showPricing', 'askRoo']
 
   // -- Define the user first name and full name
   const senderName = params.senderName
@@ -38,7 +37,7 @@ const getReply = async (message, params, userFromDB) => {
    * Disable the following options during the following flow
    * */
   const disablingFlow = 'introduction'
-  const optionsToDisable = ['startPaymentFlow', 'helpUser_Init', 'userProfile', 'chooseNewLevel', 'chooseNewAccent']
+  const optionsToDisable = ['paymentDialog_Init', 'helpUser_Init', 'userProfile', 'chooseNewLevel', 'chooseNewAccent']
   if (optionsToDisable.indexOf(params.currentEntity) > -1 && params.prevFlow === disablingFlow) {
     params.currentEntity = 'mustRegisterFirst'
   }
@@ -96,6 +95,10 @@ const getReply = async (message, params, userFromDB) => {
    * */
 
   switch (params.currentEntity) {
+
+  case 'paymentHelpDialog':
+    reply = paymentReplies('paymentHelpDialog', senderName)
+    break
 
   case 'generalShareDialog':
     reply = generalReplies('generalShareDialog', senderName)
@@ -213,7 +216,7 @@ const getReply = async (message, params, userFromDB) => {
     reply = generalReplies('fortuneQuote')
     break
 
-  case 'startPaymentFlow':
+  case 'paymentDialog_Init':
     try {
       axios.request({
         headers: { 'Content-Type': 'application/json' },
@@ -225,11 +228,11 @@ const getReply = async (message, params, userFromDB) => {
     } catch (reason) {
       console.log('(╯°□°）╯︵ ┻━┻ ERROR sending the notification to SLACK :: ', reason)
     }
-    flowControlUpdate = { current_pos: 'startPaymentFlow', open_question: 'false', next_pos: 'showSubscriptions' }
-    reply = subscriptionReplies('startPaymentFlow', senderName, {})
+    flowControlUpdate = { current_pos: 'paymentDialog_Init', open_question: 'false', next_pos: 'paymentDialog1' }
+    reply = paymentReplies('paymentDialog_Init', senderName, {})
     break
 
-  case 'showSubscriptions':
+  case 'paymentDialog1':
     currency = params.rawUserInput.substr(0, 3)
     paymentUrl = {
       casualURL: `${process.env.API_BASE_URL}/payment/casual/${message.sender.id}/${currency}`,
@@ -237,8 +240,8 @@ const getReply = async (message, params, userFromDB) => {
       eliteURL: `${process.env.API_BASE_URL}/payment/elite/${message.sender.id}/${currency}`,
       currency,
     }
-    flowControlUpdate = { open_question: 'false', next_pos: 'TBD', prev_pos: 'showSubscriptions', current_flow: 'general' }
-    reply = subscriptionReplies('showSubscriptions', senderName, paymentUrl)
+    flowControlUpdate = { open_question: 'false', next_pos: 'TBD', prev_pos: 'paymentDialog1', current_flow: 'general' }
+    reply = paymentReplies('paymentDialog1', senderName, paymentUrl)
     break
 
   case 'restartUserContent':

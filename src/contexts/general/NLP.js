@@ -50,10 +50,10 @@ const getEntity = (exp) => {
   if (expressions.test(exp)) { return 'helpUser1' }
 
   expressions = /^(upgrade subscription|subscribe me|learning plans|upgrade plan|pay|upgrade|payment|how do i pay\?*|i want to pay)$/i
-  if (expressions.test(exp)) { return 'startPaymentFlow' }
+  if (expressions.test(exp)) { return 'paymentDialog_Init' }
 
   expressions = /(^usd_currency$|^eur_currency$)/i
-  if (expressions.test(exp)) { return 'showSubscriptions' }
+  if (expressions.test(exp)) { return 'paymentDialog1' }
 
   expressions = /(^now translate (\w+\s*)+|^I need the translation for\s(\w+\s*)+|^How do you say\s(\w+\s*)+\?|^translate\s(.+\s)+(in|into|to)\s(\w+(\s|$))+|^What does\s(\w+\s)+mean in\s(\w+(\s|$))+)/i
   if (expressions.test(exp)) { return 'DIRECT_TRANSLATE' }
