@@ -34,7 +34,7 @@ class CacheDataPoints {
 
       switch (slug) {
 
-      case 'rooLocationQuestion':
+      case 'introDialog6':
         try {
           res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
@@ -42,7 +42,7 @@ class CacheDataPoints {
           return 0
         } catch (error) { console.log('Error saving Type of Source where user heard about Roo :: ', error); return error }
 
-      case 'rooSpecifyLocation':
+      case 'introDialog7':
         try {
           res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
@@ -50,31 +50,7 @@ class CacheDataPoints {
           return 0
         } catch (error) { console.log('Error saving Name of Source where user heard about Roo :: ', error); return error }
 
-      case 'rooSpecifyInfluencer':
-        try {
-          res = await this.setUserIDsInRedis(senderId, userHash)
-          if (res) { throw new Error(`${res}`) }
-          await API.setRedisDataPoint(userHash, 'source_name', valueToStore)
-          return 0
-        } catch (error) { console.log('Error saving Name of Source (Influencer) where user heard about Roo :: ', error); return error }
-
-      case 'rooAgeQuestion':
-        try {
-          res = await this.setUserIDsInRedis(senderId, userHash)
-          if (res) { throw new Error(`${res}`) }
-          await API.setRedisDataPoint(userHash, 'age', valueToStore)
-          return 0
-        } catch (error) { console.log('Error saving User Age :: ', error); return error }
-
-      case 'rooIntroduction':
-        try {
-          res = await this.setUserIDsInRedis(senderId, userHash)
-          if (res) { throw new Error(`${res}`) }
-          await API.setRedisDataPoint(userHash, 'accent', valueToStore)
-          return 0
-        } catch (error) { console.log('Error saving User Accent :: ', error); return error }
-
-      case 'rooEnglishLevelQuestion':
+      case 'introDialog5':
         try {
           res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
@@ -82,7 +58,7 @@ class CacheDataPoints {
           return 0
         } catch (error) { console.log('Error saving User English Level :: ', error); return error }
 
-      case 'rooBigMotivQuestion':
+      case 'introDialog4':
         try {
           res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
@@ -90,21 +66,13 @@ class CacheDataPoints {
           return 0
         } catch (error) { console.log('Error saving User Big Motivation :: ', error); return error }
 
-      case 'rooBigInterest':
+      case 'introDialog4Branch1':
         try {
           res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
-          await API.setRedisDataPoint(userHash, 'biggest_interests_personal', valueToStore)
+          await API.setRedisDataPoint(userHash, 'motivation_to_learn_english', valueToStore)
           return 0
-        } catch (error) { console.log('Error saving Big Interest of User in redis :: ', error); return error }
-
-      case 'rooOtherInterest':
-        try {
-          res = await this.setUserIDsInRedis(senderId, userHash)
-          if (res) { throw new Error(`${res}`) }
-          await API.setRedisDataPoint(userHash, 'biggest_interests_personal', valueToStore)
-          return 0
-        } catch (error) { console.log('Error saving Big Interest (Personalized answer) in redis :: ', error); return error }
+        } catch (error) { console.log('Error saving User Big Motivation :: ', error); return error }
 
       default:
         console.error('Error saving unidentified data point in the INTRODUCTION CONTEXT')
@@ -141,20 +109,6 @@ class CacheDataPoints {
           res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
           await API.setRedisDataPoint(userHash, 'tutor_flow_when_to_remind', valueToStore)
-          return 0
-        } catch (error) { console.log(`Error saving ${slug} redis :: `, error); return error }
-      case 'PTneverRemindUser':
-        try {
-          res = await this.setUserIDsInRedis(senderId, userHash)
-          if (res) { throw new Error(`${res}`) }
-          await API.setRedisDataPoint(userHash, 'tutor_flow_never_remind', valueToStore)
-          return 0
-        } catch (error) { console.log(`Error saving ${slug} redis :: `, error); return error }
-      case 'PTtellUserNow':
-        try {
-          res = await this.setUserIDsInRedis(senderId, userHash)
-          if (res) { throw new Error(`${res}`) }
-          await API.setRedisDataPoint(userHash, 'tutor_flow_tell_user_input', valueToStore)
           return 0
         } catch (error) { console.log(`Error saving ${slug} redis :: `, error); return error }
 
