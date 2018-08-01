@@ -106,12 +106,14 @@ const getReply = async (message, params, userFromDB) => {
     reply = standardReplies('introDialog4Branch1', params.senderName)
     reminderToContinueOn = true
     FlowUpdate = { current_pos: 'introDialog4Branch1', open_question: true, prev_pos: 'introDialog4Branch1', next_pos: 'introDialog5', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
+    await BotCache.saveUserDataCache(message.senderId, message.conversationId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
     break
 
   case 'introDialog5':
     reply = standardReplies('introDialog5', params.senderName)
     reminderToContinueOn = true
     FlowUpdate = { current_pos: 'introDialog5', open_question: 'false', prev_pos: 'introDialog5', next_pos: 'introDialog6', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
+    await BotCache.saveUserDataCache(message.senderId, message.conversationId, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
     break
 
   case 'introDialog6':

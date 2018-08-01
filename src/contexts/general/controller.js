@@ -96,6 +96,34 @@ const getReply = async (message, params, userFromDB) => {
 
   switch (params.currentEntity) {
 
+  case 'paymentDialog_Init':
+    try {
+      axios.request({
+        headers: { 'Content-Type': 'application/json' },
+        url: process.env.PAYMENT_NOTIFICATIONS_SLACK_URL,
+        method: 'post',
+        data: `{"text":"User ${userFullName} has initiated the *Payment/Upgrade Plan conversational flow*"}`,
+      })
+      console.log('User initiated payment flow')
+    } catch (reason) {
+      console.log('(╯°□°）╯︵ ┻━┻ ERROR sending the notification to SLACK :: ', reason)
+    }
+    flowControlUpdate = { current_pos: 'paymentDialog_Init', open_question: 'false', next_pos: 'paymentDialog1' }
+    reply = paymentReplies('paymentDialog_Init', senderName, {})
+    break
+
+  case 'paymentDialog1':
+    currency = params.rawUserInput.substr(0, 3)
+    paymentUrl = {
+      casualURL: `${process.env.API_BASE_URL}/payment/casual/${message.sender.id}/${currency}`,
+      standardURL: `${process.env.API_BASE_URL}/payment/standard/${message.sender.id}/${currency}`,
+      eliteURL: `${process.env.API_BASE_URL}/payment/elite/${message.sender.id}/${currency}`,
+      currency,
+    }
+    flowControlUpdate = { open_question: 'false', next_pos: 'TBD', prev_pos: 'paymentDialog1', current_flow: 'general' }
+    reply = paymentReplies('paymentDialog1', senderName, paymentUrl)
+    break
+
   case 'paymentHelpDialog':
     reply = paymentReplies('paymentHelpDialog', senderName)
     break
@@ -214,34 +242,6 @@ const getReply = async (message, params, userFromDB) => {
   case 'FORTUNE_QUOTE':
     flowControlUpdate = { prev_pos: 'FORTUNE_QUOTE' }
     reply = generalReplies('fortuneQuote')
-    break
-
-  case 'paymentDialog_Init':
-    try {
-      axios.request({
-        headers: { 'Content-Type': 'application/json' },
-        url: process.env.PAYMENT_NOTIFICATIONS_SLACK_URL,
-        method: 'post',
-        data: `{"text":"User ${userFullName} has initiated the *Payment/Upgrade Plan conversational flow*"}`,
-      })
-      console.log('User initiated payment flow')
-    } catch (reason) {
-      console.log('(╯°□°）╯︵ ┻━┻ ERROR sending the notification to SLACK :: ', reason)
-    }
-    flowControlUpdate = { current_pos: 'paymentDialog_Init', open_question: 'false', next_pos: 'paymentDialog1' }
-    reply = paymentReplies('paymentDialog_Init', senderName, {})
-    break
-
-  case 'paymentDialog1':
-    currency = params.rawUserInput.substr(0, 3)
-    paymentUrl = {
-      casualURL: `${process.env.API_BASE_URL}/payment/casual/${message.sender.id}/${currency}`,
-      standardURL: `${process.env.API_BASE_URL}/payment/standard/${message.sender.id}/${currency}`,
-      eliteURL: `${process.env.API_BASE_URL}/payment/elite/${message.sender.id}/${currency}`,
-      currency,
-    }
-    flowControlUpdate = { open_question: 'false', next_pos: 'TBD', prev_pos: 'paymentDialog1', current_flow: 'general' }
-    reply = paymentReplies('paymentDialog1', senderName, paymentUrl)
     break
 
   case 'restartUserContent':

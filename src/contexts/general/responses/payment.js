@@ -36,13 +36,12 @@ const replyChooser = (replyName, senderName, url = {}) => {
         type: 'carousel',
         content: [
           {
-            title: `1 class per week, ${prices.casual}/weekly`,
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/tutor_image_1.png',
-            subtitle: 'For starters, our most casual plan 👍',
+            title: 'Casual Plan!',
+            imageUrl: 'https://i.imgur.com/aDfhM7q.png',
             buttons: [
               {
                 type: 'web_url',
-                url: url.eliteURL,
+                url: url.casualURL,
                 title: 'Pay in 10 seconds!',
                 webview_height_ratio: 'tall',
                 messenger_extensions,
@@ -51,23 +50,22 @@ const replyChooser = (replyName, senderName, url = {}) => {
               {
                 type: 'postback',
                 title: 'Help Needed ❓',
-                payload: 'help_paying_postback'
+                payload: 'help_paying_postback',
               },
               {
                 type: 'postback',
                 title: 'Payment Complete! ↩️',
-                payload: 'payment_complete_postback'
+                payload: 'payment_complete_postback',
               },
             ],
           },
           {
-            title: `2 classes per week, ${prices.standard}/weekly`,
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/tutor_image_2.png',
-            subtitle: 'Standard, for those with more time 😀',
+            title: 'Ambitious Plan!',
+            imageUrl: 'https://i.imgur.com/XiEt2WX.png',
             buttons: [
               {
                 type: 'web_url',
-                url: url.eliteURL,
+                url: url.standardURL,
                 title: 'Pay in 10 seconds!',
                 webview_height_ratio: 'tall',
                 messenger_extensions,
@@ -76,19 +74,18 @@ const replyChooser = (replyName, senderName, url = {}) => {
               {
                 type: 'postback',
                 title: 'Help Needed ❓',
-                payload: 'help_paying_postback'
+                payload: 'help_paying_postback',
               },
               {
                 type: 'postback',
                 title: 'Payment Complete! ↩️',
-                payload: 'payment_complete_postback'
+                payload: 'payment_complete_postback',
               },
             ],
           },
           {
-            title: `3 classes per week, ${prices.elite}/weekly`,
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/tutor_image_3.png',
-            subtitle: 'SAVE 5%! For the fastest results! 💪',
+            title: 'Elite Plan!',
+            imageUrl: 'https://i.imgur.com/WtILnZS.png',
             buttons: [
               {
                 type: 'web_url',
@@ -101,12 +98,12 @@ const replyChooser = (replyName, senderName, url = {}) => {
               {
                 type: 'postback',
                 title: 'Help Needed ❓',
-                payload: 'help_paying_postback'
+                payload: 'help_paying_postback',
               },
               {
                 type: 'postback',
                 title: 'Payment Complete! ↩️',
-                payload: 'payment_complete_postback'
+                payload: 'payment_complete_postback',
               },
             ],
           },
