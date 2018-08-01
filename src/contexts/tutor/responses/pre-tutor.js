@@ -138,7 +138,7 @@ const replyChooser = (replyName, senderName, aux = { accent: 'US', motivation: '
       { type: 'text', content: `No problem ${senderName}, I will ask you again ${aux.remindTime}! ;) 👌` },
     ],
     PTneverRemindUser: [
-      { type: 'text', content: 'No problem! :) You can continue learning with me for free! },
+      { type: 'text', content: 'No problem! :) You can continue learning with me for free!' },
     ],
     PTtellUserNow: [
       { type: 'text', content: `Of course ${senderName}! These are the benefits 🎁 that students like you are getting by having calls with a personal tutor:` },

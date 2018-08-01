@@ -1,6 +1,9 @@
 const getEntity = (exp) => {
   let expressions
 
+  expressions = /^(share roo|share langroo|share this chatbot)$/i
+  if (expressions.test(exp)) { return 'generalShareDialog' }
+
   expressions = /^broadcast_share_this$/i
   if (expressions.test(exp)) { return 'broadcastShare' }
 

@@ -22,7 +22,7 @@ const replyChooser = (replyName, senderName, url = {}) => {
       {
         type: 'quickReplies',
         content:
-        { title: 'In which currency would you like to see the prices?',
+        { title: 'Sure! In which currency would you like to see the prices? 💁',
           buttons: [
               { title: 'USD $', value: 'USD_currency' },
               { title: 'EURO €', value: 'EUR_currency' },
@@ -31,7 +31,7 @@ const replyChooser = (replyName, senderName, url = {}) => {
       },
     ],
     showSubscriptions: [
-      { type: 'text', content: `Great, I will make this as easy as possible for you ${senderName} 😉 Select which plan you want:` },
+      { type: 'text', content: `Here you go ${senderName}, click an  option below to pay!` },
       {
         type: 'carousel',
         content: [

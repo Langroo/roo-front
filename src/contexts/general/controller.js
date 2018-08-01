@@ -97,6 +97,10 @@ const getReply = async (message, params, userFromDB) => {
 
   switch (params.currentEntity) {
 
+  case 'generalShareDialog':
+    reply = generalReplies('generalShareDialog', senderName)
+    break
+
   case 'broadcastRestart':
     params.currentEntity = 'rooIntroduction'
     tempReply = await flows.introduction(message, params, userFromDB)
