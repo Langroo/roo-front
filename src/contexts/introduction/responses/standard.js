@@ -24,15 +24,22 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'text', content: controllerSmash.shuffle(randomResponses)[0].content },
     ],
     getStarted: [
-      { type: 'text', content: `Hey ${senderName}! 👋` },
+      { type: 'text', content: `Welcome to Langroo ${senderName}! 🎉` },
+      { type: 'image', content: 'https://media1.tenor.com/images/57f516f712b25d1fa534dd4e0999e92e/tenor.gif?itemid=12179567' },
+      { type: 'text', content: 'How are you?' },
     ],
-    howAreYouReply: [
-      { type: 'text', content: 'How are you? 😜' },
+    introDialog2: [
+      { type: 'text', content: '😀😀' },
+      { type: 'text', content: `So ${senderName}, let me introduce myself` },
+      { type: 'text', content: 'I’m Roo, an AI chatbot which helps you to learn English like a native person! 🙅' },
+      { type: 'text', content: 'Who are you?' },
     ],
-    userSpeakLanguage: [
-      { type: 'text', content: `So ${senderName} 😁, I see that you speak ${choice}? ` },
-      { type: 'text', content: `I’m sorry, I don’t know ${choice} very well. But, if you want we can speak 🔉 in ${choice}. That way you will understand everything!` },
-      { type: 'text', content: 'What do you think?' },
+    introDialog3: [
+      { type: 'text', content: '👍👍' },
+      { type: 'text', content: 'Well, who is the Langroo team?' },
+      { type: 'text', content: 'Here is a welcome video for you! 📹' },
+      { type: 'video', content: 'Here is a welcome video for you! 📹' },
+      { type: 'delay', content: 10 },
       { type: 'quickReplies',
         content: {
           title: 'Press a button below 👇',
@@ -77,41 +84,6 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
           title: 'But, not until I was created! 💥',
           buttons: [
             { title: 'Why?', value: 'why different' },
-          ],
-        },
-      },
-    ],
-    whatRooTeaches: [
-      { type: 'text', content: 'Me and my team’s 👱🏻🙍🏾 mission 🚀is for you to' },
-      { type: 'text', content: 'LEARN' },
-      { type: 'text', content: 'CONVERSATIONAL' },
-      { type: 'text', content: 'ENGLISH' },
-      { type: 'text', content: 'FASTER! 💥' },
-      { type: 'quickReplies',
-        content: {
-          title: `Especially here in the ${choice}! ;)`,
-          buttons: [
-            { title: 'How can I start? 😱', value: 'how can I start with Roo' },
-          ],
-        },
-      },
-    ],
-    willAskQuestions: [
-      { type: 'text', content: 'I want to ask you some questions to understand you better! 📝' },
-      { type: 'audio', content: 'Ready?' },
-      { type: 'text', content: 'Ready? ;)' },
-    ],
-    rooAgeQuestion: [
-      { type: 'quickReplies',
-        content: {
-          title: `What age are you ${senderName}? 🌱  Click a button below 👇`,
-          buttons: [
-            { title: '14-18', value: 'user_age_14_to_18' },
-            { title: '19-23', value: 'user_age_19_to_23' },
-            { title: '24-30', value: 'user_age_24_to_30' },
-            { title: '31-40', value: 'user_age_31_to_40' },
-            { title: '41-50', value: 'user_age_41_to_50' },
-            { title: '51+', value: 'user_age_51_or_more' },
           ],
         },
       },
@@ -194,18 +166,6 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'quickReplies',
         content: {
           title: 'So, are you ready to start learning?! 🚀',
-          buttons: [
-            { title: 'Sure 👍', value: 'on_demand_content_messages' },
-            { title: 'Later 😅', value: 'start_content_later_intro' },
-          ],
-        },
-      },
-    ],
-    introAltFinal: [
-      { type: 'text', content: `Ok ${senderName} 👍` },
-      { type: 'quickReplies',
-        content: {
-          title: 'Then, are you ready to start learning?! 🚀',
           buttons: [
             { title: 'Sure 👍', value: 'on_demand_content_messages' },
             { title: 'Later 😅', value: 'start_content_later_intro' },

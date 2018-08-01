@@ -28,7 +28,7 @@ const getReply = async (message, params, userFromDB) => {
   let delayedMsgTime = 15
   let wildcard = {}
   const upgradableMemberships = ['2 Week Free Trial', 'Content Only Programme', 'Casual Tutor Programme', 'Standard Tutor Programme']
-  const ifHereGoBack = ['FORTUNE_QUOTE', 'TRANSLATE_RETURNER', 'DIRECT_TRANSLATE', 'mustRegisterFirst', 'userRequestsHelp', 'showSubscriptions', 'howToConverseMenu', 'showPricing', 'askRoo']
+  const ifHereGoBack = ['FORTUNE_QUOTE', 'TRANSLATE_RETURNER', 'DIRECT_TRANSLATE', 'mustRegisterFirst', 'helpUser1', 'showSubscriptions', 'howToConverseMenu', 'showPricing', 'askRoo']
 
   // -- Define the user first name and full name
   const senderName = params.senderName
@@ -38,7 +38,7 @@ const getReply = async (message, params, userFromDB) => {
    * Disable the following options during the following flow
    * */
   const disablingFlow = 'introduction'
-  const optionsToDisable = ['startPaymentFlow', 'confirmUserReqHelp', 'userProfile', 'chooseNewLevel', 'chooseNewAccent']
+  const optionsToDisable = ['startPaymentFlow', 'helpUser_Init', 'userProfile', 'chooseNewLevel', 'chooseNewAccent']
   if (optionsToDisable.indexOf(params.currentEntity) > -1 && params.prevFlow === disablingFlow) {
     params.currentEntity = 'mustRegisterFirst'
   }
@@ -145,10 +145,6 @@ const getReply = async (message, params, userFromDB) => {
     reply = [generalReplies('askRoo', senderName)[Math.floor(Math.random() * generalReplies('askRoo', senderName).length)]]
     break
 
-  case 'showPricing':
-    reply = generalReplies('showPricing', senderName)
-    break
-
   case 'pronounceThis':
     let textToAudio
     let actualText = params.rawUserInput.toLowerCase()
@@ -182,29 +178,25 @@ const getReply = async (message, params, userFromDB) => {
     trueReply = [tempReply.pop()]
     return reply = generalReplies('mustRegisterFirst', senderName).concat(trueReply)
 
-  case 'howToConverseMenu':
-    reply = generalReplies('howToConverseMenu', senderName)
-    break
-
   // -- Function triggered by the STOP ALL CONVERSATION in the menu and the DELETE ACCOUNT
   case 'BOT_STOP':
-    flowControlUpdate = { prev_pos: 'BOT_STOP', open_question: 'false', next_pos: 'BS_FEEDBACK', current_flow: 'general' }
-    userFromDB.data ? reply = generalReplies('confirmStopContent', senderName) : reply = generalReplies('confirmStopContentAlt', senderName)
+    flowControlUpdate = { prev_pos: 'BOT_STOP', open_question: 'false', next_pos: 'stopBotMessages1', current_flow: 'general' }
+    reply = generalReplies('initStopBotMessages', senderName)
     break
 
-  case 'BS_FEEDBACK':
+  case 'stopBotMessages1':
     try {
       await API.deleteUser(message.sender.id)
     } catch (error) {
       console.log('(!) ERROR (!) :: THE USER WAS NOT UNSUBSCRIBED SUCCESSFULLY')
     }
-    flowControlUpdate = { current_pos: 'BS_FEEDBACK', prev_pos: 'BS_FEEDBACK', open_question: true, next_pos: 'wouldHearFutureOffers' }
-    reply = generalReplies('tooLateContentStopped', senderName)
+    flowControlUpdate = { current_pos: 'stopBotMessages1', prev_pos: 'stopBotMessages1', open_question: true, next_pos: 'stopBotMessages2' }
+    reply = generalReplies('stopBotMessages1', senderName)
     break
 
-  case 'wouldHearFutureOffers':
+  case 'stopBotMessages2':
     flowControlUpdate = { prev_pos: 'BOT_FROZEN', open_question: true, next_pos: 'BOT_STOP_THANKS' }
-    reply = generalReplies('wouldHearFutureOffers')
+    reply = generalReplies('stopBotMessages2')
     break
 
   case 'BOT_STOP_THANKS':
@@ -279,20 +271,20 @@ const getReply = async (message, params, userFromDB) => {
     }
     break
 
-  case 'confirmUserReqHelp':
-    flowControlUpdate = { open_question: true, next_pos: 'confirmUserReqHelp', current_flow: 'general' }
-    reply = generalReplies('confirmUserReqHelp', senderName, wildcard)
+  case 'helpUser_Init':
+    flowControlUpdate = { open_question: true, next_pos: 'helpUser_Init', current_flow: 'general' }
+    reply = generalReplies('helpUser_Init', senderName, wildcard)
     break
 
-  case 'userRequestsHelp':
-    flowControlUpdate = { current_pos: 'userRequestsHelp', open_question: true, next_pos: 'sendHelpRequestDetails', current_flow: 'general' }
+  case 'helpUser1':
+    flowControlUpdate = { current_pos: 'helpUser1', open_question: true, next_pos: 'helpUser_Final', current_flow: 'general' }
     delayedMsgTime = 1800
-    reply = generalReplies('userRequestsHelp', senderName, wildcard)
+    reply = generalReplies('helpUser1', senderName, wildcard)
     break
 
-  case 'sendHelpRequestDetails':
-    flowControlUpdate = { current_pos: 'sendHelpRequestDetails', open_question: 'false', next_pos: 'TBD', current_flow: params.prevFlow }
-    reply = generalReplies('sendHelpRequestDetails', senderName)
+  case 'helpUser_Final':
+    flowControlUpdate = { current_pos: 'helpUser_Final', open_question: 'false', next_pos: 'TBD', current_flow: params.prevFlow }
+    reply = generalReplies('helpUser_Final', senderName)
     try {
       console.log('User requesting assistance - Sending notification to SLACK')
       axios.request({
@@ -345,60 +337,6 @@ const getReply = async (message, params, userFromDB) => {
     reply = generalReplies('sendRestartedContent', senderName)
     break
 
-  case 'chooseNewLevel':
-    flowControlUpdate = { open_question: 'false', next_pos: 'newLevelConfirmation' }
-    reply = generalReplies('chooseNewLevel', senderName)
-    break
-
-  case 'chooseNewAccent':
-    flowControlUpdate = { open_question: 'false', next_pos: 'newAccentConfirmation' }
-    reply = generalReplies('chooseNewAccent', senderName)
-    break
-
-  case 'newLevelConfirmation':
-    if (userFromDB.data.content.plan.level === 'beginner' && params.rawUserInput === 'change_lvl_to_beg') {
-      wildcard = { currentLevel: 'beginner' }
-      reply = generalReplies('sameLevelOrAccentReply', senderName, wildcard)
-    } else if (userFromDB.data.content.plan.level === 'intermediate' && params.rawUserInput === 'change_lvl_to_int') {
-      wildcard = { currentLevel: 'intermediate' }
-      reply = generalReplies('sameLevelOrAccentReply', senderName, wildcard)
-    } else if (userFromDB.data.content.plan.level === 'advanced' && params.rawUserInput === 'change_lvl_to_adv') {
-      wildcard = { currentLevel: 'advanced' }
-      reply = generalReplies('sameLevelOrAccentReply', senderName, wildcard)
-    } else {
-      switch (params.rawUserInput) {
-      case 'change_lvl_to_beg':
-        await API.updateLevel(message.sender.id, { level: 'beginner' })
-        wildcard = { newLevel: 'beginner' }
-        break
-      case 'change_lvl_to_int':
-        await API.updateLevel(message.sender.id, { level: 'intermediate' })
-        wildcard = { newLevel: 'intermediate' }
-        break
-      case 'change_lvl_to_adv':
-        await API.updateLevel(message.sender.id, { level: 'advanced' })
-        wildcard = { newLevel: 'advanced' }
-        break
-      }
-      reply = generalReplies('newLevelConfirmation', senderName, wildcard)
-    }
-    flowControlUpdate = { open_question: 'false', next_pos: 'TBD', current_flow: 'autoresponder' }
-    break
-
-  case 'newAccentConfirmation':
-    if (params.rawUserInput === 'change_accent_to_uk') {
-      await API.updateAccent(message.sender.id, { accent: 'uk' })
-      await BotCache.saveUserDataCache(message.sender.id, message.userHash, 'introduction', 'rooEnglishAccentQuestion', 'uk', false)
-      wildcard = { newAccent: 'UK' }
-    } else {
-      await API.updateAccent(message.sender.id, { accent: 'us' })
-      await BotCache.saveUserDataCache(message.sender.id, message.userHash, 'introduction', 'rooEnglishAccentQuestion', 'us', false)
-      wildcard = { newAccent: 'US' }
-    }
-    flowControlUpdate = { open_question: 'false', next_pos: 'TBD', prev_pos: 'newAccentConfirmation', current_flow: 'autoresponder' }
-    reply = generalReplies('newAccentConfirmation', senderName, wildcard)
-    break
-
   // -- Function triggered by HELP in USER PROFILE/ACCOUNT
   case 'customUserRequest':
     flowControlUpdate = { open_question: true, next_pos: 'sendCustomUserRequest', current_flow: 'general' }
@@ -425,16 +363,6 @@ const getReply = async (message, params, userFromDB) => {
   case 'DIRECT_TRANSLATE':
     flowControlUpdate = { prev_pos: 'DIRECT_TRANSLATE' }
     reply = translateReplies(params.rawUserInput)
-    break
-
-  case 'confirmRestartOfContent':
-    flowControlUpdate = { open_question: 'false', prev_pos: 'confirmRestartOfContent', next_pos: 'TBD', current_flow: 'autoresponder' }
-    reply = generalReplies('confirmRestartOfContent', senderName)
-    break
-
-  case 'chooseWhatToChange':
-    flowControlUpdate = { open_question: 'false', next_pos: 'chooseWhatToChange', current_flow: 'autoresponder' }
-    reply = generalReplies('chooseWhatToChange', senderName)
     break
 
   case 'confirmDeleteAccRequest':

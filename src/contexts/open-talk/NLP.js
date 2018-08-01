@@ -7,9 +7,6 @@ const getEntity = (exp) => {
   expressions = /^finished$/i
   if (expressions.test(exp)) { return 'finishedReply' }
 
-  expressions = /^(daily story now|daily story|daily video)$/i
-  if (expressions.test(exp)) { return 'dailyStory' }
-
   expressions = /(^autoresponder$|^no_do_not_delete_account$|^no_get_tutor$|^no_create_profile$|^no_change_level$|^no_change_accent$|^no_stop_bot$|^no_restart_bot$|^no_speak_to_native_tutor$)/i
   if (expressions.test(exp)) { return 'fallback' }
 
@@ -139,123 +136,11 @@ const getEntity = (exp) => {
   expressions = /^(A|a)re you in love(\?*)$/i
   if (expressions.test(exp)) { return 'loveReply' }
 
-  // spanish custom
-  expressions = /^¿*(Estoy hablando con un bot|Eres de verdad|Eres una persona|Eres humano|Eres un robot|Eres un bot|Estoy hablando con un bot|Con quién estoy hablando)\?*$/i
-  if (expressions.test(exp)) { return 'esExistenceReply' }
-
-  expressions = /^¿*Con qui(é|e)n estoy hablando\?*$/i
-  if (expressions.test(exp)) { return 'esIdentityReply' }
-
-  expressions = /^¿*C(o|ó)mo te llamas\?*$/i
-  if (expressions.test(exp)) { return 'esIdentityReply' }
-
-  expressions = /^¿*(C|c)(u|ú)al es tu nombre\?*$/i
-  if (expressions.test(exp)) { return 'esIdentityReply' }
-
-  expressions = /^¿*(Q|q)ui(é|e)n eres\?*$/i
-  if (expressions.test(exp)) { return 'esIdentityReply' }
-
-  expressions = /^¿*Qu(é|e) idiomas puedes hablar\?*$/i
-  if (expressions.test(exp)) { return 'esLanguageReply' }
-
-  expressions = /gracias/i
-  if (expressions.test(exp)) { return 'thanksReply' }
-  // french custom
-  expressions = /^(P|p)arle-je avec un bot( \?|\?)*$/i
-  if (expressions.test(exp)) { return undefined }
-
-  expressions = /^(A|a)vec qui je parle( \?|\?)*$/i
-  if (expressions.test(exp)) { return undefined }
-
-  expressions = /(Q|q)uelles sont les langues que tu peux parler( \?|\?)*$/i
-  if (expressions.test(exp)) { return undefined }
-
   expressions = /(M|m)erci/i
   if (expressions.test(exp)) { return 'thanksReply' }
 
   expressions = /^(Cost|Prices|Payment|Is this free|What's the cost|How do i pay|What courses do you have|What programmes do you have|What's the price|How much does this cost|How much is it)$/i
   if (expressions.test(exp)) { return undefined }
-  // portuguese custom
-  expressions = /^(E|e)u estou falando com um bot\?*$/i
-  if (expressions.test(exp)) { return 'ptExistenceReply' }
-
-  expressions = /^Você é um robô\?*$/
-  if (expressions.test(exp)) { return 'ptExistenceReply' }
-
-  expressions = /^(Com quem estou falando|Qual é o seu nome|Quem é Você)\?*$/i
-  if (expressions.test(exp)) { return 'ptIdentityReply' }
-
-  expressions = /^Quantos anos você tem\?*$/i
-  if (expressions.test(exp)) { return 'ptAgeReply' }
-
-  expressions = /^(Onde você mora|Onde está voce|De onde você é)\?*$/i
-  if (expressions.test(exp)) { return 'ptLocationReply' }
-
-  expressions = /^(Como você pode me ajudar|O que você faz|O que você pode fazer|Como você trabalha|Como isso pode funcionar|O que você é)\?*$/i
-  if (expressions.test(exp)) { return 'ptFunctionReply' }
-
-  expressions = /^(Quais idiomas você fala|Quantas línguas você fala|Qual língua você fala|Quais idiomas você fala)\?*$/i
-  if (expressions.test(exp)) { return 'ptLanguageReply' }
-
-  expressions = /^(Como você está|Tudo bem|Como vai|Como tá indo)\?*$/i
-  if (expressions.test(exp)) { return 'ptWhatsupReply' }
-
-  expressions = /(Porra|Merda|Pinto|Idiota|Cachorra|Desgraçado|Puta|Sexo|Punheteiro|Boquete|Xota|Mamas|Peitos|Viado|Gay)/i
-  if (expressions.test(exp)) { return 'ptBadWordsReply' }
-
-  expressions = /Eu não entendo/i
-  if (expressions.test(exp)) { return 'ptHelpReply' }
-
-  expressions = /^(Quem te criou|Quem fez você)\?*$/i
-  if (expressions.test(exp)) { return 'ptMyCreatorReply' }
-
-  expressions = /^(Você ainda está aí|Você está aí|Você está aqui)\?*$/i
-  if (expressions.test(exp)) { return 'ptAreYouThereReply' }
-
-  expressions = /^(Você é um menino ou uma menina|Você é homem ou mulher)\?*$/i
-  if (expressions.test(exp)) { return 'ptGenderReply' }
-
-  expressions = /^(Ensine-me|eu quero aprender|Você pode me ensinar?)$/i
-  if (expressions.test(exp)) { return 'ptTeachMeReply' }
-
-  expressions = /^(Menu|Configurações)$/i
-  if (expressions.test(exp)) { return 'ptMenureply' }
-
-  expressions = /^(O|o)brigad(o|a)$/i
-  if (expressions.test(exp)) { return 'ptThanksReply' }
-
-  expressions = /^(E|e)u te odeio$/i
-  if (expressions.test(exp)) { return 'ptHateReply' }
-
-  expressions = /^(Q|q)uanto custa (isso)*$/i
-  if (expressions.test(exp)) { return 'ptPricingReply' }
-
-  expressions = /^(Custo|Preços|Forma de pagamento)$/i
-  if (expressions.test(exp)) { return 'ptPricingReply' }
-
-  expressions = /^(Q|q)uais (programas|cursos) você tem\?*$/i
-  if (expressions.test(exp)) { return 'ptPricingReply' }
-
-  expressions = /^(Q|q)ual é o preço\?*$/i
-  if (expressions.test(exp)) { return 'ptPricingReply' }
-
-  expressions = /^(C|c)omo eu pago\?*$/i
-  if (expressions.test(exp)) { return 'ptPricingReply' }
-
-  expressions = /^É isso de graça\?*$/i
-  if (expressions.test(exp)) { return 'ptPricingReply' }
-
-  expressions = /^É grátis(\?)* (Q|q)ual é o custo(\?)*$/i
-  if (expressions.test(exp)) { return 'ptPricingReply' }
-
-  expressions = /^(V|v)ocê está apaixonado(\?)*$/i
-  if (expressions.test(exp)) { return 'ptLoveReply' }
-
-  expressions = /^(Oi|Olá)$/i
-  if (expressions.test(exp)) { return 'ptGreetReply' }
-
-  expressions = /^(Tchau|Até mais|Até logo|Adeus)$/i
-  if (expressions.test(exp)) { return 'ptByeReply' }
 
   expressions = /^(en taro adun|for aiur|my life for aiur|for the firstborn|terran(s)? (masterrace|master race)|the khala)!*$/i
   if (expressions.test(exp)) { return 'starcraftReply' }
@@ -266,6 +151,4 @@ const getEntity = (exp) => {
   return undefined
 }
 
-module.exports = {
-  handleExpression: getEntity,
-}
+module.exports = { handleExpression: getEntity }

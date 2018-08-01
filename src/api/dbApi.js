@@ -1,9 +1,7 @@
-const Raven = require('raven')
 const axios = require('axios')
 const redis = require('../persistence').redis
 const crypto = require('crypto')
 const generateHash = (str) => crypto.createHash('md5').update(str).digest('hex')
-Raven.config('https://96d6795013a54f8f852719919378cc59@sentry.io/304046').install()
 require('dotenv').config()
 
 class Api {
@@ -197,7 +195,6 @@ class Api {
       }
     } catch (reason) {
       console.log('❌❌❌ ERROR UPDATING USER FLOW AT REDIS :: ', reason.message)
-      Raven.captureException(reason)
     }
   }
 
@@ -219,25 +216,8 @@ class Api {
     return Api.request('post', 'user/update_user', { senderId, parameters, destination })
   }
 
-  async updateLevel (conversation_id, update = { level: null }) {
-    return Api.request('put', 'user/level', { conversation_id, level: update.level })
-  }
-
-  async updateAccent (conversation_id, update = { accent: null }) {
-    return Api.request('put', 'user/accent', { conversation_id, accent: update.accent })
-  }
-
   async deleteUser (senderId) {
     return Api.request('put', '/user', { senderId })
-  }
-
-  async updateSubscription (conversation_id, update = { product: null, status: null, weeks_paid: null }) {
-    return Api.request('put', 'user/subscription', {
-      conversation_id,
-      product: update.product,
-      status: update.status,
-      weeks_paid: update.weeks_paid,
-    })
   }
 
   async updateContext (senderId, parameters) {
@@ -271,20 +251,3 @@ class Api {
 }
 
 module.exports = new Api()
-
-/**
- * body:
-Body : { message:
-{ data: [Object],
-__v: 0,
-participant: '090d2c07-8149-43a7-94b9-b675593600ab',
-conversation: '7a8b6e71-93ea-4f52-9cd3-309a4722be6c',
-attachment: [Object],
-receivedAt: '2017-11-07T15:57:33.318Z',
-isActive: true,
-_id: '05346e9c-c9f0-4141-bcbc-33b07ccdd6b7' },
-chatId: '473587732847237-1381501021947224',
-senderId: '1381501021947224',
-mentioned: true,
-origin: 'messenger' },
- */

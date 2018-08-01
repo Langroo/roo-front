@@ -14,9 +14,6 @@ require('dotenv').load()
 const Raven = require('raven')
 Raven.config('https://96d6795013a54f8f852719919378cc59:de22fdb4d0574096acdb7271181a8c06@sentry.io/304046').install()
 
-// Load configuration
-require('./config')
-
 Promise.all([Redis])
 .then(async () => {
 

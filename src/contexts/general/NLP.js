@@ -13,17 +13,8 @@ const getEntity = (exp) => {
   expressions = /^broadcast_active_start_later$/i
   if (expressions.test(exp)) { return 'broadcastStartLaterActive' }
 
-  expressions = /^(show pricing|pricing)$/i
-  if (expressions.test(exp)) { return 'showPricing' }
-
-  expressions = /^Restart content for this ID:\s*\[.*]$/i
-  if (expressions.test(exp)) { return 'restartUserContent' }
-
   expressions = /(^continue conversation with roo$|^continue bot$|^cancel_request$)/i
   if (expressions.test(exp)) { return 'continueCurrentFlow' }
-
-  expressions = /(^get how to converse$)/i
-  if (expressions.test(exp)) { return 'howToConverseMenu' }
 
   expressions = /^delete_account_init$/i
   if (expressions.test(exp)) { return 'confirmDeleteAccRequest' }
@@ -35,7 +26,7 @@ const getEntity = (exp) => {
   if (expressions.test(exp)) { return 'accountDeletedMsg' }
 
   expressions = /^yes_stop_bot$/i
-  if (expressions.test(exp)) { return 'BS_FEEDBACK' }
+  if (expressions.test(exp)) { return 'stopBotMessages1' }
 
   expressions = /^full_restart$/i
   if (expressions.test(exp)) { return 'confirmRestartOfContent' }
@@ -50,13 +41,10 @@ const getEntity = (exp) => {
   if (expressions.test(exp)) { return 'BOT_STOP' }
 
   expressions = /(^help$|^dismiss bot and go to human$|^i need help$|^help me$|^Can a human speak to me\?*$)/i
-  if (expressions.test(exp)) { return 'confirmUserReqHelp' }
+  if (expressions.test(exp)) { return 'helpUser_Init' }
 
   expressions = /^yes_user_wants_help$/i
-  if (expressions.test(exp)) { return 'userRequestsHelp' }
-
-  expressions = /^(fortune_quote_now|inspiration)$/i
-  if (expressions.test(exp)) { return 'FORTUNE_QUOTE' }
+  if (expressions.test(exp)) { return 'helpUser1' }
 
   expressions = /^(upgrade subscription|subscribe me|learning plans|upgrade plan|pay|upgrade|payment|how do i pay\?*|i want to pay)$/i
   if (expressions.test(exp)) { return 'startPaymentFlow' }
@@ -72,21 +60,6 @@ const getEntity = (exp) => {
 
   expressions = /(^show_user_account$|^my profile$)/i
   if (expressions.test(exp)) { return 'userProfile' }
-
-  expressions = /^(level_change_req|change level)$/i
-  if (expressions.test(exp)) { return 'chooseNewLevel' }
-
-  expressions = /^(accent_change_req|change accent)$/i
-  if (expressions.test(exp)) { return 'chooseNewAccent' }
-
-  expressions = /^change_level_or_accent$/i
-  if (expressions.test(exp)) { return 'chooseWhatToChange' }
-
-  expressions = /(^change_lvl_to_beg$|^change_lvl_to_int$|^change_lvl_to_adv$)/i
-  if (expressions.test(exp)) { return 'newLevelConfirmation' }
-
-  expressions = /(^change_accent_to_us$|^change_accent_to_uk$)/i
-  if (expressions.test(exp)) { return 'newAccentConfirmation' }
 
   expressions = /^custom_user_req$/i
   if (expressions.test(exp)) { return 'customUserRequest' }

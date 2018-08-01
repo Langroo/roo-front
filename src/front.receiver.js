@@ -9,14 +9,19 @@ const bot = new Bot({
 
 const botReplier = (payload, reply, actions = null) => {
 
+  // -- Define constants for message content and help regex
+  const text = payload.message.text
+  const helpRegex = /#help/ig
+
+  // -- Return and avoid processing user input if hashtag #help is detected
+  if (helpRegex.test(text)) { return 0 }
+
   // -- Retrieve the user profile and then proceed
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) { throw err }
 
     // -- Add the user profile to the payload object
     payload.profile = profile
-
-    const text = payload.message.text
 
     // -- Define the env variable to pass data to Chatbase
     process.env.SENDER_ID = payload.sender.id
