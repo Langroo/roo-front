@@ -10,7 +10,9 @@ const bot = new Bot({
 const botReplier = (payload, reply, actions = null) => {
 
   // -- Define constants for message content and help regex
-  const text = payload.message.text
+  let text
+  if (payload.message) { text = payload.message.text }
+  if (payload.postback) { text = payload.postback.payload }
   const helpRegex = /#help/ig
 
   // -- Return and avoid processing user input if hashtag #help is detected
