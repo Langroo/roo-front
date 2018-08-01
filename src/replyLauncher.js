@@ -67,6 +67,10 @@ const replier = async(messageToSend, dialog, userFromDB, senderId) => {
     if (dialog[messageToSend].type === 'quickReplies' || dialog[messageToSend].type === 'buttons') {
       ms = 4500
     }
+    if (dialog[messageToSend].type === 'delay') {
+      await awaitingTime(dialog[messageToSend].content)
+      dialog.splice(messageToSend, 1)
+    }
     if (dialog[messageToSend].type === 'audio') {
       let userLang
       if (userFromDB.data) {

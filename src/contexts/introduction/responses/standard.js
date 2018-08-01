@@ -38,22 +38,31 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'text', content: '👍👍' },
       { type: 'text', content: 'Well, who is the Langroo team?' },
       { type: 'text', content: 'Here is a welcome video for you! 📹' },
-      { type: 'video', content: 'Here is a welcome video for you! 📹' },
+      { type: 'video', content: 'https://s3.amazonaws.com/langroo/videos/video_of_the_day1.mp4' },
       { type: 'delay', content: 10 },
+      { type: 'text', content: 'We send members of the Langroo community a daily quiz ⁉️' },
+      { type: 'text', content: 'And every day a winner gets a free 15 minute video class with a tutor! 🏆🙋' },
+      { type: 'text', content: 'Ready to start?' },
+    ],
+    introDialog4: [
       { type: 'quickReplies',
         content: {
-          title: 'Press a button below 👇',
+          title: 'Well then, what’s the one biggest thing we can help you with? ☺️',
           buttons: [
-            { title: `${choice}`, value: 'start_other_language' },
-            { title: 'Start English', value: 'start_english_language' },
+            { title: 'Work 💻', value: 'motivation is work' },
+            { title: 'Social Life 😃', value: 'motivation is social life' },
+            { title: 'University 🏫', value: 'motivation is university' },
+            { title: 'School 🎒', value: 'motivation is school' },
+            { title: 'Exams 📝', value: 'motivation is english exams' },
+            { title: 'Interviews 💵', value: 'motivation is job interviews' },
+            { title: 'Travel ✈', value: 'motivation is travel' },
+            { title: 'Other ✏', value: 'motivation is other and will be asked' },
           ],
         },
       },
     ],
-    askWhoIsRoo: [
-      { type: 'text', content: 'Well, I am going to...' },
-      { type: 'image', content: 'https://media1.tenor.com/images/04b5971f0b024a6f59ab3972a254f491/tenor.gif?itemid=7547057 ' },
-      { type: 'text', content: 'Do you know who I am?' },
+    introDialog4Branch1: [
+      { type: 'text', content: 'Nice, tell me more please 😄' },
     ],
     rooIntroduction: [
       { type: 'text', content: 'My name’s Bond, James Bond. 🎩' },
@@ -108,25 +117,6 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
     ],
     rooSpecifyLocation: [
       { type: 'text', content: 'Ow can you enter the name please? :P' },
-    ],
-    rooBigMotivQuestion: [
-      { type: 'quickReplies',
-        content: {
-          title: 'Great. 👍Why do you want to improve your English? 😛',
-          buttons: [
-            { title: 'Work 💻', value: 'motivation is work' },
-            { title: 'School 🎒', value: 'motivation is school' },
-            { title: 'University 🏫', value: 'motivation is university' },
-            { title: 'Fun/Challenge 😃', value: 'motivation is fun or challenge' },
-            { title: 'English Exams 📝', value: 'motivation is english exams' },
-            { title: 'Job Interviews 💵', value: 'motivation is job interviews' },
-            { title: 'Other', value: 'motivation is other and will be asked' },
-          ],
-        },
-      },
-    ],
-    rooOtherMotivation: [
-      { type: 'text', content: 'Ow, what is it? 😄' },
     ],
     rooEnglishLevelQuestion: [
       { type: 'audio', content: 'What’s your English level right now?' },
