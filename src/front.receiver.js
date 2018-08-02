@@ -11,7 +11,9 @@ const botReplier = (payload, reply, actions = null) => {
 
   // -- Define constants for message content and help regex
   let text
+  console.log('THIS IS THE PAYLOAD :: ', payload)
   if (payload.message) { text = payload.message.text }
+  if (payload.message.quick_reply) { text = payload.message.quick_reply.payload }
   if (payload.postback) { text = payload.postback.payload }
   const helpRegex = /#help/ig
 
@@ -41,7 +43,7 @@ const botReplier = (payload, reply, actions = null) => {
 
     // -- Register the date and hour of this message in the logs
     const userInputDate = new Date()
-    console.log('\n############# USER INPUT DATE \n[%s]############', userInputDate)
+    console.log('\n############## USER INPUT DATE #############\n[%s]', userInputDate)
 
     // -- Handle User Input and Return Replies
     replyLauncher.flowLauncher(payload, conversation)
