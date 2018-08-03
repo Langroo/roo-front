@@ -119,6 +119,17 @@ const replyChooser = (replyName, senderName) => {
     generalShareDialog: [
       { type: 'text', content: `Super! 👏Share me with your friends ${senderName}!` },
       { type: 'text', content: 'Just tap below 👇' },
+      { type: 'card',
+        content: {
+          title: 'Langroo, The English Language Chatbot',
+          subtitle: 'Learn with Roo and improve your english!',
+          image_url: 'https://s3.amazonaws.com/langroo/images/roo_logo_plane.png',
+          buttons: [
+            { title: 'Share', type: 'element_share', value: 'no_do_not_delete_account' },
+            { title: 'Yes, Delete It', type: 'postback', value: 'yes_confirm_account_deletion' },
+          ],
+        },
+      },
     ],
   }
 
