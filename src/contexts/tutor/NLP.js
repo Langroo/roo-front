@@ -19,29 +19,29 @@ const getEntity = (exp) => {
   expressions = /^(TALK_TO_TUTOR|initiatePreTutorFlow|Upgrade to Tutor|request personal tutor)$/i
   if (expressions.test(exp)) { return 'initiatePreTutorFlow' }
 
-  expressions = /^(EXPLORE_TUTORS| explore tutors| Explore Tutors)$/i
+  expressions = /^(EXPLORE_TUTORS)$/i
   if (expressions.test(exp)) { return 'exploreTutorFlow' }
 
-  expressions = /^(pre_tutor_answer_connection_really_bad|pre_tutor_answer_connection_bad)$/i
-  if (expressions.test(exp)) { return 'PTconnectionBad' }
+  expressions = /^(tutor_answer_connection_really_bad|tutor_answer_connection_bad)$/i
+  if (expressions.test(exp)) { return 'badConnection' }
 
-  expressions = /^(pre_tutor_answer_connection_ok|pre_tutor_answer_connection_good|pre_tutor_answer_connection_great)$/i
-  if (expressions.test(exp)) { return 'PTconnectionOk' }
+  expressions = /^(tutor_answer_connection_ok|tutor_answer_connection_good|tutor_answer_connection_great)$/i
+  if (expressions.test(exp)) { return 'connectionOk' }
 
-  expressions = /^(pre_tutor_answer_prices_user_cannot_pay)$/i
-  if (expressions.test(exp)) { return 'PTuserCannotPay' }
+  expressions = /^(tutor_answer_prices_user_cannot_pay)$/i
+  if (expressions.test(exp)) { return 'userCannotPay' }
 
-  expressions = /^(pre_tutor_answer_user_can_pay)$/i
-  if (expressions.test(exp)) { return 'PTuserCanPay' }
+  expressions = /^(tutor_answer_user_can_pay)$/i
+  if (expressions.test(exp)) { return 'userCanPay' }
 
-  expressions = /^(pre_tutor_answer_male_tutor)$/i
-  if (expressions.test(exp)) { return 'PTmaleTutor' }
+  expressions = /^(tutor_answer_male_tutor)$/i
+  if (expressions.test(exp)) { return 'maleTutor' }
 
-  expressions = /^(pre_tutor_answer_female_tutor)$/i
-  if (expressions.test(exp)) { return 'PTfemaleTutor' }
+  expressions = /^(tutor_answer_female_tutor)$/i
+  if (expressions.test(exp)) { return 'femaleTutor' }
 
-  expressions = /^(pre_tutor_answer_either_tutor)$/i
-  if (expressions.test(exp)) { return 'PTfeitherTutor' }
+  expressions = /^(tutor_answer_either_tutor)$/i
+  if (expressions.test(exp)) { return 'feitherTutor' }
 
   expressions = /^(pre_tutor_answer_next_week|pre_tutor_answer_next_month)$/i
   if (expressions.test(exp)) { return 'PTnextWeekOrMonth' }

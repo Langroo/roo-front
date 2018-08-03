@@ -131,39 +131,39 @@ const getReply = async (message, params, userFromDB) => {
       }
       break
 
-    case 'PTconnectionBad':
-      flowControlUpdate = { current_pos: 'PTConnectionBad', open_question: 'false', next_pos: 'PTConnectionBad', prev_flow: 'tutor' }
-      reply = standardReplies('PTbadConnection', senderName)
+    case 'badConnection':
+      flowControlUpdate = { current_pos: 'badConnection', open_question: 'false', next_pos: 'badConnection', prev_flow: 'tutor' }
+      reply = standardReplies('badConnection', senderName)
       break
 
-    case 'PTconnectionOk':
-      flowControlUpdate = { current_pos: 'PTConnectionOk', open_question: 'false', next_pos: 'PTConnectionOk', prev_flow: 'tutor' }
-      reply = standardReplies('PTgoodConnection', senderName)
+    case 'goodConnection':
+      flowControlUpdate = { current_pos: 'goodConnection', open_question: 'false', next_pos: 'goodConnection', prev_flow: 'tutor' }
+      reply = standardReplies('goodConnection', senderName)
       break
 
-    case 'PTmaleTutor':
-      flowControlUpdate = { current_pos: 'PTmaleTutor', open_question: 'false', next_pos: 'PTmaleTutor', prev_flow: 'tutor' }
-      reply = standardReplies('PTmaleTutor', senderName)
+    case 'maleTutor':
+      flowControlUpdate = { current_pos: 'maleTutor', open_question: 'false', next_pos: 'maleTutor', prev_flow: 'tutor' }
+      reply = standardReplies('maleTutor', senderName)
       break
 
-    case 'PTfemaleTutor':
-      flowControlUpdate = { current_pos: 'PTfemaleTutor', open_question: 'false', next_pos: 'PTfemaleTutor', prev_flow: 'tutor' }
-      reply = standardReplies('PTfemaleTutor', senderName)
+    case 'femaleTutor':
+      flowControlUpdate = { current_pos: 'femaleTutor', open_question: 'false', next_pos: 'femaleTutor', prev_flow: 'tutor' }
+      reply = standardReplies('femaleTutor', senderName)
       break
 
-    case 'PTeitherTutor':
-      flowControlUpdate = { current_pos: 'PTeitherTutor', open_question: 'false', next_pos: 'PTeitherTutor', prev_flow: 'tutor' }
-      reply = standardReplies('PTeitherTutor', senderName)
+    case 'eitherTutor':
+      flowControlUpdate = { current_pos: 'eitherTutor', open_question: 'false', next_pos: 'eitherTutor', prev_flow: 'tutor' }
+      reply = standardReplies('eitherTutor', senderName)
       break
 
-    case 'PTuserCannotPay':
-      flowControlUpdate = { current_pos: 'PTuserCannotPay', open_question: 'false', next_pos: 'PTuserCannotPay', prev_flow: 'tutor' }
-      reply = standardReplies('PTuserCannotPay', senderName)
+    case 'userCannotPay':
+      flowControlUpdate = { current_pos: 'userCannotPay', open_question: 'false', next_pos: 'userCannotPay', prev_flow: 'tutor' }
+      reply = standardReplies('userCannotPay', senderName)
       break
 
-    case 'PTuserCanPay':
-      flowControlUpdate = { current_pos: 'PTuserCanPay', open_question: 'false', next_pos: 'PTuserCanPay', prev_flow: 'tutor' }
-      reply = standardReplies('PTuserCanPay', senderName)
+    case 'userCanPay':
+      flowControlUpdate = { current_pos: 'userCanPay', open_question: 'false', next_pos: 'userCanPay', prev_flow: 'tutor' }
+      reply = standardReplies('userCanPay', senderName)
       break
 
     case 'tb0':

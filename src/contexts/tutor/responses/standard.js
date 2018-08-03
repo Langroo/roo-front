@@ -17,10 +17,10 @@ const replyChooser = (replyName, senderName) => {
         },
       },
     ],
-    PTbadConnection: [
+    badConnection: [
       { type: 'text', content: `Ah.. ok, sorry to hear ${senderName} 😪 From our experience, it won’t work unless your internet is strong! If your situation changes try again! 💪` },
     ],
-    PTgoodConnection: [
+    goodConnection: [
       { type: 'text', content: 'Good!' },
       { type: 'text', content: `(2/2) Quality comes at a price ${senderName} We have a 95%+ success rate on our tutor classes! 🏆` },
       { type: 'image', content: 'https://i.imgur.com/kyJADuZ.png' },
@@ -35,10 +35,10 @@ const replyChooser = (replyName, senderName) => {
         },
       },
     ],
-    PTuserCannotPay: [
+    userCannotPay: [
       { type: 'text', content: `I understand ${senderName}, we will try to continue giving you as much value as possible! 🎁` },
     ],
-    PTuserCanPay: [
+    userCanPay: [
       { type: 'text', content: 'Super!' },
       {
         type: 'quickReplies',
@@ -52,22 +52,65 @@ const replyChooser = (replyName, senderName) => {
         },
       },
     ],
-    PTeitherTutor: [
+    eitherTutor: [
       { type: 'text', content: 'Ok! 💥' },
       { type: 'text', content: 'You can choose to have a FREE introduction call with the tutor you like the most! Select an option below' },
-      carousel.either,
+      {
+        type: 'carousel',
+        content: [
+          {
+            title: '"I\'m from Los Angeles"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/women-s-white-and-black-button-up-collared-shirt.jpeg',
+          },
+          {
+            title: '"I\'m from London"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo-of-a-man-listening-music-on-his-phone.jpeg',
+          },
+          {
+            title: '"I\'m from Michigan"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/man-young-happy-smiling.jpeg',
+          },
+          {
+            title: '"I\'m from Oxford"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/closeup-photo-of-woman-with-brown-coat-and-gray-top.jpeg',
+          },
+        ],
+      },
     ],
-    PTmaleTutor: [
+    maleTutor: [
       { type: 'text', content: 'Ok! 💥' },
       { type: 'text', content: 'You can choose to have a FREE introduction call with the tutor you like the most! Select an option below' },
-      carousel.male,
+      {
+        type: 'carousel',
+        content: [
+          {
+            title: '"I\'m from London"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo-of-a-man-listening-music-on-his-phone.jpeg',
+          },
+          {
+            title: '"I\'m from Michigan"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/man-young-happy-smiling.jpeg',
+          },
+        ],
+      },
     ],
-    PTfemaleTutor: [
+    femaleTutor: [
       { type: 'text', content: 'Ok! 💥' },
       { type: 'text', content: 'You can choose to have a FREE introduction call with the tutor you like the most! Select an option below' },
-      carousel.female,
+      {
+        type: 'carousel',
+        content: [
+          {
+            title: '"I\'m from Los Angeles"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/women-s-white-and-black-button-up-collared-shirt.jpeg',
+          },
+          {
+            title: '"I\'m from Oxford"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/closeup-photo-of-woman-with-brown-coat-and-gray-top.jpeg',
+          },
+        ],
+      },
     ],
-
   }
 
   return replies[replyName]
