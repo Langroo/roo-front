@@ -14,11 +14,11 @@ const adminDialogs = (input, senderId) => {
   const delayDeactivationRegex = /deactivate message delay/i
   const flowResetRegex = /roo masters 101/i
 
-  // -- Sets the user in the OpenTalk context and allows access to all contexts
+  // -- Sets the user in the opentalk context and allows access to all contexts
   if (flowResetRegex.test(input)) {
     API.updateFlow(senderId, flowPositions('adminFlowReset'))
       .then(() => API.createInitialUserProfile(senderId)
-        .then(() => FacebookAPI.SendMessages('text', '✔ CONTEXT ADMIN RESET SUCCESSFUL 👍. \nYou are now in the OpenTalk Context. 👀')
+        .then(() => FacebookAPI.SendMessages('text', '✔ CONTEXT ADMIN RESET SUCCESSFUL 👍. \nYou are now in the opentalk Context. 👀')
           .then(() => { return true })))
   }
 
@@ -130,7 +130,7 @@ const getUserName = payload => {
 // -- Contexts that prevent interaction with other contexts until finished
 const lockedContext = (params, isPostback) => {
 
-  if (params.awaitingAnswer && !isPostback && params.currentFlow !== 'OpenTalk' && params.prevFlow !== 'rating') {
+  if (params.awaitingAnswer && !isPostback && params.currentFlow !== 'opentalk' && params.prevFlow !== 'rating') {
     params = Object.assign({}, params, { currentFlow: 'content', currentEntity: 'sendContent' })
     console.info('\n-> USER IS ANSWERING A QUESTION FROM THE CONTENT, SENDING TO :: ', params.currentFlow)
     return params
@@ -283,8 +283,8 @@ const flowLauncher = (payload, conversation) => {
     console.info('#######################################################################\n')
 
     // -- CONDITIONAL'S GROUP: CONTROLLER OF MAIN ENTITIES AND CONVERSATIONAL FLOWS
-    if (params.currentFlow === 'OpenTalk') {
-      reply = context.OpenTalk(payload, params, userFromDB)
+    if (params.currentFlow === 'opentalk') {
+      reply = context.opentalk(payload, params, userFromDB)
 
     } else if (params.currentFlow === 'general') {
 
@@ -325,7 +325,7 @@ const flowLauncher = (payload, conversation) => {
     } else {
 
       console.log('----------------------------\nEntering open-talk flow\n----------------------------')
-      reply = context.OpenTalk(payload, params, userFromDB)
+      reply = context.opentalk(payload, params, userFromDB)
 
     }
 

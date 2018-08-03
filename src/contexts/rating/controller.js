@@ -41,7 +41,7 @@ const getReply = async (message, params, userFromDB) => {
     await API.sendRating(message.sender.id)
       .then(() => {
         console.log('Rating stored successfully')
-        flowUpdate = { current_pos: 'fallback', open_question: true, prev_pos: 'fallback', next_pos: 'fallback', prev_flow: 'OpenTalk', current_flow: 'OpenTalk', repeated_this_pos: '0' }
+        flowUpdate = { current_pos: 'fallback', open_question: true, prev_pos: 'fallback', next_pos: 'fallback', prev_flow: 'opentalk', current_flow: 'opentalk', repeated_this_pos: '0' }
         reply = []
       })
       .catch(err => {

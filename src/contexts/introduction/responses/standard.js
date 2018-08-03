@@ -39,7 +39,7 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'text', content: 'Well, who is the Langroo team?' },
       { type: 'text', content: 'Here is a welcome video for you! 📹' },
       { type: 'video', content: 'https://s3.amazonaws.com/langroo/videos/video_of_the_day1.mp4' },
-      { type: 'delay', content: 20 },
+      { type: 'delay', content: 30 },
       { type: 'text', content: 'We send members of the Langroo community a daily quiz ⁉️' },
       { type: 'text', content: 'And every day a winner gets a free 15 minute video class with a tutor! 🏆🙋' },
       { type: 'text', content: 'Ready to start?' },
@@ -101,16 +101,19 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'text', content: 'Then… the day’s results will be at 14:00 GMT +0 📊' },
     ],
     jumpToTutorFlow: [
-      { type: 'text', content: 'Great! 👏' },
+      { type: 'text', content: 'Now, since you requested it...' },
       { type: 'quickReplies',
         content: {
-          title: 'So, are you ready to give me some more details for your tutor request? 👩',
+          title: 'Are you ready to give me some more details for your tutor request? 👩',
           buttons: [
             { title: 'Sure', value: 'jump_from_intro_to_tutor' },
             { title: 'No', value: 'keep_going_with_intro_flow' },
           ],
         },
       },
+    ],
+    introPostFinal: [
+      { type: 'text', content: `Very well ${senderName}, see you soon for the Daily Quiz!`}
     ],
   }
   return replies[replyName]

@@ -5,7 +5,6 @@ const getReply = async (message, params, userFromDB) => {
   const axios = require('axios')
   const standardReplies = require('./responses').standardReplies
   const failsafeReplies = require('./responses').failsafeReplies
-  const preTutorReplies = require('./responses').preTutorReplies
   const OneForAll = require('../../bot-tools').OneForAll
   const BotCache = require('../../bot-tools').BotCache
   const flows = require('../index')
@@ -81,10 +80,10 @@ const getReply = async (message, params, userFromDB) => {
     params.currentEntity = params.currentPos
   } else if (params.currentEntity === undefined && !params.OpQ) {
     if (params.currentPos === 'initiateTutorFlow') {
-      params.prevFlow = 'OpenTalk'
-      params.currentFlow = 'OpenTalk'
+      params.prevFlow = 'opentalk'
+      params.currentFlow = 'opentalk'
       params.currentEntity = 'fallback'
-      return await flows.OpenTalk(message, params, userFromDB)
+      return await flows.opentalk(message, params, userFromDB)
     }
     params.currentEntity = params.currentPos
     let tempReply = standardReplies(params.currentEntity, senderName)
@@ -174,6 +173,7 @@ const getReply = async (message, params, userFromDB) => {
       controllerSmash.sendNotificationToSlack(process.env.BOT_NOTIFICATIONS_SLACK_URL, `{"text":"User ${userFullName} is *Requesting a native tutor*"}`, 'Tutor Request Flow Initiated')
       reminderToContinueOn = true
       break
+
     case 'tutorAskCountryOfUser':
       reply = standardReplies('tutorAskCountryOfUser', senderName)
       flowControlUpdate = { current_pos: 'tutorAskCountryOfUser', prev_pos: 'tutorAskCountryOfUser', open_question: true, next_pos: 'describeYourself', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }
@@ -181,6 +181,7 @@ const getReply = async (message, params, userFromDB) => {
       futureRepliesToSend = standardReplies('askUserToContinue', senderName)
       reminderToContinueOn = true
       break
+
     case 'describeYourself':
       reply = standardReplies('describeYourself', senderName)
       flowControlUpdate = { current_pos: 'describeYourself', prev_pos: 'describeYourself', open_question: true, next_pos: 'describeYourInterests' }
@@ -189,6 +190,7 @@ const getReply = async (message, params, userFromDB) => {
       await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
       reminderToContinueOn = true
       break
+
     case 'describeYourInterests':
       reply = standardReplies('describeYourInterests', senderName)
       flowControlUpdate = { current_pos: 'describeYourInterests', prev_pos: 'describeYourInterests', open_question: true, next_pos: 'whenToCallTutor', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }
@@ -197,6 +199,7 @@ const getReply = async (message, params, userFromDB) => {
       await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
       reminderToContinueOn = true
       break
+
     case 'whenToCallTutor':
       reply = standardReplies('whenToCallTutor', senderName)
       flowControlUpdate = { current_pos: 'whenToCallTutor', prev_pos: 'whenToCallTutor', open_question: 'false', next_pos: 'confirmWhenToCallTutor', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }
@@ -205,6 +208,7 @@ const getReply = async (message, params, userFromDB) => {
       await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
       reminderToContinueOn = true
       break
+
     case 'confirmWhenToCallTutor':
       reply = standardReplies('confirmWhenToCallTutor', senderName)
       flowControlUpdate = { current_pos: 'confirmWhenToCallTutor', prev_pos: 'confirmWhenToCallTutor', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }
@@ -219,6 +223,7 @@ const getReply = async (message, params, userFromDB) => {
       futureMsgFlowUpdate = flowControlUpdate
       futureRepliesToSend = standardReplies('askUserToContinue', senderName)
       break
+
     case 'daysGroupForCalls':
       reply = standardReplies('daysGroupForCalls', senderName)
       flowControlUpdate = { current_pos: 'daysGroupForCalls', prev_pos: 'daysGroupForCalls', open_question: 'false', next_pos: 'knowThePrice', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }
@@ -238,6 +243,7 @@ const getReply = async (message, params, userFromDB) => {
       }
       reminderToContinueOn = true
       break
+      
     case 'internetSpeedDescription':
       reply = standardReplies('internetSpeedDescription', senderName)
       flowControlUpdate = { current_pos: 'internetSpeedDescription', prev_pos: 'internetSpeedDescription', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }
@@ -259,7 +265,7 @@ const getReply = async (message, params, userFromDB) => {
     case 'userCanPayForTutor':
       await API.createTutorRequest(message.userHash)
       reply = standardReplies('userCanPayForTutor', senderName)
-      flowControlUpdate = { current_pos: 'userCanPayForTutor', open_question: true, next_pos: 'fallback', prev_flow: 'OpenTalk', current_flow: 'OpenTalk', repeated_this_pos: '0', tutor_flow_status: 'finished' }
+      flowControlUpdate = { current_pos: 'userCanPayForTutor', open_question: true, next_pos: 'fallback', prev_flow: 'opentalk', current_flow: 'opentalk', repeated_this_pos: '0', tutor_flow_status: 'finished' }
       try {
         axios.request({
           headers: { 'Content-Type': 'application/json' },
@@ -277,7 +283,7 @@ const getReply = async (message, params, userFromDB) => {
     case 'userHasNoMoney':
       await API.createTutorRequest(message.userHash)
       reply = standardReplies('userHasNoMoney', senderName)
-      flowControlUpdate = { current_pos: 'userHasNoMoney', open_question: true, next_pos: 'tutorFlowFinished', prev_flow: 'OpenTalk', current_flow: 'OpenTalk', tutor_flow_status: 'finished' }
+      flowControlUpdate = { current_pos: 'userHasNoMoney', open_question: true, next_pos: 'tutorFlowFinished', prev_flow: 'opentalk', current_flow: 'opentalk', tutor_flow_status: 'finished' }
       await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.currentEntity, params.rawUserInput)
       break
 
@@ -302,7 +308,7 @@ const getReply = async (message, params, userFromDB) => {
         futureRepliesToSend = futureRepliesToSend.concat(trueReply)
         reminderToContinueOn = true
       } else {
-        flowControlUpdate = { current_pos: 'fallback', open_question: true, next_pos: 'fallback', current_flow: 'OpenTalk', prev_flow: 'OpenTalk' }
+        flowControlUpdate = { current_pos: 'fallback', open_question: true, next_pos: 'fallback', current_flow: 'opentalk', prev_flow: 'opentalk' }
         reminderToContinueOn = false
       }
       break
@@ -319,7 +325,7 @@ const getReply = async (message, params, userFromDB) => {
     console.log('We got an undefined reply at tutor flow so I will send the user to the Open Conversation ʘ‿ʘ')
     params.currentEntity = 'fallback'
     params.prevFlow = 'fallback'
-    reply = await flows.OpenTalk(message, params, userFromDB)
+    reply = await flows.opentalk(message, params, userFromDB)
   }
 
   // -- Controller of the position of the user in the conversation

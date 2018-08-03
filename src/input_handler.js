@@ -4,7 +4,7 @@ const getEntityAndFlow = (exp) => {
   const flows = require('./contexts')
 
   // -- Define previous entities
-  let entityAndFlow = { entity: undefined, flow: 'OpenTalk' }
+  let entityAndFlow = { entity: undefined, flow: 'opentalk' }
   let handler
 
   handler = flows.general_NLP(exp)
@@ -23,9 +23,9 @@ const getEntityAndFlow = (exp) => {
   if (handler) {
     return entityAndFlow = { entity: handler, flow: 'tutor' }
   }
-  handler = flows.OpenTalkNLP(exp)
+  handler = flows.opentalkNLP(exp)
   if (handler) {
-    return entityAndFlow = { entity: handler, flow: 'OpenTalk' }
+    return entityAndFlow = { entity: handler, flow: 'opentalk' }
   }
   handler = flows.contentNLP(exp)
   if (handler) {

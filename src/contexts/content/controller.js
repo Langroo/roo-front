@@ -47,20 +47,20 @@ const getReply = async (message, params, userFromDB) => {
   switch (params.currentEntity) {
 
   case 'afterGeneralFunctionReply':
-    flowControlUpdate = { current_pos: 'afterGeneralFunctionReply', prev_pos: 'sendContent', next_pos: 'fallback', current_flow: 'OpenTalk', prev_flow: 'OpenTalk' }
+    flowControlUpdate = { current_pos: 'afterGeneralFunctionReply', prev_pos: 'sendContent', next_pos: 'fallback', current_flow: 'opentalk', prev_flow: 'opentalk' }
     reply = standardReplies('afterGeneralFunctionReply', senderName)
     break
 
   case 'sendContent':
     futureMsg.doSend = true
-    flowControlUpdate = { current_pos: 'sendContent', prev_pos: 'sendContent', open_question: true, next_pos: 'sendContent', current_flow: 'content', prev_flow: 'content' }
+    flowControlUpdate = { current_pos: 'sendContent', prev_pos: 'sendContent', open_question: true, next_pos: 'sendContent', current_flow: 'content', prev_flow: 'opentalk' }
     info = await API.sendLesson(message.sender.id)
     if (info.statusCode >= 200 && info.statusCode < 222) {
       console.info('[✔️] API informed: Content sent correctly.')
       reply = []
     } else if (info.statusCode === 222) {
       console.error('[✔️] API informed: Lessons for %s are over for today', senderName)
-      flowControlUpdate = { current_pos: 'fallback', prev_pos: 'fallback', next_pos: 'fallback', current_flow: 'OpenTalk', prev_flow: 'OpenTalk' }
+      flowControlUpdate = { current_pos: 'fallback', prev_pos: 'fallback', next_pos: 'fallback', current_flow: 'opentalk', prev_flow: 'opentalk' }
       reply = standardReplies('FinalContentMsg', senderName)
     } else if (info.statusCode >= 400) {
       console.error('[X] ERROR SENDING CONTENT, this happened ::', info.data)
@@ -68,7 +68,7 @@ const getReply = async (message, params, userFromDB) => {
     break
 
   case 'FinalContentMsg':
-    flowControlUpdate = { current_pos: 'FinalContentMsg', prev_pos: 'sendContent', next_pos: 'fallback', current_flow: 'OpenTalk', prev_flow: 'OpenTalk' }
+    flowControlUpdate = { current_pos: 'FinalContentMsg', prev_pos: 'sendContent', next_pos: 'fallback', current_flow: 'opentalk', prev_flow: 'opentalk' }
     reply = standardReplies('FinalContentMsg', senderName)
     break
 
@@ -79,10 +79,10 @@ const getReply = async (message, params, userFromDB) => {
       flowControlUpdate = { current_pos: 'retakeLesson', open_question: 'false', prev_pos: 'retakeLesson', next_pos: 'TBD', prev_flow: 'content', repeated_this_pos: incRepCount }
       reply = standardReplies('retakeLesson', senderName)
     } else {
-      flowControlUpdate = { current_pos: 'fallback', open_question: true, prev_pos: 'fallback', next_pos: 'fallback', prev_flow: 'OpenTalk', current_flow: 'OpenTalk', repeated_this_pos: '0' }
-      params.prevFlow = 'OpenTalk'
+      flowControlUpdate = { current_pos: 'fallback', open_question: true, prev_pos: 'fallback', next_pos: 'fallback', prev_flow: 'opentalk', current_flow: 'opentalk', repeated_this_pos: '0' }
+      params.prevFlow = 'opentalk'
       params.currentEntity = 'fallback'
-      reply = await flows.OpenTalk(message, params, userFromDB)
+      reply = await flows.opentalk(message, params, userFromDB)
     }
     break
   default:
@@ -90,7 +90,7 @@ const getReply = async (message, params, userFromDB) => {
   }
 
   if (!reply) {
-    flowControlUpdate = { current_pos: 'fallback', open_question: true, prev_pos: 'fallback', next_pos: 'fallback', prev_flow: 'OpenTalk', current_flow: 'OpenTalk', repeated_this_pos: '0' }
+    flowControlUpdate = { current_pos: 'fallback', open_question: true, prev_pos: 'fallback', next_pos: 'fallback', prev_flow: 'opentalk', current_flow: 'opentalk', repeated_this_pos: '0' }
     reply = standardReplies('contentFailMsg', senderName)
   }
 
