@@ -134,28 +134,6 @@ const replyChooser = (replyName, senderName, aux = { accent: 'US', motivation: '
         },
       },
     ],
-    PTnextWeekOrMonth: [
-      { type: 'text', content: `No problem ${senderName}, I will ask you again ${aux.remindTime}! ;) 👌` },
-    ],
-    PTneverRemindUser: [
-      { type: 'text', content: 'No problem! :) You can continue learning with me for free!' },
-    ],
-    PTtellUserNow: [
-      { type: 'text', content: `Of course ${senderName}! These are the benefits 🎁 that students like you are getting by having calls with a personal tutor:` },
-      { type: 'text', content: `✅ Weekly English practice\n✅ Get corrected quickly\n✅ Interesting conversations on ${aux.accent} culture\n✅ Information on slang in the ${aux.accent}\n✅ Extra help related to ${aux.motivation}` },
-      {
-        type: 'quickReplies',
-        content: {
-          title: 'Do you want a 15 minute free trial?',
-          buttons: [
-            { title: 'Yes please 👍', value: 'tf_yes_init' },
-            { title: 'Ask Next Week 👉', value: 'pre_tutor_answer_next_week' },
-            { title: 'Ask Next Month 👉', value: 'pre_tutor_answer_next_month' },
-            { title: 'No,thanks 👎', value: 'pre_tutor_answer_never' },
-          ],
-        },
-      },
-    ],
   }
 
   return replies[replyName]

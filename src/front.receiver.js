@@ -11,9 +11,14 @@ const botReplier = (payload, reply, actions = null) => {
 
   // -- Define constants for message content and help regex
   let text
-  console.log('THIS IS THE PAYLOAD :: ', payload)
-  if (payload.message) { text = payload.message.text }
-  if (payload.message.quick_reply) { text = payload.message.quick_reply.payload }
+  if (payload.message) {
+    if (payload.message.quick_reply) {
+      text = payload.message.quick_reply.payload
+    } else {
+      text = payload.message.text
+    }
+  }
+
   if (payload.postback) { text = payload.postback.payload }
   const helpRegex = /#help/ig
 

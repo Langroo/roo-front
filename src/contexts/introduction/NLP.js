@@ -16,6 +16,9 @@ const getEntity = (exp) => {
   expressions = /(^pd_beginner_level$|^pd_intermediate_level$|^pd_advanced_level$)/i
   if (expressions.test(exp)) { return 'introDialog6' }
 
+  expressions = /^keep_going_with_intro_flow$/i
+  if (expressions.test(exp)) { return 'introPostFinal' }
+
   expressions = /^keep_going_with_intro_flow$/
   if (expressions.test(exp)) { return 'introAltFinal' }
 

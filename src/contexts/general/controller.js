@@ -274,7 +274,7 @@ const getReply = async (message, params, userFromDB) => {
       reply = await flows.tutor(message, params, userFromDB)
     } else {
       params.currentEntity = 'fallback'
-      reply = await flows.OpenTalk(message, params, userFromDB)
+      reply = await flows.opentalk(message, params, userFromDB)
     }
     break
 
@@ -400,7 +400,7 @@ const getReply = async (message, params, userFromDB) => {
   if (!reply) {
     console.log('Returning reply as undefined at the general conversation')
     params.currentEntity = 'fallback'
-    reply = flows.OpenTalk(message, params, userFromDB)
+    reply = flows.opentalk(message, params, userFromDB)
   }
   if (flowControlUpdate) {
     try {

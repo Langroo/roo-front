@@ -61,7 +61,7 @@ const getReply = async (message, params, userFromDB) => {
 
   if (params.surveyDone === 'survey completed' || params.surveyDone === 'yes') {
     params.currentEntity = 'willDoSurvey'
-    return await flows.OpenTalk(message, params, userFromDB)
+    return await flows.opentalk(message, params, userFromDB)
   }
 
   /* ******************************************************************************************************************************************************
@@ -73,7 +73,7 @@ const getReply = async (message, params, userFromDB) => {
   case 'confirmTiredOfSurvey':
     reply = standardReplies('confirmTiredOfSurvey', senderName)
     reminderToContinueOn = false
-    FlowUpdate = { current_pos: 'confirmTiredOfSurvey', open_question: true, prev_pos: params.prevPos, next_pos: 'fallback', prev_flow: 'OpenTalk', current_flow: 'OpenTalk' }
+    FlowUpdate = { current_pos: 'confirmTiredOfSurvey', open_question: true, prev_pos: params.prevPos, next_pos: 'fallback', prev_flow: 'opentalk', current_flow: 'opentalk' }
     break
 
   case 'surveyQuestion1':
@@ -170,7 +170,7 @@ const getReply = async (message, params, userFromDB) => {
     await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, 'join_community', params.rawUserInput, true)
     API.createSurveyCollection(message.sender.id)
     reply = standardReplies('noJoinCommunity', senderName)
-    FlowUpdate = { current_pos: 'noJoinCommunity', open_question: true, prev_pos: undefined, next_pos: 'fallback', prev_flow: 'OpenTalk', current_flow: 'OpenTalk', survey_done: 'yes' }
+    FlowUpdate = { current_pos: 'noJoinCommunity', open_question: true, prev_pos: undefined, next_pos: 'fallback', prev_flow: 'opentalk', current_flow: 'opentalk', survey_done: 'yes' }
     reminderToContinueOn = false
     break
 
@@ -178,7 +178,7 @@ const getReply = async (message, params, userFromDB) => {
     await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, 'join_community', params.rawUserInput, true)
     API.createSurveyCollection(message.sender.id)
     reply = standardReplies('yesJoinCommunity', senderName)
-    FlowUpdate = { current_pos: 'yesJoinCommunity', open_question: true, prev_pos: undefined, next_pos: 'fallback', prev_flow: 'OpenTalk', current_flow: 'OpenTalk', survey_done: 'yes' }
+    FlowUpdate = { current_pos: 'yesJoinCommunity', open_question: true, prev_pos: undefined, next_pos: 'fallback', prev_flow: 'opentalk', current_flow: 'opentalk', survey_done: 'yes' }
     reminderToContinueOn = false
     break
 
@@ -195,11 +195,11 @@ const getReply = async (message, params, userFromDB) => {
   }
 
   if (!reply) {
-    params.prevFlow = 'OpenTalk'
-    params.currentFlow = 'OpenTalk'
+    params.prevFlow = 'opentalk'
+    params.currentFlow = 'opentalk'
     params.currentEntity = 'fallback'
     console.error('FLOW ERROR :: Undefined reply at Survey. Check what happened mate, this is not normal. I saved the Patria by sending the user to open conversation.')
-    return await flows.OpenTalk(message, params, userFromDB)
+    return await flows.opentalk(message, params, userFromDB)
   }
 
   /**

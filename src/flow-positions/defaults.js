@@ -34,8 +34,8 @@ const flowPositions = positionName => {
   case 'adminFlowReset':
     positionObject = {
       current_pos: 'fallback',
-      current_flow: 'OpenTalk',
-      prev_flow: 'OpenTalk',
+      current_flow: 'opentalk',
+      prev_flow: 'opentalk',
       open_question: 'false',
       awaiting_answer: '0',
       ready_to_reply: true,

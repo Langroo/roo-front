@@ -116,6 +116,10 @@ const replyChooser = (replyName, senderName) => {
     broadcastShare: [
       { type: 'text', content: `Super! 👏Send this link to your friend ${senderName} www.m.me/langroo` },
     ],
+    generalShareDialog: [
+      { type: 'text', content: `Super! 👏Share me with your friends ${senderName}!` },
+      { type: 'text', content: 'Just tap below 👇' },
+    ],
   }
 
   return replies[replyName]

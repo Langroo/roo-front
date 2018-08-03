@@ -81,10 +81,10 @@ const getReply = async (message, params, userFromDB) => {
     params.currentEntity = params.currentPos
   } else if (params.currentEntity === undefined && !params.OpQ) {
     if (params.currentPos === 'initiateTutorFlow') {
-      params.prevFlow = 'OpenTalk'
-      params.currentFlow = 'OpenTalk'
+      params.prevFlow = 'opentalk'
+      params.currentFlow = 'opentalk'
       params.currentEntity = 'fallback'
-      return await flows.OpenTalk(message, params, userFromDB)
+      return await flows.opentalk(message, params, userFromDB)
     }
     params.currentEntity = params.currentPos
     let tempReply = standardReplies(params.currentEntity, senderName)
@@ -239,13 +239,13 @@ const getReply = async (message, params, userFromDB) => {
       futureRepliesToSend = preTutorReplies('reminderOfTutorRequest', senderName)
       futureMsgFlowUpdate = {}
       reminderToContinueOn = true
-      flowControlUpdate = { current_pos: 'PTnextWeekOrMonth', open_question: true, next_pos: 'fallback', prev_flow: 'OpenTalk', current_flow: 'OpenTalk' }
+      flowControlUpdate = { current_pos: 'PTnextWeekOrMonth', open_question: true, next_pos: 'fallback', prev_flow: 'opentalk', current_flow: 'opentalk' }
       reply = preTutorReplies('PTnextWeekOrMonth', senderName, preTutorAux)
       break
 
     case 'PTneverRemindUser':
 
-      flowControlUpdate = { current_pos: 'PTneverRemindUser', open_question: 'false', next_pos: 'TBD', prev_flow: 'OpenTalk', current_flow: 'OpenTalk', tutor_flow_status: 'requested' }
+      flowControlUpdate = { current_pos: 'PTneverRemindUser', open_question: 'false', next_pos: 'TBD', prev_flow: 'opentalk', current_flow: 'opentalk', tutor_flow_status: 'requested' }
       reply = preTutorReplies('PTneverRemindUser', senderName)
       break
 
@@ -363,7 +363,7 @@ const getReply = async (message, params, userFromDB) => {
     case 'userCanPayForTutor':
       await API.createTutorRequest(message.userHash)
       reply = standardReplies('userCanPayForTutor', senderName)
-      flowControlUpdate = { current_pos: 'userCanPayForTutor', open_question: true, next_pos: 'fallback', prev_flow: 'OpenTalk', current_flow: 'OpenTalk', repeated_this_pos: '0', tutor_flow_status: 'finished' }
+      flowControlUpdate = { current_pos: 'userCanPayForTutor', open_question: true, next_pos: 'fallback', prev_flow: 'opentalk', current_flow: 'opentalk', repeated_this_pos: '0', tutor_flow_status: 'finished' }
       try {
         axios.request({
           headers: { 'Content-Type': 'application/json' },
@@ -381,7 +381,7 @@ const getReply = async (message, params, userFromDB) => {
     case 'userHasNoMoney':
       await API.createTutorRequest(message.userHash)
       reply = standardReplies('userHasNoMoney', senderName)
-      flowControlUpdate = { current_pos: 'userHasNoMoney', open_question: true, next_pos: 'tutorFlowFinished', prev_flow: 'OpenTalk', current_flow: 'OpenTalk', tutor_flow_status: 'finished' }
+      flowControlUpdate = { current_pos: 'userHasNoMoney', open_question: true, next_pos: 'tutorFlowFinished', prev_flow: 'opentalk', current_flow: 'opentalk', tutor_flow_status: 'finished' }
       await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.currentEntity, params.rawUserInput)
       break
 
@@ -406,7 +406,7 @@ const getReply = async (message, params, userFromDB) => {
         futureRepliesToSend = futureRepliesToSend.concat(trueReply)
         reminderToContinueOn = true
       } else {
-        flowControlUpdate = { current_pos: 'fallback', open_question: true, next_pos: 'fallback', current_flow: 'OpenTalk', prev_flow: 'OpenTalk' }
+        flowControlUpdate = { current_pos: 'fallback', open_question: true, next_pos: 'fallback', current_flow: 'opentalk', prev_flow: 'opentalk' }
         reminderToContinueOn = false
       }
       break
@@ -423,7 +423,7 @@ const getReply = async (message, params, userFromDB) => {
     console.log('We got an undefined reply at tutor flow so I will send the user to the Open Conversation ʘ‿ʘ')
     params.currentEntity = 'fallback'
     params.prevFlow = 'fallback'
-    reply = await flows.OpenTalk(message, params, userFromDB)
+    reply = await flows.opentalk(message, params, userFromDB)
   }
 
   // -- Controller of the position of the user in the conversation

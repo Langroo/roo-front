@@ -135,20 +135,20 @@ const getReply = async (message, params, userFromDB) => {
       reply = standardReplies('jumpToTutorFlow', params.senderName)
       willCreateUser = true
       reminderToContinueOn = false
-      FlowUpdate = { current_pos: 'introFinal', open_question: 'false', prev_pos: 'introFinal', next_pos: 'TBD', current_flow: 'OpenTalk', prev_flow: 'introduction', repeated_this_pos: '0' }
+      FlowUpdate = { current_pos: 'introFinal', open_question: 'false', prev_pos: 'introFinal', next_pos: 'TBD', current_flow: 'opentalk', prev_flow: 'introduction', repeated_this_pos: '0' }
 
     } else {
       reply = standardReplies('introFinal', params.senderName)
       willCreateUser = true
       reminderToContinueOn = false
-      FlowUpdate = { current_pos: 'introFinal', open_question: 'false', prev_pos: 'introFinal', next_pos: 'TBD', current_flow: 'OpenTalk', prev_flow: 'content', repeated_this_pos: '0' }
+      FlowUpdate = { current_pos: 'introFinal', open_question: 'false', prev_pos: 'introFinal', next_pos: 'TBD', current_flow: 'opentalk', prev_flow: 'opentalk', repeated_this_pos: '0' }
     }
     break
 
-  case 'introAltFinal':
-    reply = standardReplies('introAltFinal', params.senderName)
+  case 'introPostFinal':
+    reply = standardReplies('introPostFinal', params.senderName)
     reminderToContinueOn = false
-    FlowUpdate = { current_pos: 'introAltFinal', open_question: 'false', prev_pos: 'introAltFinal', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'content', repeated_this_pos: '0' }
+    FlowUpdate = { current_pos: 'introPostFinal', open_question: 'false', prev_pos: 'introPostFinal', next_pos: 'fallback', current_flow: 'opentalk', prev_flow: 'opentalk', repeated_this_pos: '0' }
     break
 
   case 'reliefOfUserContinuing':
@@ -166,7 +166,7 @@ const getReply = async (message, params, userFromDB) => {
   if (!reply) {
     params.currentEntity = 'fallback'
     params.prevFlow = 'fallback'
-    reply = await flows.OpenTalk(message, params, userFromDB)
+    reply = await flows.opentalk(message, params, userFromDB)
     if (userLanguage !== 'en') {
       for (let i = 0; i < reply.length; i++) {
         if (reply[i].type === 'text') {

@@ -292,7 +292,7 @@ const getReply = async (message, params, userFromDB) => {
      * ******************************************************************************************************/
   default:
     params.currentEntity = 'fallback'
-    return await flows.OpenTalk(message, params, userFromDB)
+    return await flows.opentalk(message, params, userFromDB)
   }
 
     /**
