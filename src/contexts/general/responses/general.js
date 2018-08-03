@@ -126,7 +126,7 @@ const replyChooser = (replyName, senderName) => {
             subtitle: 'Learn with Roo and improve your english!',
             imageUrl: 'https://s3.amazonaws.com/langroo/images/roo_logo_plane.png',
             buttons: [
-              { title: 'Get Started', type: 'url', url: 'https://m.me/langroo' },
+              { title: 'Get Started', type: 'web_url', url: 'https://m.me/langroo' },
               { title: 'Share', type: 'element_share' },
             ],
           },
