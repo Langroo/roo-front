@@ -19,6 +19,30 @@ const getEntity = (exp) => {
   expressions = /^(TALK_TO_TUTOR|initiatePreTutorFlow|Upgrade to Tutor|request personal tutor)$/i
   if (expressions.test(exp)) { return 'initiatePreTutorFlow' }
 
+  expressions = /^(EXPLORE_TUTORS| explore tutors| Explore Tutors)$/i
+  if (expressions.test(exp)) { return 'exploreTutorFlow' }
+
+  expressions = /^(pre_tutor_answer_connection_really_bad|pre_tutor_answer_connection_bad)$/i
+  if (expressions.test(exp)) { return 'PTconnectionBad' }
+
+  expressions = /^(pre_tutor_answer_connection_ok|pre_tutor_answer_connection_good|pre_tutor_answer_connection_great)$/i
+  if (expressions.test(exp)) { return 'PTconnectionOk' }
+
+  expressions = /^(pre_tutor_answer_prices_user_cannot_pay)$/i
+  if (expressions.test(exp)) { return 'PTuserCannotPay' }
+
+  expressions = /^(pre_tutor_answer_user_can_pay)$/i
+  if (expressions.test(exp)) { return 'PTuserCanPay' }
+
+  expressions = /^(pre_tutor_answer_male_tutor)$/i
+  if (expressions.test(exp)) { return 'PTmaleTutor' }
+
+  expressions = /^(pre_tutor_answer_female_tutor)$/i
+  if (expressions.test(exp)) { return 'PTfemaleTutor' }
+
+  expressions = /^(pre_tutor_answer_either_tutor)$/i
+  if (expressions.test(exp)) { return 'PTfeitherTutor' }
+
   expressions = /^(pre_tutor_answer_next_week|pre_tutor_answer_next_month)$/i
   if (expressions.test(exp)) { return 'PTnextWeekOrMonth' }
 

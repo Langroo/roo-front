@@ -1,188 +1,73 @@
 const replyChooser = (replyName, senderName) => {
-
   const replies = {
-    willDoTutorLater: [
-      { type: 'text', content: 'Ok :(... BUT! I\'ll keep sharing my knowledge and talking to you 😊. If you change your mind 💡, just write \'I want a tutor\'.' },
-    ],
-    forgetfulnessDialog: [
-      { type: 'text', content: `I'm sorry ${senderName} 😖, I'm embarrassed to say this but I forgot where we were in our conversation! 😵` },
+    exploreTutorFlow: [
+      { type: 'text', content: `Hey ${senderName}, how are you? Just to tell you, I have amazing connections to native English tutors in the UK and the US! 🇬🇧 🇺🇸` },
+      { type: 'text', content: 'But before you explore them 🔎, let me ask a couple of questions!' },
       {
         type: 'quickReplies',
         content: {
-          title: '🙏 Would you forgive me and allow me to start the conversation with an English native tutor from the beginning? 🌟',
+          title: '(½) Our tutor calls happen via Messenger video, how strong is your internet connection? 📶',
           buttons: [
-            { title: 'Yes, I forgive you', value: 'TF_YES_INIT' },
-            { title: 'No, later', value: 'I will speak with a tutor later Roo, not now' },
+            { title: 'Really Bad 😱', value: 'pre_tutor_answer_connection_really_bad' },
+            { title: 'Bad 😦', value: 'pre_tutor_answer_connection_bad' },
+            { title: 'Ok 😑', value: 'pre_tutor_answer_connection_ok' },
+            { title: 'Good 👍', value: 'pre_tutor_answer_connection_good' },
+            { title: 'Great 👌', value: 'pre_tutor_answer_connection_great' },
           ],
         },
       },
     ],
-    askUserToContinue: [
-      { type: 'text', content: `Hey ${senderName}! Don't miss the opportunity to speak with a native tutor today! :o :D` },
+    PTbadConnection: [
+      { type: 'text', content: `Ah.. ok, sorry to hear ${senderName} 😪 From our experience, it won’t work unless your internet is strong! If your situation changes try again! 💪` },
+    ],
+    PTgoodConnection: [
+      { type: 'text', content: 'Good!' },
+      { type: 'text', content: `(2/2) Quality comes at a price ${senderName} We have a 95%+ success rate on our tutor classes! 🏆` },
+      { type: 'image', content: 'https://i.imgur.com/kyJADuZ.png' },
       {
         type: 'quickReplies',
         content: {
-          title: 'Do you want to continue giving your details? :D',
+          title: 'Are our prices ok for you?',
           buttons: [
-            { title: 'Yes, continue', value: 'continue_tutor_conversation' },
-            { title: 'No, later', value: 'I will speak with a tutor later Roo, not now' },
+            { title: 'Prices Are Ok 👍', value: 'pre_tutor_answer_user_can_pay' },
+            { title: 'I Can’t 😰', value: 'pre_tutor_answer_prices_user_cannot_pay' },
           ],
         },
       },
     ],
-    confirmSpeakToTutor: [
+    PTuserCannotPay: [
+      { type: 'text', content: `I understand ${senderName}, we will try to continue giving you as much value as possible! 🎁` },
+    ],
+    PTuserCanPay: [
+      { type: 'text', content: 'Super!' },
       {
         type: 'quickReplies',
         content: {
-          title: '😜 Would you like to speak to an English native tutor? 👥 ',
+          title: 'And do you have a preference for male or female tutors? 📝',
           buttons: [
-            { title: 'Yes', value: 'initiatePreTutorFlow' },
-            { title: 'No', value: 'I will speak with a tutor later Roo, not now' },
+            { title: 'Male 👨', value: 'pre_tutor_answer_male_tutor' },
+            { title: 'Female 👩', value: 'pre_tutor_answer_female_tutor' },
+            { title: 'Either 😀', value: 'pre_tutor_answer_either_tutor' },
           ],
         },
       },
     ],
-    oldRegisterMessages: [
-      { type: 'text', content: `Hold on ${senderName} ✋! You're too quick 😮, I'll let you use that option 📲 once we are finished here 👍.` },
-      { type: 'text', content: 'Woah, before I can let you use that option, I need you to tell me a few things first 😁☝' },
+    PTeitherTutor: [
+      { type: 'text', content: 'Ok! 💥' },
+      { type: 'text', content: 'You can choose to have a FREE introduction call with the tutor you like the most! Select an option below' },
+      carousel.either,
     ],
-    mustRegisterFirst: [
-      { type: 'text', content: `Ok great ${senderName} 👍 Let me finish with some questions first and we can organise a tutor for you! 👨👌` },
+    PTmaleTutor: [
+      { type: 'text', content: 'Ok! 💥' },
+      { type: 'text', content: 'You can choose to have a FREE introduction call with the tutor you like the most! Select an option below' },
+      carousel.male,
     ],
-    startingTutorFlow: [
-      { type: 'text', content: `${senderName}! I can't believe how big you are now 😭, I'm so proud of you!!! 🙏` },
-      { type: 'image', content: 'https://media.giphy.com/media/GcSqyYa2aF8dy/giphy.gif' },
-      { type: 'text', content: 'We will try to get you a 15 minute trial call in the next 24 hours ⏳😍' },
-      { type: 'quickReplies',
-        content: {
-          title: 'I want to find THE best tutor on my team for you, so let me ask you some questions about what you want… 😊',
-          buttons: [{ title: 'Ok Thanks!', value: 'User clicks on thanks button on tutor flow' }],
-        },
-      },
+    PTfemaleTutor: [
+      { type: 'text', content: 'Ok! 💥' },
+      { type: 'text', content: 'You can choose to have a FREE introduction call with the tutor you like the most! Select an option below' },
+      carousel.female,
     ],
-    tutorAskCountryOfUser: [
-      { type: 'image', content: 'https://media.giphy.com/media/l378afApZWr0IyIZq/giphy.gif' },
-      { type: 'text', content: '1. In which country do you live now📍🗺🏡?' },
-    ],
-    describeYourself: [
-      { type: 'image', content: 'https://media.giphy.com/media/HzMfJIkTZgx8s/giphy.gif' },
-      { type: 'text', content: 'Nice!😎👍' },
-      {
-        type: 'text',
-        content: '2. How would you describe yourself?😃😜(Please write enough keywords in just one paragraph🙇‍)',
-      },
-    ],
-    describeYourInterests: [
-      { type: 'image', content: 'https://media.giphy.com/media/l41lUjUgLLwWrz20w/giphy.gif' },
-      {
-        type: 'text',
-        content: '3. What are your interests?❤👍😊(Again, please write enough keywords in just one paragraph🙇‍)',
-      },
-    ],
-    whenToCallTutor: [
-      { type: 'image', content: 'https://media.giphy.com/media/uDZexRVCffGww/giphy.gif' },
-      {
-        type: 'quickReplies',
-        content:
-        {
-          title: '4. When can you do the calls📱 with your tutor💁‍🍎?',
-          buttons:
-          [
-                { title: 'Morning(s)🌞', value: 'TFB_MORNING' },
-                { title: 'Afternoon(s)🌤', value: 'TFB_AFTERNOON' },
-                { title: 'Evening(s)🌛', value: 'TFB_EVENING' },
-          ],
-        },
-      },
-    ],
-    confirmWhenToCallTutor: [
-      {
-        type: 'quickReplies',
-        content:
-        {
-          title: 'Copied📝. Just to make sure😳, was there another time you also wanted to add⌚🤓😊?',
-          buttons:
-          [
-                { title: 'Yes!!!😁', value: 'TFB_YES_ADD' },
-                { title: 'No😌', value: 'TFB_NO_ADD' },
-          ],
-        },
-      },
-    ],
-    whenToCallTutor2: [
-      {
-        type: 'quickReplies',
-        content:
-        {
-          title: 'Awesome!☺ Which was the other time⌚?',
-          buttons:
-          [
-                { title: 'Morning(s)🌞', value: 'TFB_MORNING_ALT' },
-                { title: 'Afternoon(s)🌤', value: 'TFB_AFTERNOON_ALT' },
-                { title: 'Evening(s)🌛', value: 'TFB_EVENING_ALT' },
-          ],
-        },
-      },
-    ],
-    daysGroupForCalls: [
-      {
-        type: 'quickReplies',
-        content:
-        {
-          title: 'Cool!😎 Which days?📆',
-          buttons:
-          [
-                { title: 'Weekdays 🏫📚', value: 'tfb_weekdays' },
-                { title: 'Weekends 🏡💆‍', value: 'tfb_weekends' },
-          ],
-        },
-      },
-    ],
-    internetSpeedDescription: [
-      {
-        type: 'quickReplies',
-        content:
-        {
-          title: `5. What is your internet connection like ${senderName}? 💻`,
-          buttons:
-          [
-                { title: 'Really Bad 😱', value: 'Really_Bad_Internet' },
-                { title: 'Bad 😦', value: 'Bad_Internet' },
-                { title: 'Ok 😑', value: 'Ok_Internet' },
-                { title: 'Good 👍', value: 'Good_Internet' },
-                { title: 'Great 👌', value: 'Great_Internet' },
-          ],
-        },
-      },
-    ],
-    knowThePrice: [
-      { type: 'text', content: '6. Thanks for the information! ;) Just to make sure you know how much our costs are for tutors, can you look below and tell me if these prices are ok for you?' },
-      { type: 'image', content: 'https://s3.amazonaws.com/langroo/images/pricing.png' },
-      {
-        type: 'quickReplies',
-        content:
-        {
-          title: `Please select an option below when you are ready ${senderName} 😀`,
-          buttons:
-          [
-                { title: 'Prices Are Ok 👍', value: 'user_can_pay' },
-              { title: 'I Don’t Have Money 😭', value: 'user_cannot_pay' },
-          ],
-        },
-      },
-    ],
-    userCanPayForTutor: [
-      { type: 'image', content: 'https://s3.amazonaws.com/langroo/images/man-dialing-smartphone-suit.gif' },
-      { type: 'text', content: 'Awesome 👏! I am going to ring your tutor now!📲' },
-      { type: 'text', content: 'Here are the next steps:\n☑️We will select a tutor for you in 24 hours\n☑️They will add you on Facebook\n☑️You will organise a time for a 15 minute call\n☑️They will explain the classes to you\n☑️They will add you on Facebook\n☑️You can pay for classes with that tutor by writing UPGRADE PLAN here any paying using a debit card subscription' },
-    ],
-    userHasNoMoney: [
-      { type: 'text', content: `I understand ${senderName}, 👍 you can still continue to learn with me.` },
-    ],
-    tutorFlowFinished: [
-      { type: 'text', content: `I'm sorry ${senderName}, you already have requested a tutor. If you have any questions, you can use the hashtag #AskRoo to make them or just write HELP`},
-      { type: 'text', content: `${senderName}, I already have a tutor requested for you. Write HELP if you need something else.`},
-    ],
+
   }
 
   return replies[replyName]
