@@ -96,7 +96,7 @@ class FacebookAPI {
             locale: 'default',
             composer_input_disabled: false,
             call_to_actions: [
-              { title: '❤ Share', type: 'postback', payload: 'share' },
+              { title: '❤ Share', type: 'postback', payload: 'share langroo' },
               { title: '🙍 Explore Tutors', type: 'postback', payload: 'TALK_TO_TUTOR' },
               { title: '👉 More',
                 type: 'nested',
@@ -228,6 +228,106 @@ class FacebookAPI {
 
     }
 
+    if (type === 'card') {
+      const elements = payload.content[0]
+      if (elements.buttons && elements.subtitle) {
+
+        const buttonsOfCard = []
+        for (const buttonTemplate of elements.buttons) {
+
+          if (buttonTemplate.type === 'postback') {
+            buttonsOfCard.push({
+              type: buttonTemplate.type,
+              title: buttonTemplate.title,
+              payload: buttonTemplate.value,
+            })
+          } else if (buttonTemplate.type === 'web_url') {
+            buttonsOfCard.push({
+              type: buttonTemplate.type,
+              title: buttonTemplate.title,
+              url: buttonTemplate.url,
+            })
+          } else if (buttonTemplate.type === 'element_share') {
+            buttonsOfCard.push({
+              type: buttonTemplate.type,
+            })
+          }
+
+        }
+        payload.content[0] = ({
+          title: elements.title,
+          image_url: elements.imageUrl,
+          subtitle: elements.subtitle,
+          buttons: buttonsOfCard,
+        })
+
+      } else if (elements.buttons) {
+
+        const buttonsOfCard = []
+        for (const buttonTemplate of elements.buttons) {
+
+          if (buttonTemplate.type === 'postback') {
+            buttonsOfCard.push({
+              type: buttonTemplate.type,
+              title: buttonTemplate.title,
+              payload: buttonTemplate.value,
+            })
+
+          } else if (buttonTemplate.type === 'web_url') {
+            buttonsOfCard.push({
+              type: buttonTemplate.type,
+              title: buttonTemplate.title,
+              url: buttonTemplate.url,
+            })
+
+          } else if (buttonTemplate.type === 'element_share') {
+            buttonsOfCard.push({
+              type: buttonTemplate.type,
+            })
+          }
+
+        }
+        payload.content[0] = ({
+          title: elements.title,
+          image_url: elements.imageUrl,
+          buttons: buttonsOfCard,
+        })
+
+      } else if (elements.subtitle) {
+
+        payload.content[0] = ({
+          title: elements.title,
+          image_url: elements.imageUrl,
+          subtitle: elements.subtitle,
+        })
+
+      } else {
+
+        payload.content[0] = ({
+          title: elements.title,
+          image_url: elements.imageUrl,
+        })
+
+      }
+    }
+
+    // Set the prepared message
+    preparedMessage = JSON.stringify({
+      messaging_type: 'RESPONSE',
+      recipient: {
+        id: this.senderId,
+      },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: payload.content,
+          },
+        },
+      },
+    })
+
     if (type === 'button') {
 
       const buttonsArray = []
@@ -254,7 +354,7 @@ class FacebookAPI {
 
       }
 
-        // Set the prepared message
+      // Set the prepared message
       preparedMessage = JSON.stringify({
         messaging_type: 'RESPONSE',
         recipient: {

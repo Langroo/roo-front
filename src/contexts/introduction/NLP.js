@@ -19,9 +19,6 @@ const getEntity = (exp) => {
   expressions = /^keep_going_with_intro_flow$/i
   if (expressions.test(exp)) { return 'introPostFinal' }
 
-  expressions = /^keep_going_with_intro_flow$/
-  if (expressions.test(exp)) { return 'introAltFinal' }
-
   return undefined
 }
 
