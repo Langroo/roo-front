@@ -229,7 +229,7 @@ class FacebookAPI {
     }
 
     if (type === 'card') {
-      const elements = payload.content[0]
+      const elements = payload[0]
       if (elements.buttons && elements.subtitle) {
 
         const buttonsOfCard = []
@@ -254,7 +254,7 @@ class FacebookAPI {
           }
 
         }
-        payload.content[0] = ({
+        payload[0] = ({
           title: elements.title,
           image_url: elements.imageUrl,
           subtitle: elements.subtitle,
@@ -287,7 +287,7 @@ class FacebookAPI {
           }
 
         }
-        payload.content[0] = ({
+        payload[0] = ({
           title: elements.title,
           image_url: elements.imageUrl,
           buttons: buttonsOfCard,
@@ -295,7 +295,7 @@ class FacebookAPI {
 
       } else if (elements.subtitle) {
 
-        payload.content[0] = ({
+        payload[0] = ({
           title: elements.title,
           image_url: elements.imageUrl,
           subtitle: elements.subtitle,
@@ -303,7 +303,7 @@ class FacebookAPI {
 
       } else {
 
-        payload.content[0] = ({
+        payload[0] = ({
           title: elements.title,
           image_url: elements.imageUrl,
         })
@@ -322,7 +322,7 @@ class FacebookAPI {
           type: 'template',
           payload: {
             template_type: 'generic',
-            elements: payload.content,
+            elements: payload,
           },
         },
       },
