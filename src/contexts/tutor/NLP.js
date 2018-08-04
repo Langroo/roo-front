@@ -26,7 +26,7 @@ const getEntity = (exp) => {
   if (expressions.test(exp)) { return 'badConnection' }
 
   expressions = /^(tutor_answer_connection_ok|tutor_answer_connection_good|tutor_answer_connection_great)$/i
-  if (expressions.test(exp)) { return 'connectionOk' }
+  if (expressions.test(exp)) { return 'goodConnection' }
 
   expressions = /^(tutor_answer_prices_user_cannot_pay)$/i
   if (expressions.test(exp)) { return 'userCannotPay' }
@@ -41,16 +41,7 @@ const getEntity = (exp) => {
   if (expressions.test(exp)) { return 'femaleTutor' }
 
   expressions = /^(tutor_answer_either_tutor)$/i
-  if (expressions.test(exp)) { return 'feitherTutor' }
-
-  expressions = /^(pre_tutor_answer_next_week|pre_tutor_answer_next_month)$/i
-  if (expressions.test(exp)) { return 'PTnextWeekOrMonth' }
-
-  expressions = /^pre_tutor_answer_never$/i
-  if (expressions.test(exp)) { return 'PTneverRemindUser' }
-
-  expressions = /^pre_tutor_answer_tell_me_now$/i
-  if (expressions.test(exp)) { return 'PTtellUserNow' }
+  if (expressions.test(exp)) { return 'eitherTutor' }
 
   expressions = /(^tfb_morning$|^tfb_afternoon$|^tfb_evening$)/i
   if (expressions.test(exp)) { return 'confirmWhenToCallTutor' }

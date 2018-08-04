@@ -8,11 +8,11 @@ const replyChooser = (replyName, senderName) => {
         content: {
           title: '(½) Our tutor calls happen via Messenger video, how strong is your internet connection? 📶',
           buttons: [
-            { title: 'Really Bad 😱', value: 'pre_tutor_answer_connection_really_bad' },
-            { title: 'Bad 😦', value: 'pre_tutor_answer_connection_bad' },
-            { title: 'Ok 😑', value: 'pre_tutor_answer_connection_ok' },
-            { title: 'Good 👍', value: 'pre_tutor_answer_connection_good' },
-            { title: 'Great 👌', value: 'pre_tutor_answer_connection_great' },
+            { title: 'Really Bad 😱', value: 'tutor_answer_connection_really_bad' },
+            { title: 'Bad 😦', value: 'tutor_answer_connection_bad' },
+            { title: 'Ok 😑', value: 'tutor_answer_connection_ok' },
+            { title: 'Good 👍', value: 'tutor_answer_connection_good' },
+            { title: 'Great 👌', value: 'tutor_answer_connection_great' },
           ],
         },
       },
@@ -29,8 +29,8 @@ const replyChooser = (replyName, senderName) => {
         content: {
           title: 'Are our prices ok for you?',
           buttons: [
-            { title: 'Prices Are Ok 👍', value: 'pre_tutor_answer_user_can_pay' },
-            { title: 'I Can’t 😰', value: 'pre_tutor_answer_prices_user_cannot_pay' },
+            { title: 'Prices Are Ok 👍', value: 'tutor_answer_user_can_pay' },
+            { title: 'I Can’t 😰', value: 'tutor_answer_prices_user_cannot_pay' },
           ],
         },
       },
@@ -45,9 +45,9 @@ const replyChooser = (replyName, senderName) => {
         content: {
           title: 'And do you have a preference for male or female tutors? 📝',
           buttons: [
-            { title: 'Male 👨', value: 'pre_tutor_answer_male_tutor' },
-            { title: 'Female 👩', value: 'pre_tutor_answer_female_tutor' },
-            { title: 'Either 😀', value: 'pre_tutor_answer_either_tutor' },
+            { title: 'Male 👨', value: 'tutor_answer_male_tutor' },
+            { title: 'Female 👩', value: 'tutor_answer_female_tutor' },
+            { title: 'Either 😀', value: 'tutor_answer_either_tutor' },
           ],
         },
       },
