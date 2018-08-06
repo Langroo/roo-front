@@ -20,7 +20,7 @@ const botReplier = (payload, reply, actions = null) => {
   }
 
   if (payload.postback) { text = payload.postback.payload }
-  const helpRegex = /#help/ig
+  const helpRegex = /(#team|#help)/ig
 
   // -- Return and avoid processing user input if hashtag #help is detected
   if (helpRegex.test(text)) { return 0 }

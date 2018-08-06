@@ -36,13 +36,18 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
     ],
     introDialog3: [
       { type: 'text', content: '👍👍' },
-      { type: 'text', content: 'Well, who is the Langroo team?' },
+      { type: 'text', content: 'Well, here’s an intro VIDEO from Tim on the Langroo team! 👨👩🏽 🎉' },
       { type: 'text', content: 'Here is a welcome video for you! 📹' },
       { type: 'video', content: 'https://s3.amazonaws.com/langroo/videos/video_of_the_day1.mp4' },
-      { type: 'delay', content: 30 },
-      { type: 'text', content: 'We send members of the Langroo community a daily quiz ⁉️' },
-      { type: 'text', content: 'And every day a winner gets a free 15 minute video class with a tutor! 🏆🙋' },
-      { type: 'text', content: 'Ready to start?' },
+      { type: 'delay', content: 40 },
+      { type: 'quickReplies',
+        content: {
+          title: 'Want to know more about what our team does? 😎',
+          buttons: [
+            { title: 'YES', value: 'motivation is work' },
+          ],
+        },
+      },
     ],
     introDialog4: [
       { type: 'quickReplies',

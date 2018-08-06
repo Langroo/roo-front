@@ -17,6 +17,8 @@ const replyChooser = (replyName, senderName, url = {}) => {
   let prices = {}
   url.currency === 'USD' ? prices = dollarPrices : prices = euroPrices
 
+  console.log('URL :::: ', url)
+
   const replies = {
     paymentDialog_Init: [
       {
