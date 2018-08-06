@@ -96,7 +96,7 @@ class FacebookAPI {
             locale: 'default',
             composer_input_disabled: false,
             call_to_actions: [
-              { title: '❤ Share', type: 'postback', payload: 'share langroo' },
+              { title: '❤ Share with Friend', type: 'postback', payload: 'share langroo' },
               { title: '🙍 Explore Tutors', type: 'postback', payload: 'TALK_TO_TUTOR' },
               { title: '👉 More',
                 type: 'nested',
