@@ -165,6 +165,16 @@ const getReply = async (message, params, userFromDB) => {
       reply = standardReplies('userCanPay', senderName)
       break
 
+    case 'haveQuestion':
+      flowControlUpdate = { current_pos: 'haveQuestion', open_question: 'false', next_pos: 'haveQuestion', prev_flow: 'tutor' }
+      reply = standardReplies('haveQuestion', senderName)
+      break
+
+    case 'haveNotQuestion':
+      flowControlUpdate = { current_pos: 'haveNotQuestion', open_question: 'false', next_pos: 'haveNotQuestion', prev_flow: 'tutor' }
+      reply = standardReplies('haveNotQuestion', senderName)
+      break
+
     case 'tb0':
       reply = standardReplies('startingTutorFlow', senderName)
       flowControlUpdate = { current_pos: 'tb0', open_question: true, next_pos: 'tutorAskCountryOfUser', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0', tutor_flow_status: 'requested' }

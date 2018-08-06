@@ -76,10 +76,49 @@ const replyChooser = (replyName, senderName) => {
           },
         ],
       },
+      {
+        type: 'button',
+        content:
+        {
+          title: 'Schedule Free Call!',
+          buttons: [
+            {
+              type: 'web_url',
+              url: 'https://www.langroo.com/',
+              title: 'Schedule Free Call!',
+            },
+          ],
+        },
+      },
+      { type: 'text', content: 'If you schedule a call, you can pay after 💳 by using the option in the menu!' },
+      {
+        type: 'quickReplies',
+        content: {
+          title: 'Do you have any questions? ❓',
+          buttons: [
+            { title: 'Yes', value: 'tutor_answer_have_question' },
+            { title: 'No', value: 'tutor_answer_have_not_question' },
+          ],
+        },
+      },
     ],
     maleTutor: [
       { type: 'text', content: 'Ok! 💥' },
       { type: 'text', content: 'You can choose to have a FREE introduction call with the tutor you like the most! Select an option below' },
+      {
+        type: 'button',
+        content:
+        {
+          title: '',
+          buttons: [
+            {
+              type: 'web_url',
+              url: 'https://www.langroo.com/',
+              title: 'Schedule Free Call!',
+            },
+          ],
+        },
+      },
       {
         type: 'carousel',
         content: [
@@ -93,12 +132,30 @@ const replyChooser = (replyName, senderName) => {
           },
         ],
       },
+      { type: 'text', content: 'If you schedule a call, you can pay after 💳 by using the option in the menu!' },
+      {
+        type: 'quickReplies',
+        content: {
+          title: 'Do you have any questions? ❓',
+          buttons: [
+            { title: 'Yes', value: 'tutor_answer_have_question' },
+            { title: 'No', value: 'tutor_answer_have_not_question' },
+          ],
+        },
+      },
     ],
     femaleTutor: [
       { type: 'text', content: 'Ok! 💥' },
       { type: 'text', content: 'You can choose to have a FREE introduction call with the tutor you like the most! Select an option below' },
       {
         type: 'carousel',
+        buttons: [
+          {
+            type: 'web_url',
+            url: 'https://www.langroo.com/',
+            title: 'Schedule Free Call!',
+          },
+        ],
         content: [
           {
             title: '"I\'m from Los Angeles"',
@@ -110,6 +167,23 @@ const replyChooser = (replyName, senderName) => {
           },
         ],
       },
+      { type: 'text', content: 'If you schedule a call, you can pay after 💳 by using the option in the menu!' },
+      {
+        type: 'quickReplies',
+        content: {
+          title: 'Do you have any questions? ❓',
+          buttons: [
+            { title: 'Yes', value: 'tutor_answer_have_question' },
+            { title: 'No', value: 'tutor_answer_have_not_question' },
+          ],
+        },
+      },
+    ],
+    haveQuestion: [
+      { type: 'text', content: 'If you have any questions, please write #help + your question and a member of my team can answer! 🙋:)' },
+    ],
+    haveNotQuestion: [
+      { type: 'text', contetn: 'Ok great 👍, enjoy!' },
     ],
   }
 

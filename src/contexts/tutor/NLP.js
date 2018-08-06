@@ -43,6 +43,12 @@ const getEntity = (exp) => {
   expressions = /^(tutor_answer_either_tutor)$/i
   if (expressions.test(exp)) { return 'eitherTutor' }
 
+  expressions = /^(tutor_answer_have_question)$/i
+  if (expressions.test(exp)) { return 'haveQuestion' }
+
+  expressions = /^(tutor_answer_have_not_question)$/i
+  if (expressions.test(exp)) { return 'haveNotQuestion' }
+
   expressions = /(^tfb_morning$|^tfb_afternoon$|^tfb_evening$)/i
   if (expressions.test(exp)) { return 'confirmWhenToCallTutor' }
 
