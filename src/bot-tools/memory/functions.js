@@ -34,7 +34,7 @@ class CacheDataPoints {
 
       switch (slug) {
 
-      case 'introDialog6':
+      case '_heardAboutLangrooDialog1':
         try {
           res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
@@ -42,7 +42,7 @@ class CacheDataPoints {
           return 0
         } catch (error) { console.log('Error saving Type of Source where user heard about Roo :: ', error); return error }
 
-      case 'introDialog7':
+      case '_heardAboutLangrooDialog2':
         try {
           res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
@@ -50,7 +50,7 @@ class CacheDataPoints {
           return 0
         } catch (error) { console.log('Error saving Name of Source where user heard about Roo :: ', error); return error }
 
-      case 'introDialog5':
+      case '_motivationToLearnDialog':
         try {
           res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
@@ -58,7 +58,7 @@ class CacheDataPoints {
           return 0
         } catch (error) { console.log('Error saving User English Level :: ', error); return error }
 
-      case 'introDialog4':
+      case '_englishQuizDialog':
         try {
           res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }
@@ -66,7 +66,7 @@ class CacheDataPoints {
           return 0
         } catch (error) { console.log('Error saving User Big Motivation :: ', error); return error }
 
-      case 'introDialog4Branch1':
+      case '_otherMotivationDialog':
         try {
           res = await this.setUserIDsInRedis(senderId, userHash)
           if (res) { throw new Error(`${res}`) }

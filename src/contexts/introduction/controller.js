@@ -81,52 +81,72 @@ const getReply = async (message, params, userFromDB) => {
   case 'getStarted':
     reply = standardReplies('getStarted', params.senderName)
     reminderToContinueOn = true
-    FlowUpdate = { current_pos: 'getStarted', open_question: true, prev_pos: 'getStarted', next_pos: 'introDialog2', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
+    FlowUpdate = { current_pos: 'getStarted', open_question: true, prev_pos: 'getStarted', next_pos: '_introduceMyselfDialog', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
     break
 
-  case 'introDialog2':
-    reply = standardReplies('introDialog2', params.senderName)
+  case '_introduceMyselfDialog':
+    reply = standardReplies('_introduceMyselfDialog', params.senderName)
     reminderToContinueOn = true
-    FlowUpdate = { current_pos: 'introDialog2', open_question: true, prev_pos: 'introDialog2', next_pos: 'introDialog3', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
+    FlowUpdate = { current_pos: '_introduceMyselfDialog', open_question: true, prev_pos: '_introduceMyselfDialog', next_pos: '_welcomeVideoDialog', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
     break
 
-  case 'introDialog3':
-    reply = standardReplies('introDialog3', params.senderName)
+  case '_welcomeVideoDialog':
+    reply = standardReplies('_welcomeVideoDialog', params.senderName)
     reminderToContinueOn = true
-    FlowUpdate = { current_pos: 'introDialog3', open_question: true, prev_pos: 'introDialog3', next_pos: 'introDialog4', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
+    FlowUpdate = { current_pos: '_welcomeVideoDialog', open_question: true, prev_pos: '_welcomeVideoDialog', next_pos: '_englishQuizDialog', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
     break
 
-  case 'introDialog4':
-    reply = standardReplies('introDialog4', params.senderName)
+  case '_englishQuizDialog':
+    reply = standardReplies('_englishQuizDialog', params.senderName)
     reminderToContinueOn = true
-    FlowUpdate = { current_pos: 'introDialog4', open_question: 'false', prev_pos: 'introDialog4', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
+    FlowUpdate = { current_pos: '_englishQuizDialog', open_question: 'false', prev_pos: '_englishQuizDialog', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
     break
 
-  case 'introDialog4Branch1':
-    reply = standardReplies('introDialog4Branch1', params.senderName)
+  case '_motivationToLearnDialog':
+    reply = standardReplies('_motivationToLearnDialog', params.senderName)
     reminderToContinueOn = true
-    FlowUpdate = { current_pos: 'introDialog4Branch1', open_question: true, prev_pos: 'introDialog4Branch1', next_pos: 'introDialog5', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
+    FlowUpdate = { current_pos: '_motivationToLearnDialog', open_question: 'false', prev_pos: '_motivationToLearnDialog', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
+    break
+
+  case '_otherMotivationDialog':
+    reply = standardReplies('_otherMotivationDialog', params.senderName)
+    reminderToContinueOn = true
+    FlowUpdate = { current_pos: '_otherMotivationDialog', open_question: true, prev_pos: '_otherMotivationDialog', next_pos: '_englishLevelDialog', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
     await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
     break
 
-  case 'introDialog5':
-    reply = standardReplies('introDialog5', params.senderName)
+  case '_englishLevelDialog':
+    reply = standardReplies('_englishLevelDialog', params.senderName)
     reminderToContinueOn = true
-    FlowUpdate = { current_pos: 'introDialog5', open_question: 'false', prev_pos: 'introDialog5', next_pos: 'introDialog6', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
+    FlowUpdate = { current_pos: '_englishLevelDialog', open_question: 'false', prev_pos: '_heardAboutLangrooDialog1', next_pos: '_heardAboutLangrooDialog2', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
     await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
     break
 
-  case 'introDialog6':
-    reply = standardReplies('introDialog6', params.senderName)
+  case '_heardAboutLangrooDialog1':
+    reply = standardReplies('_heardAboutLangrooDialog1', params.senderName)
     reminderToContinueOn = true
-    FlowUpdate = { current_pos: 'introDialog4Branch1', open_question: 'false', prev_pos: 'introDialog6', next_pos: 'introDialog7', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
+    FlowUpdate = { current_pos: '_otherMotivationDialog', open_question: 'false', prev_pos: '_heardAboutLangrooDialog1', next_pos: '_heardAboutLangrooDialog2', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
     await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
     break
 
-  case 'introDialog7':
-    reply = standardReplies('introDialog7', params.senderName)
+  case '_heardAboutLangrooDialog2':
+    reply = standardReplies('_heardAboutLangrooDialog2', params.senderName)
     reminderToContinueOn = true
-    FlowUpdate = { current_pos: 'introDialog7', open_question: true, prev_pos: 'introDialog7', next_pos: 'introFinal', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
+    FlowUpdate = { current_pos: '_heardAboutLangrooDialog2', open_question: true, prev_pos: '_heardAboutLangrooDialog2', next_pos: 'introFinal', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
+    await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
+    break
+
+  case '_userAllDoneDialog':
+    reply = standardReplies('_userAllDoneDialog', params.senderName)
+    reminderToContinueOn = true
+    FlowUpdate = { current_pos: '_userAllDoneDialog', open_question: true, prev_pos: '_userAllDoneDialog', next_pos: '_howQuizWorksDialog', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
+    await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
+    break
+
+  case '_howQuizWorksDialog':
+    reply = standardReplies('_howQuizWorksDialog', params.senderName)
+    reminderToContinueOn = true
+    FlowUpdate = { current_pos: '_howQuizWorksDialog', open_question: 'false', prev_pos: '_howQuizWorksDialog', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
     await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
     break
 
@@ -205,8 +225,8 @@ const getReply = async (message, params, userFromDB) => {
     * the conversation, we will send as the reminder the next message/dialog
     * */
     if (params.currentEntity === 'getStarted') {
-      FlowUpdate = Object.assign({}, FlowUpdate, { current_pos: 'introDialog2' })
-      params.currentEntity = 'introDialog2'
+      FlowUpdate = Object.assign({}, FlowUpdate, { current_pos: '_introduceMyselfDialog' })
+      params.currentEntity = '_introduceMyselfDialog'
       controllerSmash.CronReminder(params.currentEntity, standardReplies('gifForReminder', params.senderName).concat(standardReplies(params.currentEntity, params.senderName).pop()), waitingTime, FlowUpdate, message.sender.id, userFromDB)
     } else {
       controllerSmash.CronReminder(params.currentEntity, standardReplies('gifForReminder', params.senderName).concat(standardReplies(params.currentEntity, params.senderName).pop()), waitingTime, FlowUpdate, message.sender.id, userFromDB)
