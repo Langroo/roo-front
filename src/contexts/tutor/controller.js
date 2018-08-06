@@ -5,7 +5,6 @@ const getReply = async (message, params, userFromDB) => {
   const axios = require('axios')
   const standardReplies = require('./responses').standardReplies
   const failsafeReplies = require('./responses').failsafeReplies
-  const preTutorReplies = require('./responses').preTutorReplies
   const OneForAll = require('../../bot-tools').OneForAll
   const BotCache = require('../../bot-tools').BotCache
   const flows = require('../index')
@@ -94,182 +93,78 @@ const getReply = async (message, params, userFromDB) => {
     return reply.concat(trueReply)
   }
 
-  if (userLevel === 1) {
+  if (userLevel === 1) { 
     switch (params.currentEntity) {
     /* ******************************************************************************************************
      * ********************************* Upselling Tutor Flow Section  **************************************
      * ******************************************************************************************************/
-
-    case 'initiateUpsellingFlow':
+    case 'exploreTutorFlow':
 
       preTutorAux.motivation = userFromDB.data.motivation_to_learn_english
-      flowControlUpdate = { current_pos: 'initiateUpsellingFlow', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor', tutor_flow_status: 'requested' }
+      flowControlUpdate = { current_pos: 'exploreTutorFlow', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
       if (preTutorAux.motivation) {
         if (preTutorAux.motivation === 'motivation is fun or challenge') {
           preTutorAux.motivation = 'your personal motivation!'
         } else {
           switch (preTutorAux.motivation) {
-          case 'motivation is work':
-            preTutorAux.motivation = 'work'
-            break
-          case 'motivation is school':
-            preTutorAux.motivation = 'school'
-            break
-          case 'motivation is university':
-            preTutorAux.motivation = 'university'
-            break
-          case 'motivation is english exams':
-            preTutorAux.motivation = 'english exams'
-            break
-          case 'motivation is job interviews':
-            preTutorAux.motivation = 'job interviews'
-            break
+            case 'motivation is work':
+              preTutorAux.motivation = 'work'
+              break
+            case 'motivation is school':
+              preTutorAux.motivation = 'school'
+              break
+            case 'motivation is university':
+              preTutorAux.motivation = 'university'
+              break
+            case 'motivation is english exams':
+              preTutorAux.motivation = 'english exams'
+              break
+            case 'motivation is job interviews':
+              preTutorAux.motivation = 'job interviews'
+              break
           }
         }
-        reply = preTutorReplies('initiateUpsellingFlow', senderName, preTutorAux)
+        reply = standardReplies('exploreTutorFlow', senderName)
       } else {
-        reply = preTutorReplies('initiateUpsellingFlow', senderName)
+        reply = standardReplies('exploreTutorFlow', senderName)
       }
       break
 
-    /* ******************************************************************************************************
-     * ********************************** Pre-Tutor Flow Section ********************************************
-     * ******************************************************************************************************/
-
-    case 'retakePreTutorFromReminder':
-
-      preTutorAux.motivation = userFromDB.data.motivation_to_learn_english
-      flowControlUpdate = { current_pos: 'retakePreTutorFromReminder', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor', current_flow: 'tutor', tutor_flow_status: 'requested' }
-      if (preTutorAux.motivation) {
-        if (preTutorAux.motivation === 'motivation is fun or challenge') {
-          preTutorAux.motivation = 'your personal motivation!'
-        } else {
-          switch (preTutorAux.motivation) {
-          case 'motivation is work':
-            preTutorAux.motivation = 'work'
-            break
-          case 'motivation is school':
-            preTutorAux.motivation = 'school'
-            break
-          case 'motivation is university':
-            preTutorAux.motivation = 'university'
-            break
-          case 'motivation is english exams':
-            preTutorAux.motivation = 'english exams'
-            break
-          case 'motivation is job interviews':
-            preTutorAux.motivation = 'job interviews'
-            break
-          }
-        }
-        reply = preTutorReplies('retakePreTutorFromReminder', senderName, preTutorAux)
-      } else {
-        reply = preTutorReplies('retakePreTutorFromReminder', senderName)
-      }
+    case 'badConnection':
+      flowControlUpdate = { current_pos: 'badConnection', open_question: 'false', next_pos: 'badConnection', prev_flow: 'tutor' }
+      reply = standardReplies('badConnection', senderName)
       break
 
-    case 'initiatePreTutorFlow':
-
-      preTutorAux.motivation = userFromDB.data.motivation_to_learn_english
-      flowControlUpdate = { current_pos: 'initiatePreTutorFlow', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
-      if (preTutorAux.motivation) {
-        if (preTutorAux.motivation === 'motivation is fun or challenge') {
-          preTutorAux.motivation = 'your personal motivation!'
-        } else {
-          switch (preTutorAux.motivation) {
-          case 'motivation is work':
-            preTutorAux.motivation = 'work'
-            break
-          case 'motivation is school':
-            preTutorAux.motivation = 'school'
-            break
-          case 'motivation is university':
-            preTutorAux.motivation = 'university'
-            break
-          case 'motivation is english exams':
-            preTutorAux.motivation = 'english exams'
-            break
-          case 'motivation is job interviews':
-            preTutorAux.motivation = 'job interviews'
-            break
-          }
-        }
-        reply = preTutorReplies('initiatePreTutorFlow', senderName, preTutorAux)
-      } else {
-        reply = preTutorReplies('initiatePreTutorFlow', senderName)
-      }
+    case 'goodConnection':
+      flowControlUpdate = { current_pos: 'goodConnection', open_question: 'false', next_pos: 'goodConnection', prev_flow: 'tutor' }
+      reply = standardReplies('goodConnection', senderName)
       break
 
-    // -- If user requested tutor flow during intro flow
-    case 'fromIntroPreTutorFlow':
-
-      preTutorAux.motivation = userFromDB.data.motivation_to_learn_english
-      flowControlUpdate = { current_pos: 'fromIntroPreTutorFlow', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
-      if (preTutorAux.motivation) {
-        if (preTutorAux.motivation === 'motivation is fun or challenge') {
-          preTutorAux.motivation = 'your personal motivation!'
-        } else {
-          switch (preTutorAux.motivation) {
-          case 'motivation is work':
-            preTutorAux.motivation = 'work'
-            break
-          case 'motivation is school':
-            preTutorAux.motivation = 'school'
-            break
-          case 'motivation is university':
-            preTutorAux.motivation = 'university'
-            break
-          case 'motivation is english exams':
-            preTutorAux.motivation = 'english exams'
-            break
-          case 'motivation is job interviews':
-            preTutorAux.motivation = 'job interviews'
-            break
-          }
-        }
-        reply = preTutorReplies('fromIntroPreTutorFlow', senderName, preTutorAux)
-      } else {
-        reply = preTutorReplies('fromIntroPreTutorFlow', senderName)
-      }
+    case 'maleTutor':
+      flowControlUpdate = { current_pos: 'maleTutor', open_question: 'false', next_pos: 'maleTutor', prev_flow: 'tutor' }
+      reply = standardReplies('maleTutor', senderName)
       break
 
-    case 'PTnextWeekOrMonth':
-      params.rawUserInput === 'pre_tutor_answer_next_week' ? preTutorAux.remindTime = 'next week' : preTutorAux.remindTime = 'next month'
-      preTutorAux.remindTime === 'next week' ? futureMsgTime = 604800 : futureMsgTime = 18144000
-      futureRepliesToSend = preTutorReplies('reminderOfTutorRequest', senderName)
-      futureMsgFlowUpdate = {}
-      reminderToContinueOn = true
-      flowControlUpdate = { current_pos: 'PTnextWeekOrMonth', open_question: true, next_pos: 'fallback', prev_flow: 'opentalk', current_flow: 'opentalk' }
-      reply = preTutorReplies('PTnextWeekOrMonth', senderName, preTutorAux)
+    case 'femaleTutor':
+      flowControlUpdate = { current_pos: 'femaleTutor', open_question: 'false', next_pos: 'femaleTutor', prev_flow: 'tutor' }
+      reply = standardReplies('femaleTutor', senderName)
       break
 
-    case 'PTneverRemindUser':
-
-      flowControlUpdate = { current_pos: 'PTneverRemindUser', open_question: 'false', next_pos: 'TBD', prev_flow: 'opentalk', current_flow: 'opentalk', tutor_flow_status: 'requested' }
-      reply = preTutorReplies('PTneverRemindUser', senderName)
+    case 'eitherTutor':
+      flowControlUpdate = { current_pos: 'eitherTutor', open_question: 'false', next_pos: 'eitherTutor', prev_flow: 'tutor' }
+      reply = standardReplies('eitherTutor', senderName)
       break
 
-    case 'PTaskWhatToDo':
-      flowControlUpdate = { current_pos: 'PTaskWhatToDo', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
-      reply = preTutorReplies('PTaskWhatToDo', senderName)
+    case 'userCannotPay':
+      flowControlUpdate = { current_pos: 'userCannotPay', open_question: 'false', next_pos: 'userCannotPay', prev_flow: 'tutor' }
+      reply = standardReplies('userCannotPay', senderName)
       break
 
-    case 'PTtellUserNow':
-      flowControlUpdate = { current_pos: 'PTtellUserNow', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
-      reply = preTutorReplies('PTtellUserNow', senderName)
+    case 'userCanPay':
+      flowControlUpdate = { current_pos: 'userCanPay', open_question: 'false', next_pos: 'userCanPay', prev_flow: 'tutor' }
+      reply = standardReplies('userCanPay', senderName)
       break
 
-      /* *****************************************************************************************************
-      * ********************************** Tutor Flow Section  ***********************************************
-      * ******************************************************************************************************/
-    case 'initiateTutorFlow':
-      if (sendIForgotDialog) {
-        reply = standardReplies('forgetfulnessDialog', senderName)
-      } else {
-        reply = standardReplies('confirmSpeakToTutor', senderName)
-      }
-      flowControlUpdate = { current_pos: 'initiateTutorFlow', open_question: 'false', next_pos: 'tb0' }
-      break
     case 'tb0':
       reply = standardReplies('startingTutorFlow', senderName)
       flowControlUpdate = { current_pos: 'tb0', open_question: true, next_pos: 'tutorAskCountryOfUser', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0', tutor_flow_status: 'requested' }
@@ -278,6 +173,7 @@ const getReply = async (message, params, userFromDB) => {
       controllerSmash.sendNotificationToSlack(process.env.BOT_NOTIFICATIONS_SLACK_URL, `{"text":"User ${userFullName} is *Requesting a native tutor*"}`, 'Tutor Request Flow Initiated')
       reminderToContinueOn = true
       break
+
     case 'tutorAskCountryOfUser':
       reply = standardReplies('tutorAskCountryOfUser', senderName)
       flowControlUpdate = { current_pos: 'tutorAskCountryOfUser', prev_pos: 'tutorAskCountryOfUser', open_question: true, next_pos: 'describeYourself', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }
@@ -285,6 +181,7 @@ const getReply = async (message, params, userFromDB) => {
       futureRepliesToSend = standardReplies('askUserToContinue', senderName)
       reminderToContinueOn = true
       break
+
     case 'describeYourself':
       reply = standardReplies('describeYourself', senderName)
       flowControlUpdate = { current_pos: 'describeYourself', prev_pos: 'describeYourself', open_question: true, next_pos: 'describeYourInterests' }
@@ -293,6 +190,7 @@ const getReply = async (message, params, userFromDB) => {
       await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
       reminderToContinueOn = true
       break
+
     case 'describeYourInterests':
       reply = standardReplies('describeYourInterests', senderName)
       flowControlUpdate = { current_pos: 'describeYourInterests', prev_pos: 'describeYourInterests', open_question: true, next_pos: 'whenToCallTutor', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }
@@ -301,6 +199,7 @@ const getReply = async (message, params, userFromDB) => {
       await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
       reminderToContinueOn = true
       break
+
     case 'whenToCallTutor':
       reply = standardReplies('whenToCallTutor', senderName)
       flowControlUpdate = { current_pos: 'whenToCallTutor', prev_pos: 'whenToCallTutor', open_question: 'false', next_pos: 'confirmWhenToCallTutor', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }
@@ -309,6 +208,7 @@ const getReply = async (message, params, userFromDB) => {
       await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
       reminderToContinueOn = true
       break
+
     case 'confirmWhenToCallTutor':
       reply = standardReplies('confirmWhenToCallTutor', senderName)
       flowControlUpdate = { current_pos: 'confirmWhenToCallTutor', prev_pos: 'confirmWhenToCallTutor', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }
@@ -323,6 +223,7 @@ const getReply = async (message, params, userFromDB) => {
       futureMsgFlowUpdate = flowControlUpdate
       futureRepliesToSend = standardReplies('askUserToContinue', senderName)
       break
+
     case 'daysGroupForCalls':
       reply = standardReplies('daysGroupForCalls', senderName)
       flowControlUpdate = { current_pos: 'daysGroupForCalls', prev_pos: 'daysGroupForCalls', open_question: 'false', next_pos: 'knowThePrice', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }
@@ -342,6 +243,7 @@ const getReply = async (message, params, userFromDB) => {
       }
       reminderToContinueOn = true
       break
+      
     case 'internetSpeedDescription':
       reply = standardReplies('internetSpeedDescription', senderName)
       flowControlUpdate = { current_pos: 'internetSpeedDescription', prev_pos: 'internetSpeedDescription', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }
