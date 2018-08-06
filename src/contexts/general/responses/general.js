@@ -126,7 +126,7 @@ const replyChooser = (replyName, senderName) => {
             subtitle: 'Do you want to improve your English with me? 😜',
             imageUrl: 'https://s3.amazonaws.com/langroo/images/roo_logo_plane.png',
             buttons: [
-              { title: 'Yes! Accept Invite! 📱', type: 'web_url', url: 'https://m.me/langroo' },
+              { title: 'Accept Invite! 📱', type: 'web_url', url: 'https://m.me/langroo' },
               { title: 'Share with Friend ❤️️', type: 'element_share' },
             ],
           },
