@@ -132,7 +132,7 @@ const getReply = async (message, params, userFromDB) => {
   case '_heardAboutLangrooDialog2':
     reply = standardReplies('_heardAboutLangrooDialog2', params.senderName)
     reminderToContinueOn = true
-    FlowUpdate = { current_pos: '_heardAboutLangrooDialog2', open_question: true, prev_pos: '_heardAboutLangrooDialog2', next_pos: 'introFinal', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
+    FlowUpdate = { current_pos: '_heardAboutLangrooDialog2', open_question: true, prev_pos: '_heardAboutLangrooDialog2', next_pos: '_userAllDoneDialog', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
     await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
     break
 

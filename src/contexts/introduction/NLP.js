@@ -5,7 +5,7 @@ const getEntity = (exp) => {
   if (expressions.test(exp)) { return 'getStarted' }
 
   expressions = /^(motivation is work|motivation is social life|motivation is university|motivation is school|motivation is english exams|motivation is job interviews|motivation is travel)$/i
-  if (expressions.test(exp)) { return '_motivationToLearnDialog' }
+  if (expressions.test(exp)) { return '_englishLevelDialog' }
 
   expressions = /^(Found Roo by Influencer|Found Roo from Social Media|Found Roo Searching|Found Roo from Article|Found Roo by other means)$/i
   if (expressions.test(exp)) { return '_heardAboutLangrooDialog2' }
