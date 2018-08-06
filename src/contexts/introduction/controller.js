@@ -99,7 +99,7 @@ const getReply = async (message, params, userFromDB) => {
   case '_englishQuizDialog':
     reply = standardReplies('_englishQuizDialog', params.senderName)
     reminderToContinueOn = true
-    FlowUpdate = { current_pos: '_englishQuizDialog', open_question: 'false', prev_pos: '_englishQuizDialog', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
+    FlowUpdate = { current_pos: '_englishQuizDialog', open_question: true, prev_pos: '_englishQuizDialog', next_pos: '_motivationToLearnDialog', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
     break
 
   case '_motivationToLearnDialog':
