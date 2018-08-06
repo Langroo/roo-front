@@ -117,17 +117,17 @@ const replyChooser = (replyName, senderName) => {
       { type: 'text', content: `Super! 👏Send this link to your friend ${senderName} www.m.me/langroo` },
     ],
     generalShareDialog: [
-      { type: 'text', content: `Super! 👏Share me with your friends ${senderName}!` },
-      { type: 'text', content: 'Just tap below 👇' },
+      { type: 'text', content: 'Super! 👏' },
+      { type: 'text', content: 'Click "Share with Friend ❤️️" below and your friends will get sent this 👇' },
       { type: 'card',
         content: [
           {
-            title: 'Langroo, The English Language Chatbot',
-            subtitle: 'Learn with Roo and improve your english!',
+            title: 'Hey! I\'m Participating in the Langroo Daily quiz!',
+            subtitle: 'Do you want to improve your English with me? 😜',
             imageUrl: 'https://s3.amazonaws.com/langroo/images/roo_logo_plane.png',
             buttons: [
-              { title: 'Get Started', type: 'web_url', url: 'https://m.me/langroo' },
-              { title: 'Share', type: 'element_share' },
+              { title: 'Yes! Accept Invite! 📱', type: 'web_url', url: 'https://m.me/langroo' },
+              { title: 'Share with Friend ❤️️', type: 'element_share' },
             ],
           },
         ],
