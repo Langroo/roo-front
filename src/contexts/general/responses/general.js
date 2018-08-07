@@ -56,20 +56,6 @@ const replyChooser = (replyName, senderName) => {
     thanksForFeedback: [
       { type: 'text', content: 'Ok, great thanks for the feedback, have a great day! :)' },
     ],
-    restartOptions: [
-      {
-        type: 'button',
-        content:
-        {
-          title: `Hey ${senderName}, are you sure you want to restart our conversation again 🔄? Or, is there another option you want 😮?`,
-          buttons: [
-              { title: 'Change Level/Accent', type: 'postback', value: 'change_level_or_accent' },
-              { title: 'Other', type: 'postback', value: 'custom_user_req' },
-              { title: 'Restart', type: 'postback', value: 'full_restart' },
-          ],
-        },
-      },
-    ],
     customUserRequest: [
       { type: 'text', content: 'Cool 👌, would you like to give me some details 📝 and I will respond as soon as I can?' },
     ],
@@ -106,12 +92,6 @@ const replyChooser = (replyName, senderName) => {
       [{ type: 'text', content: 'I know we got lost in conversation 😆, but...' }],
       [{ type: 'text', content: 'What did I ask you again? 😶Ow yeah ☝️ ...' }],
       [{ type: 'text', content: `I was waiting for you to respond the below ${senderName} 😁👇` }],
-    ],
-    broadcastRestart: [
-      { type: 'text', content: `Brilliant ${senderName}, get ready for takeoff! 🚀But, just before I ask some questions first…. 😉` },
-    ],
-    broadcastStartLater: [
-      { type: 'text', content: `${senderName}, what is more important than learning to speak native English? Do you have a hot date or something? 💕 🍴 😂` },
     ],
     broadcastShare: [
       { type: 'text', content: `Super! 👏Send this link to your friend ${senderName} www.m.me/langroo` },

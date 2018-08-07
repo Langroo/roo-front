@@ -61,14 +61,6 @@ const getReply = async (message, params, userFromDB) => {
 
   }
 
-  if (params.currentEntity === 'determineLanguage') {
-    if (userSpeaksEnglish) {
-      params.currentEntity = 'askWhoIsRoo'
-    } else {
-      params.currentEntity = 'userSpeakLanguage'
-    }
-  }
-
   // -- Create basic account in DB for new - unregistered users
   if (!userFromDB.data) { await API.createInitialUserProfile(message.sender.id, message.conversation) }
 
@@ -146,7 +138,7 @@ const getReply = async (message, params, userFromDB) => {
   case '_howQuizWorksDialog':
     reply = standardReplies('_howQuizWorksDialog', params.senderName)
     reminderToContinueOn = true
-    FlowUpdate = { current_pos: '_howQuizWorksDialog', open_question: 'false', prev_pos: '_howQuizWorksDialog', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false' }
+    FlowUpdate = { current_pos: '_howQuizWorksDialog', open_question: 'false', prev_pos: '_howQuizWorksDialog', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'opentalk', translate_dialog: 'false' }
     await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput)
     break
 
@@ -187,14 +179,6 @@ const getReply = async (message, params, userFromDB) => {
     params.currentEntity = 'fallback'
     params.prevFlow = 'fallback'
     reply = await flows.opentalk(message, params, userFromDB)
-    if (userLanguage !== 'en') {
-      for (let i = 0; i < reply.length; i++) {
-        if (reply[i].type === 'text') {
-          replyTranslated = await controllerSmash.translateReply(reply, userLanguage)
-          reply[i].content = replyTranslated.text
-        }
-      }
-    }
     return reply
   }
 
@@ -214,9 +198,6 @@ const getReply = async (message, params, userFromDB) => {
       console.log('DEBUG MODE IS ENABLED - REMINDER TO COMPLETE INTRO FLOW WILL BE SENT IN 40 SECONDS INSTEAD OF NORMAL TIME')
       waitingTime = 40
     }
-    const data = {
-      senderId: message.sender.id,
-    }
 
     controllerSmash.killCronJob(params.prevPos, message.sender.id)
 
@@ -231,8 +212,6 @@ const getReply = async (message, params, userFromDB) => {
     } else {
       controllerSmash.CronReminder(params.currentEntity, standardReplies('gifForReminder', params.senderName).concat(standardReplies(params.currentEntity, params.senderName).pop()), waitingTime, FlowUpdate, message.sender.id, userFromDB)
     }
-    /* Comment this function is not ready*/
-    // controllerSmash.apiCronReminder('user/createReminder', data, null)
   }
 
   if (userLanguage !== 'en' && translateActive) {
