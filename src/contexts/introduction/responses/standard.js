@@ -38,7 +38,7 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'text', content: '👍👍' },
       { type: 'text', content: 'Well, here’s an intro VIDEO from Tim on the Langroo team! 👨👩🏽 🎉' },
       { type: 'video', content: 'https://s3.amazonaws.com/langroo/videos/video_of_the_day1.mp4' },
-      { type: 'delay', content: 30000 },
+      { type: 'delay', content: 40000 },
       { type: 'quickReplies',
         content: {
           title: 'Want to know more? 😛',
