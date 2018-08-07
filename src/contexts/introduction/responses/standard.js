@@ -142,7 +142,7 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       },
     ],
     introPostFinal: [
-      { type: 'text', content: `Very well ${senderName}, see you soon for the Daily Quiz!`}
+      { type: 'text', content: `Very well ${senderName}, see you soon for the Daily Quiz!` },
     ],
   }
   return replies[replyName]
