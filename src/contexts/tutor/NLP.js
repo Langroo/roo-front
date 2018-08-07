@@ -17,10 +17,8 @@ const getEntity = (exp) => {
   if (expressions.test(exp)) { return 'tb0' }
 
   expressions = /^(TALK_TO_TUTOR|initiatePreTutorFlow|Upgrade to Tutor|request personal tutor)$/i
-  if (expressions.test(exp)) { return 'initiatePreTutorFlow' }
-
-  expressions = /^(EXPLORE_TUTORS)$/i
   if (expressions.test(exp)) { return 'exploreTutorFlow' }
+
 
   expressions = /^(tutor_answer_connection_really_bad|tutor_answer_connection_bad)$/i
   if (expressions.test(exp)) { return 'badConnection' }

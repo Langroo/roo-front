@@ -99,35 +99,8 @@ const getReply = async (message, params, userFromDB) => {
      * ********************************* Upselling Tutor Flow Section  **************************************
      * ******************************************************************************************************/
     case 'exploreTutorFlow':
-
-      preTutorAux.motivation = userFromDB.data.motivation_to_learn_english
       flowControlUpdate = { current_pos: 'exploreTutorFlow', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
-      if (preTutorAux.motivation) {
-        if (preTutorAux.motivation === 'motivation is fun or challenge') {
-          preTutorAux.motivation = 'your personal motivation!'
-        } else {
-          switch (preTutorAux.motivation) {
-            case 'motivation is work':
-              preTutorAux.motivation = 'work'
-              break
-            case 'motivation is school':
-              preTutorAux.motivation = 'school'
-              break
-            case 'motivation is university':
-              preTutorAux.motivation = 'university'
-              break
-            case 'motivation is english exams':
-              preTutorAux.motivation = 'english exams'
-              break
-            case 'motivation is job interviews':
-              preTutorAux.motivation = 'job interviews'
-              break
-          }
-        }
-        reply = standardReplies('exploreTutorFlow', senderName)
-      } else {
-        reply = standardReplies('exploreTutorFlow', senderName)
-      }
+      reply = standardReplies('exploreTutorFlow', senderName)
       break
 
     case 'badConnection':
@@ -166,12 +139,12 @@ const getReply = async (message, params, userFromDB) => {
       break
 
     case 'haveQuestion':
-      flowControlUpdate = { current_pos: 'haveQuestion', open_question: 'false', next_pos: 'haveQuestion', prev_flow: 'tutor' }
+      flowControlUpdate = { current_pos: 'haveQuestion', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
       reply = standardReplies('haveQuestion', senderName)
       break
 
     case 'haveNotQuestion':
-      flowControlUpdate = { current_pos: 'haveNotQuestion', open_question: 'false', next_pos: 'haveNotQuestion', prev_flow: 'tutor' }
+      flowControlUpdate = { current_pos: 'haveNotQuestion', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
       reply = standardReplies('haveNotQuestion', senderName)
       break
 

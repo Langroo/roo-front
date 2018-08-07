@@ -59,36 +59,39 @@ const replyChooser = (replyName, senderName) => {
         type: 'carousel',
         content: [
           {
-            title: '"I\'m from Los Angeles"',
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/women-s-white-and-black-button-up-collared-shirt.jpeg',
+            title: '"I\'m from Plymouth"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_woman_tutor_1.png',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://www.langroo.com/',
+                title: 'Schedule Free Call!',
+              },
+            ],
+          },
+          {
+            title: '"I\'m from Wisconsin"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_man_tutor_1.jpg',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://www.langroo.com/',
+                title: 'Schedule Free Call!',
+              },
+            ],
           },
           {
             title: '"I\'m from London"',
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo-of-a-man-listening-music-on-his-phone.jpeg',
-          },
-          {
-            title: '"I\'m from Michigan"',
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/man-young-happy-smiling.jpeg',
-          },
-          {
-            title: '"I\'m from Oxford"',
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/closeup-photo-of-woman-with-brown-coat-and-gray-top.jpeg',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_woman_tutor_2.png',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://www.langroo.com/',
+                title: 'Schedule Free Call!',
+              },
+            ],
           },
         ],
-      },
-      {
-        type: 'button',
-        content:
-        {
-          title: 'Schedule Free Call!',
-          buttons: [
-            {
-              type: 'web_url',
-              url: 'https://www.langroo.com/',
-              title: 'Schedule Free Call!',
-            },
-          ],
-        },
       },
       { type: 'text', content: 'If you schedule a call, you can pay after 💳 by using the option in the menu!' },
       {
@@ -106,29 +109,18 @@ const replyChooser = (replyName, senderName) => {
       { type: 'text', content: 'Ok! 💥' },
       { type: 'text', content: 'You can choose to have a FREE introduction call with the tutor you like the most! Select an option below' },
       {
-        type: 'button',
-        content:
-        {
-          title: '',
-          buttons: [
-            {
-              type: 'web_url',
-              url: 'https://www.langroo.com/',
-              title: 'Schedule Free Call!',
-            },
-          ],
-        },
-      },
-      {
         type: 'carousel',
         content: [
           {
-            title: '"I\'m from London"',
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo-of-a-man-listening-music-on-his-phone.jpeg',
-          },
-          {
-            title: '"I\'m from Michigan"',
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/man-young-happy-smiling.jpeg',
+            title: '"I\'m from Wisconsin"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_man_tutor_1.jpg',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://www.langroo.com/',
+                title: 'Schedule Free Call!',
+              },
+            ],
           },
         ],
       },
@@ -149,21 +141,28 @@ const replyChooser = (replyName, senderName) => {
       { type: 'text', content: 'You can choose to have a FREE introduction call with the tutor you like the most! Select an option below' },
       {
         type: 'carousel',
-        buttons: [
-          {
-            type: 'web_url',
-            url: 'https://www.langroo.com/',
-            title: 'Schedule Free Call!',
-          },
-        ],
         content: [
           {
-            title: '"I\'m from Los Angeles"',
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/women-s-white-and-black-button-up-collared-shirt.jpeg',
+            title: '"I\'m from Plymouth"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_woman_tutor_1.png',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://www.langroo.com/',
+                title: 'Schedule Free Call!',
+              },
+            ],
           },
           {
-            title: '"I\'m from Oxford"',
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/closeup-photo-of-woman-with-brown-coat-and-gray-top.jpeg',
+            title: '"I\'m from London"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_woman_tutor_2.png',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://www.langroo.com/',
+                title: 'Schedule Free Call!',
+              },
+            ],
           },
         ],
       },
@@ -183,7 +182,7 @@ const replyChooser = (replyName, senderName) => {
       { type: 'text', content: 'If you have any questions, please write #help + your question and a member of my team can answer! 🙋:)' },
     ],
     haveNotQuestion: [
-      { type: 'text', contetn: 'Ok great 👍, enjoy!' },
+      { type: 'text', content: 'Ok great 👍, enjoy!' },
     ],
   }
 
