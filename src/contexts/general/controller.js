@@ -145,7 +145,11 @@ const getReply = async (message, params, userFromDB) => {
     break
 
   case 'paymentHelpDialog':
-    reply = paymentReplies('paymentHelpDialog', senderName)
+    reply = paymentReplies('paymentHelpDialog', senderName, {})
+    break
+
+  case 'paymentDialog_Final':
+    reply = paymentReplies('paymentDialog_Final', senderName, {})
     break
 
   case 'generalShareDialog':
