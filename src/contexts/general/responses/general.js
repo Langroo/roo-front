@@ -94,20 +94,20 @@ const replyChooser = (replyName, senderName) => {
       [{ type: 'text', content: `I was waiting for you to respond the below ${senderName} 😁👇` }],
     ],
     broadcastShare: [
-      { type: 'text', content: `Super! 👏Send this link to your friend ${senderName} www.m.me/langroo` },
+      { type: 'text', content: `Super! 👏 Send this link to your friend ${senderName} www.m.me/langroo` },
     ],
     generalShareDialog: [
       { type: 'text', content: 'Super! 👏' },
-      { type: 'text', content: 'Click "Share with Friend ❤️️" below and your friends will get sent this 👇' },
+      { type: 'text', content: 'Click SHARE to send this 👇' },
       { type: 'card',
         content: [
           {
-            title: 'Hey! I\'m Participating in the Langroo Daily quiz!',
-            subtitle: 'Do you want to improve your English with me? 😜',
+            title: 'Hey, have you heard of the Langroo chatbot? ',
+            subtitle: 'Accept my invite below to learn English together!',
             imageUrl: 'https://s3.amazonaws.com/langroo/images/roo_logo_plane.png',
             buttons: [
-              { title: 'Accept Invite! 📱', type: 'web_url', url: 'https://m.me/langroo' },
-              { title: 'Share with Friend ❤️️', type: 'element_share' },
+              { title: 'Share ❤️️', type: 'element_share' },
+              { title: 'Accept Invite 👍', type: 'web_url', url: 'https://m.me/langroo' },
             ],
           },
         ],
