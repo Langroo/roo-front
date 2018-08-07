@@ -42,7 +42,7 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'delay', content: 40 },
       { type: 'quickReplies',
         content: {
-          title: 'Want to know more about what our team does? 😎',
+          title: 'Want to know more? 😛',
           buttons: [
             { title: 'YES', value: 'yes, know more' },
           ],
@@ -50,13 +50,15 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       },
     ],
     _englishQuizDialog: [
-      { type: 'text', content: 'We send an English QUIZ every Monday, Wednesday and Friday ⌚️ at 3pm London time! 🇬🇧' },
-      { type: 'image', content: 'https://s3.amazonaws.com/langroo/images/ship_captain_its_time.gif' },
-      { type: 'text', content: 'And every day a WINNER gets a prize! 🏆🙊' },
-      { type: 'text', content: `Do you want to be able to win ${senderName}.......?` },
+      { type: 'text', content: 'We send an English QUIZ every Monday, Wednesday and Friday! 📝' },
+      { type: 'text', content: 'And every day there is ONE WINNER! 🏆' },
+      { type: 'image', content: 'https://s3.amazonaws.com/langroo/images/boxing-ring-champion.gif' },
+      { type: 'text', content: 'Are you ready to participate....? ' },
     ],
     _motivationToLearnDialog: [
-      { type: 'text', content: 'Ok, let me get to understand you a bit more!' },
+      { type: 'text', content: 'Let’s goooo!!! 🚀' },
+      { type: 'text', content: 'But, I want to understand you a bit more first' },
+      { type: 'text', content: 'So...' },
       { type: 'quickReplies',
         content: {
           title: 'Why are you learning English? ☺️',
@@ -77,6 +79,7 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'text', content: 'Nice, tell me more please 😄' },
     ],
     _englishLevelDialog: [
+      { type: 'text', content: 'Oooh…..' },
       { type: 'quickReplies',
         content: {
           title: 'Before I help you with that, what’s your English level right now? 😅',
@@ -89,13 +92,15 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       },
     ],
     _heardAboutLangrooDialog1: [
+      { type: 'text', content: 'To help find more people like you...' },
       { type: 'quickReplies',
         content: {
-          title: 'Finally, to help find more people like you ☝️ How did you hear about Langroo? 📣',
+          title: 'How did you hear 👂 about Langroo?',
           buttons: [
             { title: 'Influencer 🌟', value: 'Found Roo by Influencer' },
             { title: 'Social Media 📲', value: 'Found Roo from Social Media' },
             { title: 'Friend 👨', value: 'Found Roo from a Friend' },
+            { title: 'Facebook Group 📱', value: 'Found Roo from a Facebook Group' },
             { title: 'Search 🔍', value: 'Found Roo Searching' },
             { title: 'Article 📰', value: 'Found Roo from Article' },
             { title: 'Other', value: 'Found Roo by other means' },
@@ -104,20 +109,22 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       },
     ],
     _heardAboutLangrooDialog2: [
-      { type: 'text', content: 'Hmm… Can you specify? 🙂' },
+      { type: 'text', content: 'Hmm… Can you tell me exactly? 🙂' },
     ],
     _userAllDoneDialog: [
       { type: 'text', content: `${senderName}..........` },
-      { type: 'text', content: 'You are now OFFICIALLY ready to start 📱👏' },
-      { type: 'text', content: 'Get ready for our next quiz! 😁' },
-      { type: 'text', content: 'Do you want me to tell you how it works?' },
+      { type: 'text', content: 'You are now a part of the Langroo COMMUNITY 🎉' },
+      { type: 'image', content: 'https://s3.amazonaws.com/langroo/images/wolfpack-guys-group-walking.gif' },
+      { type: 'text', content: 'Do you know how the quiz works?' },
     ],
     _howQuizWorksDialog: [
-      { type: 'text', content: 'The FASTEST person 🏃 to respond with correct answer ✅receives a prize!'},
-      { type: 'text', content: 'The results 📊 will be announced 30 minutes after the quiz goes live! '},
+      { type: 'text', content: 'We will send the quiz here at 3pm 👇(LONDON time)' },
+      { type: 'text', content: 'The FASTEST person 🏃 to respond with the correct answer ✅ receives a prize!' },
+      { type: 'text', content: 'The results 📊 will be announced 30 minutes later!' },
+      { type: 'text', content: 'Now that you have the details…. ' },
       { type: 'quickReplies',
         content: {
-          title: `Would you like to play with a friend ${senderName}?`,
+          title: 'Would you like to invite a friend to learn with? 📨',
           buttons: [
             { title: 'Yes 😁', value: 'share langroo' },
             { title: 'Maybe 😂', value: 'share langroo' },
@@ -128,6 +135,7 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
     ],
     introFinal: [
       { type: 'text', content: 'Best of luck!! 👍' },
+      { type: 'text', content: 'Talk to you soon, and great to meet you!!' },
     ],
     jumpToTutorFlow: [
       { type: 'text', content: 'Now, since you requested it...' },
