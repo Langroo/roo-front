@@ -1,24 +1,5 @@
 const replyChooser = (replyName, senderName, url = {}) => {
 
-  const euroPrices = {
-    casual: '€17',
-    standard: '€32',
-    elite: '€50',
-  }
-  const dollarPrices = {
-    casual: '$20',
-    standard: '$38',
-    elite: '$57',
-  }
-
-  let messenger_extensions
-  process.env.NODE_ENV === 'local' ? messenger_extensions = false : messenger_extensions = true
-
-  let prices = {}
-  url.currency === 'USD' ? prices = dollarPrices : prices = euroPrices
-
-  console.log('URL :::: ', url)
-
   const replies = {
     paymentDialog_Init: [
       {
@@ -45,19 +26,16 @@ const replyChooser = (replyName, senderName, url = {}) => {
                 type: 'web_url',
                 url: url.casualURL,
                 title: 'Pay in 10 seconds!',
-                webview_height_ratio: 'tall',
-                messenger_extensions,
-                fallback_url: 'https://www.facebook.com/langroo',
               },
               {
                 type: 'postback',
                 title: 'Help Needed ❓',
-                payload: 'help_paying_postback',
+                value: 'help_paying_postback',
               },
               {
                 type: 'postback',
                 title: 'Payment Complete! ↩️',
-                payload: 'payment_complete_postback',
+                value: 'payment_complete_postback',
               },
             ],
           },
@@ -69,19 +47,16 @@ const replyChooser = (replyName, senderName, url = {}) => {
                 type: 'web_url',
                 url: url.standardURL,
                 title: 'Pay in 10 seconds!',
-                webview_height_ratio: 'tall',
-                messenger_extensions,
-                fallback_url: 'https://www.facebook.com/langroo',
               },
               {
                 type: 'postback',
                 title: 'Help Needed ❓',
-                payload: 'help_paying_postback',
+                value: 'help_paying_postback',
               },
               {
                 type: 'postback',
                 title: 'Payment Complete! ↩️',
-                payload: 'payment_complete_postback',
+                value: 'payment_complete_postback',
               },
             ],
           },
@@ -93,19 +68,16 @@ const replyChooser = (replyName, senderName, url = {}) => {
                 type: 'web_url',
                 url: url.eliteURL,
                 title: 'Pay in 10 seconds!',
-                webview_height_ratio: 'tall',
-                messenger_extensions,
-                fallback_url: 'https://www.facebook.com/langroo',
               },
               {
                 type: 'postback',
                 title: 'Help Needed ❓',
-                payload: 'help_paying_postback',
+                value: 'help_paying_postback',
               },
               {
                 type: 'postback',
                 title: 'Payment Complete! ↩️',
-                payload: 'payment_complete_postback',
+                value: 'payment_complete_postback',
               },
             ],
           },

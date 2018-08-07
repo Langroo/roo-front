@@ -309,24 +309,24 @@ class FacebookAPI {
         })
 
       }
-    }
 
-    // Set the prepared message
-    preparedMessage = JSON.stringify({
-      messaging_type: 'RESPONSE',
-      recipient: {
-        id: this.senderId,
-      },
-      message: {
-        attachment: {
-          type: 'template',
-          payload: {
-            template_type: 'generic',
-            elements: payload,
+      // Set the prepared message
+      preparedMessage = JSON.stringify({
+        messaging_type: 'RESPONSE',
+        recipient: {
+          id: this.senderId,
+        },
+        message: {
+          attachment: {
+            type: 'template',
+            payload: {
+              template_type: 'generic',
+              elements: payload,
+            },
           },
         },
-      },
-    })
+      })
+    }
 
     if (type === 'button') {
 

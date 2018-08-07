@@ -13,24 +13,15 @@ require('dotenv').config()
  * *********************************************************************************/
 class OneForAll {
 
-  async sendNotificationToSlack (url, data, log) {
-    try {
-      axios.request({
-        headers: { 'Content-Type': 'application/json' },
-        url,
-        method: 'post',
-        data,
-      })
-      console.log(log)
-    } catch (reason) {
-      console.log('Error notifying Slack of user starting Tutor Flow:: ', reason)
-    }
-  }
-
-  async asyncForEach (array, callback) {
-    for (let index = 0; index < array.length; index++) {
-      await callback(array[index], index, array)
-    }
+  sendNotificationToSlack (url, data) {
+    axios.request({
+      headers: { 'Content-Type': 'application/json' },
+      url,
+      method: 'post',
+      data,
+    })
+      .then(() => { return 0 })
+      .catch((err) => { return err })
   }
 
   async translateReply (reply, lang, skipTranslationIndex = [], dontTranslate = /^undefined$/) {
