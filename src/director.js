@@ -1,4 +1,4 @@
-const replyLauncher = require('./reply.handler')
+const ReplyHandler = require('./reply.handler')
 const Bot = require('messenger-bot')
 const OneForAll = require('./bot-tools').OneForAll
 
@@ -7,6 +7,19 @@ const bot = new Bot({
   verify: process.env.FB_VERIFY_TOKEN,
   app_secret: process.env.FB_APP_SECRET,
 })
+
+const checkForAdminInput = (payload, text) => {
+  // -- Variable to check for specific admin related input
+  const adminRegex = /(activate message delay|deactivate message delay|roo masters 101)/i
+
+  // -- Handle ADMIN input
+  if (adminRegex.test(text)) {
+    ReplyHandler.adminDialogs(text, payload.sender.id)
+    console.info('<< Admin Request received and processed >>')
+    return 1
+  }
+  return 0
+}
 
 const checkForHashTags = (profile, text) => {
   // -- Variable to check for specific hashtags in user input
@@ -35,11 +48,9 @@ const botReplier = (payload, reply, actions = null) => {
   // -- Define constants for message content and help regex
   let text
   if (payload.message) {
-    if (payload.message.quick_reply) {
-      text = payload.message.quick_reply.payload
-    } else {
-      text = payload.message.text
-    }
+    payload.message.quick_reply
+      ? text = payload.message.quick_reply.payload
+      : text = payload.message.text
   }
 
   if (payload.postback) { text = payload.postback.payload }
@@ -47,36 +58,21 @@ const botReplier = (payload, reply, actions = null) => {
   // -- Retrieve the user profile and then proceed
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) { throw err }
-
+    // -- Log user's input date
+    console.log('\n############### USER INPUT DATE ##############\n[%s]', Date())
     // -- Add the user profile to the payload object
     payload.profile = profile
 
-    // -- Define the env variable to pass data to Chatbase
+    // -- Define the env SENDER_ID to pass data to Chatbase
     process.env.SENDER_ID = payload.sender.id
 
-    // -- Set the Raw Input
-    const conversation = { source: text }
-
-    const adminRegex = /(activate message delay|deactivate message delay|roo masters 101)/i
-
-    // -- Handle ADMIN input
-    if (adminRegex.test(conversation.source)) {
-      replyLauncher.adminDialogs(conversation.source, payload.sender.id)
-      console.info('<< Admin Request received and processed >>')
-    }
-
-    // -- Register the date and hour of this message in the logs
-    const userInputDate = new Date()
-    console.log('\n############## USER INPUT DATE #############\n[%s]', userInputDate)
-
-    // -- Verify input for user hashtags
+    // -- Verify input for user hashtags or admin input
     if (checkForHashTags(profile, text)) { return 0 }
+    if (checkForAdminInput(payload, text)) { return 0 }
 
     // -- Handle User Input and Return Replies
-    replyLauncher.flowLauncher(payload, conversation)
-
+    ReplyHandler.userDialogs(payload, text)
   })
-
 }
 
 // -- Chatbot referral handling (when users use the m.link)
