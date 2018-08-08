@@ -6,7 +6,7 @@ const replyChooser = (replyName, senderName) => {
       {
         type: 'quickReplies',
         content: {
-          title: '(½) Our tutor calls happen via Messenger video, how strong is your internet connection? 📶',
+          title: '(1/2) Our tutor calls happen via Messenger video, how strong is your internet connection? 📶',
           buttons: [
             { title: 'Really Bad 😱', value: 'tutor_answer_connection_really_bad' },
             { title: 'Bad 😦', value: 'tutor_answer_connection_bad' },
