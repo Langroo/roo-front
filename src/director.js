@@ -33,7 +33,7 @@ const checkForHashTags = (profile, text) => {
 
     // -- Define our message to send to Slack and the URL
     const data = `{"text":"User ${profile.first_name} ${profile.last_name} request for *HELP*: _${text}_"}`
-    const url = process.env.BOT_NOTIFICATIONS_SLACK_URL
+    const url = process.env.ASKROO_SLACK_URL
 
     // -- Send message to Slack and collect the error if any
     const error = slackSmash.sendNotificationToSlack(url, data)
