@@ -154,7 +154,7 @@ const flowLauncher = (payload, conversation) => {
   const Raven = require('raven')
   Raven.config('https://96d6795013a54f8f852719919378cc59@sentry.io/304046').install()
   const context = require('./contexts')
-  const inputHandler = require('./input_handler')
+  const inputHandler = require('./input.handler')
   const Cron = require('node-schedule')
   const BotTools = require('./bot-tools')
   const FbAPIClass = BotTools.FacebookAPI

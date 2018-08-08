@@ -1,11 +1,34 @@
-const replyLauncher = require('./replyLauncher')
+const replyLauncher = require('./reply.handler')
 const Bot = require('messenger-bot')
+const OneForAll = require('./bot-tools').OneForAll
 
 const bot = new Bot({
   token: process.env.FB_ACCESS_TOKEN,
   verify: process.env.FB_VERIFY_TOKEN,
   app_secret: process.env.FB_APP_SECRET,
 })
+
+const checkForHashTags = (profile, text) => {
+  // -- Variable to check for specific hashtags in user input
+  const helpRegex = /(#team|#help)/ig
+
+  // -- Notify Slack Bot-Notifications channel if helpRegex is detected in user input
+  if (helpRegex.test(text)) {
+
+    // -- Instantiation of our Smash to Slack
+    const slackSmash = new OneForAll()
+
+    // -- Define our message to send to Slack and the URL
+    const data = `{"text":"User ${profile.first_name} ${profile.last_name} request for *HELP*: _${text}_"}`
+    const url = process.env.BOT_NOTIFICATIONS_SLACK_URL
+
+    // -- Send message to Slack and collect the error if any
+    const error = slackSmash.sendNotificationToSlack(url, data)
+    if (error) { throw error }
+    return 1
+  }
+  return 0
+}
 
 const botReplier = (payload, reply, actions = null) => {
 
@@ -20,10 +43,6 @@ const botReplier = (payload, reply, actions = null) => {
   }
 
   if (payload.postback) { text = payload.postback.payload }
-  const helpRegex = /(#team|#help)/ig
-
-  // -- Return and avoid processing user input if hashtag #help is detected
-  if (helpRegex.test(text)) { return 0 }
 
   // -- Retrieve the user profile and then proceed
   bot.getProfile(payload.sender.id, (err, profile) => {
@@ -50,6 +69,9 @@ const botReplier = (payload, reply, actions = null) => {
     const userInputDate = new Date()
     console.log('\n############## USER INPUT DATE #############\n[%s]', userInputDate)
 
+    // -- Verify input for user hashtags
+    if (checkForHashTags(profile, text)) { return 0 }
+
     // -- Handle User Input and Return Replies
     replyLauncher.flowLauncher(payload, conversation)
 
@@ -73,7 +95,11 @@ bot.on('message', (payload, reply) => botReplier(payload, reply))
 bot.on('delivery', (payload, reply, actions) => console.log('Facebook informs correct delivery of the message'))
 
 // -- Handle user Input / Postback
-const interact = (req, res) => bot._handleMessage(req.body)
+const interact = (req, res) => {
+  try {
+    bot._handleMessage(req.body)
+  } catch (err) { console.log('Error handling input at Director Module: ', err) }
+}
 
 // -- Verify Webhook authenticity with Facebook
 const verify = (req, res) => bot._verify(req, res)
