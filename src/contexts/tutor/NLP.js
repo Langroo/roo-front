@@ -16,9 +16,8 @@ const getEntity = (exp) => {
   expressions = /^tf_yes_init$/i
   if (expressions.test(exp)) { return 'tb0' }
 
-  expressions = /^(TALK_TO_TUTOR|initiatePreTutorFlow|Upgrade to Tutor|request personal tutor)$/i
+  expressions = /^(TALK_TO_TUTOR|initiatePreTutorFlow|Upgrade to Tutor|request personal tutor|explore tutors| Explore Tutors)$/i
   if (expressions.test(exp)) { return 'exploreTutorFlow' }
-
 
   expressions = /^(tutor_answer_connection_really_bad|tutor_answer_connection_bad)$/i
   if (expressions.test(exp)) { return 'badConnection' }

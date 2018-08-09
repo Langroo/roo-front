@@ -93,7 +93,6 @@ const replyChooser = (replyName, senderName) => {
           },
         ],
       },
-      { type: 'text', content: 'If you schedule a call, you can pay after 💳 by using the option in the menu!' },
       {
         type: 'quickReplies',
         content: {
@@ -124,7 +123,6 @@ const replyChooser = (replyName, senderName) => {
           },
         ],
       },
-      { type: 'text', content: 'If you schedule a call, you can pay after 💳 by using the option in the menu!' },
       {
         type: 'quickReplies',
         content: {
@@ -166,7 +164,6 @@ const replyChooser = (replyName, senderName) => {
           },
         ],
       },
-      { type: 'text', content: 'If you schedule a call, you can pay after 💳 by using the option in the menu!' },
       {
         type: 'quickReplies',
         content: {
