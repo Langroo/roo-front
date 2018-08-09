@@ -2,5 +2,5 @@
  * Export every route manager
  */
 module.exports = {
-  dbApi: require('./dbApi'),
+  dbApi: require('./core-api'),
 }

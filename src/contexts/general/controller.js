@@ -1,4 +1,4 @@
-const API = require('../../api/index').dbApi
+const API = require('../../core/index').dbApi
 const axios = require('axios')
 const accountReplies = require('./responses').accountReplies
 const paymentReplies = require('./responses').paymentReplies
@@ -120,6 +120,18 @@ const getReply = async (message, params, userFromDB) => {
       params.currentEntity = 'getStarted'
       reply = await contexts.introduction(message, params, userFromDB)
 
+    }
+    break
+
+  case 'sendMessageBroadcast':
+    if (params.rawUserInput === 'send_monday_broadcast') {
+      await API.sendBroadcastMessage('mondayBroadcastQuiz', 'UNSUBSCRIBED')
+      reply = []
+    } else if (params.rawUserInput === 'send_wednesday_broadcast') {
+      await API.sendBroadcastMessage('wednesdayBroadcastQuiz', 'UNSUBSCRIBED')
+      reply = []
+    } else if (params.rawUserInput === 'send_friday_broadcast') {
+      reply = [{ type: 'text', content: 'Still not available :P' }]
     }
     break
 

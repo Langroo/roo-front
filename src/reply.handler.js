@@ -1,5 +1,5 @@
 const flowPositions = require('./flow-positions')
-const API = require('./api').dbApi
+const API = require('./core').dbApi
 const crypto = require('crypto')
 const generateHash = (str) => crypto.createHash('md5').update(str).digest('hex')
 require('dotenv').config()
@@ -18,8 +18,18 @@ const adminDialogs = (input, senderId) => {
   if (flowResetRegex.test(input)) {
     API.updateFlow(senderId, flowPositions('adminFlowReset'))
       .then(() => API.createInitialUserProfile(senderId)
-        .then(() => FacebookAPI.SendMessages('text', '✔ CONTEXT ADMIN RESET SUCCESSFUL 👍. \nYou are now in the opentalk Context. 👀')
-          .then(() => { return true })))
+        .then(() => {
+          FacebookAPI.SendMessages('quickReplies',
+            {
+              title: '✔ CONTEXT ADMIN RESET SUCCESSFUL 👍. \nYou are now in the opentalk Context. 👀',
+              buttons: [
+                { title: 'Monday Broadcast', value: 'send_monday_broadcast' },
+                { title: 'Wednesday Broadcast', value: 'send_wednesday_broadcast' },
+                { title: 'Friday Broadcast', value: 'send_friday_broadcast' },
+              ],
+            })
+            .then(() => { return true })
+        }))
   }
 
   // -- Allow deactivation of the delays between messages only if this env variable is set

@@ -4,7 +4,7 @@
 const translate = require('google-translate-api')
 const axios = require('axios')
 const cronJobScheduler = require('node-schedule')
-const API = require('../../api/index').dbApi
+const API = require('../../core/index').dbApi
 const replyLauncher = require('../../reply.handler')
 require('dotenv').config()
 
