@@ -87,7 +87,6 @@ const getReply = async (message, params, userFromDB) => {
     }
     params.currentEntity = params.currentPos
     let tempReply = standardReplies(params.currentEntity, senderName)
-    if (!tempReply) { tempReply = preTutorReplies(params.currentEntity, senderName) }
     const trueReply = [tempReply.pop()]
     reply = failsafeReplies('pressAButton', senderName)[Math.floor(Math.random() * failsafeReplies('pressAButton', senderName).length)]
     return reply.concat(trueReply)
@@ -138,15 +137,15 @@ const getReply = async (message, params, userFromDB) => {
       reply = standardReplies('userCanPay', senderName)
       break
 
-    case 'haveQuestion':
-      flowControlUpdate = { current_pos: 'haveQuestion', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
-      reply = standardReplies('haveQuestion', senderName)
-      break
+    // case 'haveQuestion':
+    //   flowControlUpdate = { current_pos: 'haveQuestion', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
+    //   reply = standardReplies('haveQuestion', senderName)
+    //   break
 
-    case 'haveNotQuestion':
-      flowControlUpdate = { current_pos: 'haveNotQuestion', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
-      reply = standardReplies('haveNotQuestion', senderName)
-      break
+    // case 'haveNotQuestion':
+    //   flowControlUpdate = { current_pos: 'haveNotQuestion', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
+    //   reply = standardReplies('haveNotQuestion', senderName)
+    //   break
 
     case 'tb0':
       reply = standardReplies('startingTutorFlow', senderName)

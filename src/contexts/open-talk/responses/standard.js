@@ -29,7 +29,9 @@ const replyChooser = (replyName, senderName) => {
       { type: 'text', content: 'But my homeplace is Ireland 😎' },
     ],
     functionReply: [
-      { type: 'text', content: `I will explain more about how I can help you ${senderName}... 📝 I will send you daily curated content on how we speak here in the USA or Great Britain, and quizzes every two days! 👍` },
+      {
+        type: 'text', content: 'How can I help you? 💁 Well, every day you will receive a quiz from our community! And, at any time our team of tutors is here to help you, just write EXPLORE TUTORS! ;)'
+      },
     ],
     languageReply: [
       {
@@ -65,7 +67,7 @@ const replyChooser = (replyName, senderName) => {
     missunderstandingReply: [
       {
         type: 'text',
-        content: 'Remember to use some of the student options available to you in the menu 😛 For example, if you want me to translate something you can! Just write "Translate [text] into [the language you want]" 🈵🔠',
+        content: `🙉🙉 If you want me to translate something ${senderName}, just write: Translate TEXT in LANGUAGE`,
       },
     ],
     areYouThereReply: [
@@ -88,7 +90,7 @@ const replyChooser = (replyName, senderName) => {
       { type: 'text', content: 'Hey, I\'m a guy (male) 💪🏽 !! I have some brothers and sisters, but they\'re a bit too shy to come online! 👫' },
     ],
     teachMeReply: [
-      { type: 'text', content: `${senderName} I love your spirit, let's finish this conversation for the english lesson to come.` },
+      { type: 'text', content: `${senderName}, every day you will receive a quiz from our community! And, at any time our team of tutors is here to help you, just write EXPLORE TUTORS! ;)` },
     ],
     tutorTryoutReply: [
       { type: 'text', content: `Hey ${senderName}! Glad you contacted me 😁! Unfortunately you are talking to Roo, the tutor chatbot for students 🎓. The place for tutors tryouts is this: 👉 https://www.facebook.com/Tutor-Tryouts-363650670726201/` },
@@ -252,7 +254,7 @@ const replyChooser = (replyName, senderName) => {
       [{ type: 'text', content: 'I hate the weather, but sometimes it improves? 😅 🙏' }],
     ],
     pricingReply: [
-      { type: 'text', content: `I am currently free ${senderName} ✌️🏼, but if you want to upgrade to a real native tutor, I can give you more information! Just write "help" and tell me what you want! ;)` },
+      { type: 'text', content: `I am currently free ${senderName} ✌️🏼, but if you want to upgrade to a real native tutor, I can give you more information! Just write EXPLORE TUTORS` },
     ],
     loveReply: [
       [{ type: 'text', content: 'It\'s complicated. Are you? 😖' }],
@@ -363,7 +365,7 @@ const replyChooser = (replyName, senderName) => {
     ptByeReply: [
       [{ type: 'text', content: 'Não vá! Você é legal! 😁' }],
       [{ type: 'text', content: 'Até mais! 👋👋' }],
-      [{ type: 'text', content: 'Aproveite o resto do dia {{name}} !! 😉' }],
+      [{ type: 'text', content: `Aproveite o resto do dia ${senderName} !! 😉` }],
       [{ type: 'text', content: 'Até logo! 😉' }],
       [{ type: 'text', content: 'Paz! ✌️🏻' }],
     ],
