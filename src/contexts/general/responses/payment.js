@@ -20,7 +20,7 @@ const replyChooser = (replyName, senderName, url = {}) => {
         content: [
           {
             title: 'Casual Plan!',
-            imageUrl: 'https://i.imgur.com/aDfhM7q.png',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/pricing-20-dollars.png',
             buttons: [
               {
                 type: 'web_url',

@@ -23,7 +23,7 @@ const replyChooser = (replyName, senderName) => {
     goodConnection: [
       { type: 'text', content: 'Good!' },
       { type: 'text', content: `(2/2) Quality comes at a price ${senderName} We have a 95%+ success rate on our tutor classes! 🏆` },
-      { type: 'image', content: 'https://i.imgur.com/kyJADuZ.png' },
+      { type: 'image', content: 'https://s3.amazonaws.com/langroo/images/pricing-chart-tutor-flow.png' },
       {
         type: 'quickReplies',
         content: {
