@@ -100,16 +100,20 @@ const getReply = async (message, params, userFromDB) => {
     case 'exploreTutorFlow':
       flowControlUpdate = { current_pos: 'exploreTutorFlow', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
       reply = standardReplies('exploreTutorFlow', senderName)
+      // controllerSmash.sendNotificationToSlack(process.env.BOT_NOTIFICATIONS_SLACK_URL, `{"text":"User ${userFullName} is *Requesting a native tutor*"}`, 'Tutor Request Flow Initiated')
+      reminderToContinueOn = true
       break
 
     case 'badConnection':
       flowControlUpdate = { current_pos: 'badConnection', open_question: 'false', next_pos: 'badConnection', prev_flow: 'tutor' }
       reply = standardReplies('badConnection', senderName)
+      reminderToContinueOn = true
       break
 
     case 'goodConnection':
       flowControlUpdate = { current_pos: 'goodConnection', open_question: 'false', next_pos: 'goodConnection', prev_flow: 'tutor' }
       reply = standardReplies('goodConnection', senderName)
+      reminderToContinueOn = true
       break
 
     case 'maleTutor':
@@ -130,11 +134,13 @@ const getReply = async (message, params, userFromDB) => {
     case 'userCannotPay':
       flowControlUpdate = { current_pos: 'userCannotPay', open_question: 'false', next_pos: 'userCannotPay', prev_flow: 'tutor' }
       reply = standardReplies('userCannotPay', senderName)
+      reminderToContinueOn = true
       break
 
     case 'userCanPay':
       flowControlUpdate = { current_pos: 'userCanPay', open_question: 'false', next_pos: 'userCanPay', prev_flow: 'tutor' }
       reply = standardReplies('userCanPay', senderName)
+      reminderToContinueOn = true
       break
 
     // case 'haveQuestion':
