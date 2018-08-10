@@ -54,133 +54,133 @@ const replyChooser = (replyName, senderName) => {
     ],
     eitherTutor: [
       { type: 'text', content: 'Ok! 💥' },
-      { type: 'text', content: 'You can choose to have a FREE introduction call with the tutor you like the most! Select an option below' },
+      { type: 'text', content: 'Choose a FREE introduction call 📱 with the tutor you like most! 👇' },
       {
         type: 'carousel',
         content: [
           {
-            title: '"I\'m from Plymouth"',
+            title: '"Abby from Plymouth, UK"',
             imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_woman_tutor_1.png',
             buttons: [
               {
                 type: 'web_url',
-                url: 'https://www.langroo.com/',
-                title: 'Schedule Free Call!',
+                url: 'https://about.me/abby.crawford',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
               },
             ],
           },
           {
-            title: '"I\'m from Wisconsin"',
+            title: '"Tanner from Wisconsin, USA"',
             imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_man_tutor_1.jpg',
             buttons: [
               {
                 type: 'web_url',
-                url: 'https://www.langroo.com/',
-                title: 'Schedule Free Call!',
+                url: 'https://about.me/tannerlt',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
               },
             ],
           },
           {
-            title: '"I\'m from London"',
+            title: '"Joanne from London, UK"',
             imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_woman_tutor_2.png',
             buttons: [
               {
                 type: 'web_url',
-                url: 'https://www.langroo.com/',
-                title: 'Schedule Free Call!',
+                url: 'https://about.me/joannewood',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
               },
             ],
           },
         ],
-      },
-      {
-        type: 'quickReplies',
-        content: {
-          title: 'Do you have any questions? ❓',
-          buttons: [
-            { title: 'Yes', value: 'tutor_answer_have_question' },
-            { title: 'No', value: 'tutor_answer_have_not_question' },
-          ],
-        },
       },
     ],
     maleTutor: [
       { type: 'text', content: 'Ok! 💥' },
-      { type: 'text', content: 'You can choose to have a FREE introduction call with the tutor you like the most! Select an option below' },
+      { type: 'text', content: 'Choose a FREE introduction call 📱 with the tutor you like most! 👇' },
       {
         type: 'carousel',
         content: [
           {
-            title: '"I\'m from Wisconsin"',
+            title: '"Tanner from Wisconsin, USA"',
             imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_man_tutor_1.jpg',
             buttons: [
               {
                 type: 'web_url',
-                url: 'https://www.langroo.com/',
-                title: 'Schedule Free Call!',
+                url: 'https://about.me/tannerlt',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
               },
             ],
           },
         ],
-      },
-      {
-        type: 'quickReplies',
-        content: {
-          title: 'Do you have any questions? ❓',
-          buttons: [
-            { title: 'Yes', value: 'tutor_answer_have_question' },
-            { title: 'No', value: 'tutor_answer_have_not_question' },
-          ],
-        },
       },
     ],
     femaleTutor: [
       { type: 'text', content: 'Ok! 💥' },
-      { type: 'text', content: 'You can choose to have a FREE introduction call with the tutor you like the most! Select an option below' },
+      { type: 'text', content: 'Choose a FREE introduction call 📱 with the tutor you like most! 👇' },
       {
         type: 'carousel',
         content: [
           {
-            title: '"I\'m from Plymouth"',
+            title: '"Abby from Plymouth, UK"',
             imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_woman_tutor_1.png',
             buttons: [
               {
                 type: 'web_url',
-                url: 'https://www.langroo.com/',
-                title: 'Schedule Free Call!',
+                url: 'https://about.me/abby.crawford',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
               },
             ],
           },
           {
-            title: '"I\'m from London"',
+            title: 'Joanne from London, UK"',
             imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_woman_tutor_2.png',
             buttons: [
               {
                 type: 'web_url',
-                url: 'https://www.langroo.com/',
-                title: 'Schedule Free Call!',
+                url: 'https://about.me/joannewood',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
               },
             ],
           },
         ],
       },
-      {
-        type: 'quickReplies',
-        content: {
-          title: 'Do you have any questions? ❓',
-          buttons: [
-            { title: 'Yes', value: 'tutor_answer_have_question' },
-            { title: 'No', value: 'tutor_answer_have_not_question' },
-          ],
-        },
-      },
     ],
-    haveQuestion: [
-      { type: 'text', content: 'If you have any questions, please write #help + your question and a member of my team can answer! 🙋:)' },
-    ],
-    haveNotQuestion: [
-      { type: 'text', content: 'Ok great 👍, enjoy!' },
-    ],
+    // haveQuestion: [
+    //   { type: 'text', content: 'If you have any questions, please write #help + your question and a member of my team can answer! 🙋:)' },
+    // ],
+    // haveNotQuestion: [
+    //   { type: 'text', content: 'Ok great 👍, enjoy!' },
+    // ],
   }
 
   return replies[replyName]
