@@ -3,7 +3,7 @@ const getReply = async (message, params, userFromDB) => {
   /**
    * Requires and Imports of modules and libraries
    * */
-  const API = require('../../api/index').dbApi
+  const API = require('../../core/index').dbApi
   const standardReplies = require('./responses').standardReplies
   const flows = require('../index')
   const futureMsg = { doSend: false, timeInSeconds: 10800, placeInFlow: {} }

@@ -1,7 +1,7 @@
 const getReply = async (message, params, userFromDB) => {
 
   // Requirementes and imports of external modules and libraries
-  const API = require('../../api/index').dbApi
+  const API = require('../../core/index').dbApi
   const standardReplies = require('./responses').standardReplies
   const langNames = require('./languages')
   const OneForAll = require('../../bot-tools').OneForAll

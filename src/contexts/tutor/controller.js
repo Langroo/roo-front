@@ -1,7 +1,7 @@
 const getReply = async (message, params, userFromDB) => {
 
   // -- Requires and imports of external modules and libraries
-  const API = require('../../api/index').dbApi
+  const API = require('../../core/index').dbApi
   const axios = require('axios')
   const standardReplies = require('./responses').standardReplies
   const failsafeReplies = require('./responses').failsafeReplies
@@ -92,7 +92,7 @@ const getReply = async (message, params, userFromDB) => {
     return reply.concat(trueReply)
   }
 
-  if (userLevel === 1) { 
+  if (userLevel === 1) {
     switch (params.currentEntity) {
     /* ******************************************************************************************************
      * ********************************* Upselling Tutor Flow Section  **************************************
@@ -225,7 +225,7 @@ const getReply = async (message, params, userFromDB) => {
       }
       reminderToContinueOn = true
       break
-      
+
     case 'internetSpeedDescription':
       reply = standardReplies('internetSpeedDescription', senderName)
       flowControlUpdate = { current_pos: 'internetSpeedDescription', prev_pos: 'internetSpeedDescription', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor', current_flow: 'tutor', repeated_this_pos: '0' }

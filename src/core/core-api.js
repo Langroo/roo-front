@@ -198,7 +198,12 @@ class Api {
     }
   }
 
-    // USER collection sub-section
+  // -- For Broadcast invocation
+  async sendBroadcastMessage (dialogName, labelToExclude) {
+    return Api.request('post', 'broadcast', { dialogName, labelToExclude })
+  }
+
+  // -- USER collection sub-section
 
   async createInitialUserProfile (senderId) {
     return Api.request('post', 'user/initRegister', { senderId })

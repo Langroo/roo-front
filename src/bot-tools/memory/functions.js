@@ -1,7 +1,7 @@
 /**
  * Global Imports
  * */
-const API = require('../../api').dbApi
+const API = require('../../core').dbApi
 const curatedData = require('./curated-data')
 
 class CacheDataPoints {
