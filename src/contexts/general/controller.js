@@ -11,7 +11,14 @@ const FbAPIClass = require('../../bot-tools').FacebookAPI
 const controllerSmash = new OneForAll()
 
 // -- Function to return to a closed context
-const goToPreviousContext = async (message, params, userFromDB, tempReply) => {
+const goToPreviousContext = async (message, params, userFromDB) => {
+
+  // -- Define the contexts variable
+  const contexts = require('../index')
+  // -- Redefine the entity
+  params.currentEntity = params.currentPos
+  // -- Get the last message from the previous context to concatenate it with the returning message
+  const lastMessageSent = await contexts[params.prevFlow](message, params, userFromDB)
 
   // -- Indicate that the previous pos of the previous context will be repeated
   params.repeatedThisPos = '1'
@@ -19,7 +26,7 @@ const goToPreviousContext = async (message, params, userFromDB, tempReply) => {
   // -- Define variables and call reminder
   let delayedRepliesToSend
   const delayedMsgTime = 15
-  const trueReply = [tempReply.pop()]
+  const trueReply = [lastMessageSent.pop()]
   delayedRepliesToSend = generalReplies('returningMessages', params.senderName)[Math.floor(Math.random() * generalReplies('returningMessages', params.senderName).length)]
   delayedRepliesToSend = delayedRepliesToSend.concat(trueReply)
   controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.currentPos, prev_pos: params.prevPos, repeated_this_pos: '1' }, message.sender.id, userFromDB)
@@ -281,7 +288,6 @@ const getReply = async (message, params, userFromDB) => {
 
   case 'helpUser1':
     flowControlUpdate = { current_pos: 'helpUser1', open_question: true, next_pos: 'helpUser_Final', current_flow: 'general' }
-    const delayedMsgTime = 1800
     reply = generalReplies('helpUser1', senderName, wildcard)
     break
 
@@ -370,29 +376,21 @@ const getReply = async (message, params, userFromDB) => {
     params.currentEntity = 'fallback'
     reply = contexts.opentalk(message, params, userFromDB)
   }
+
+  // -- Update the Flow control AT REDIS
   if (flowControlUpdate) {
     await API.updateFlow(message.sender.id, flowControlUpdate)
       .catch(err => console.log('Error updating flow :: ', err))
   }
 
-  // -- Closed contexts to return if user has not finished them
+  // -- Check the list of entities which will force the user to return to a LOCKED CONTEXT
   if (ifHereGoBack.indexOf(params.currentEntity) > -1) {
-    if (params.prevFlow === 'tutor') {
-      // -- Redefine the entity
-      params.currentEntity = params.currentPos
-      tempReply = await contexts.tutor(message, params, userFromDB)
-      goToPreviousContext(message, params, userFromDB, tempReply)
+    if (params.prevFlow === 'tutor' || params.prevFlow === 'introduction') {
+      goToPreviousContext(message, params, userFromDB)
         .catch(err => console.log('Error returning from general context to Tutor Context :: ', err))
-
-    } else if (params.prevFlow === 'introduction') {
-      // -- Redefine the entity
-      params.currentEntity = params.currentPos
-      tempReply = await contexts.introduction(message, params, userFromDB)
-      goToPreviousContext(message, params, userFromDB, tempReply)
-        .catch(err => console.log('Error returning from general context to Tutor Context :: ', err))
-
     }
   }
+
   return reply
 }
 
