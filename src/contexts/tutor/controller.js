@@ -24,9 +24,8 @@ const getReply = async (message, params, userFromDB) => {
   let trueReply
   let tutorOpsUrl
   const preTutorAux = {}
-  let sendIForgotDialog = false
   let tutorCRMLink
-  const tutorEntities = ['initiateTutorFlow', 'tb0', 'describeYourself', 'describeYourInterests', 'whenToCallTutor', 'confirmWhenToCallTutor', 'whenToCallTutor2', 'daysGroupForCalls', 'daysToCallTutor', 'knowThePrice', 'tutorFlowFinished', 'PTshowPrices', 'PTtellUserNow', 'PTneverRemindUser', 'PTnextWeekOrMonth', 'initiatePreTutorFlow', 'initiateUpsellingFlow']
+  const tutorEntities = ['exploreTutorFlow', 'badConnection', 'goodConnection', 'maleTutor', 'femaleTutor', 'eitherTutor', 'userCannotPay', 'userCanPay']
 
   // -- DEFINE THE TUTOR CRM URLS TO SEND TO SLACK DEPENDING ON ENVIRONMENT
   if (process.env.NODE_ENV === 'develop') {
@@ -74,7 +73,6 @@ const getReply = async (message, params, userFromDB) => {
     params.currentEntity = params.currentPos
     if (tutorEntities.indexOf(params.currentEntity) === -1) {
       params.currentEntity = 'initiateTutorFlow'
-      sendIForgotDialog = true
     }
   } else if (params.currentEntity === undefined && params.OpQ) {
     params.currentEntity = params.currentPos
@@ -86,7 +84,7 @@ const getReply = async (message, params, userFromDB) => {
       return await flows.opentalk(message, params, userFromDB)
     }
     params.currentEntity = params.currentPos
-    let tempReply = standardReplies(params.currentEntity, senderName)
+    const tempReply = standardReplies(params.currentEntity, senderName)
     const trueReply = [tempReply.pop()]
     reply = failsafeReplies('pressAButton', senderName)[Math.floor(Math.random() * failsafeReplies('pressAButton', senderName).length)]
     return reply.concat(trueReply)
@@ -98,42 +96,42 @@ const getReply = async (message, params, userFromDB) => {
      * ********************************* Upselling Tutor Flow Section  **************************************
      * ******************************************************************************************************/
     case 'exploreTutorFlow':
-      flowControlUpdate = { current_pos: 'exploreTutorFlow', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
+      flowControlUpdate = { current_pos: 'exploreTutorFlow', prev_pos: 'exploreTutorFlow', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
       reply = standardReplies('exploreTutorFlow', senderName)
       break
 
     case 'badConnection':
-      flowControlUpdate = { current_pos: 'badConnection', open_question: 'false', next_pos: 'badConnection', prev_flow: 'tutor' }
+      flowControlUpdate = { current_pos: 'badConnection', prev_pos: 'badConnection', open_question: 'false', next_pos: 'badConnection', prev_flow: 'tutor' }
       reply = standardReplies('badConnection', senderName)
       break
 
     case 'goodConnection':
-      flowControlUpdate = { current_pos: 'goodConnection', open_question: 'false', next_pos: 'goodConnection', prev_flow: 'tutor' }
+      flowControlUpdate = { current_pos: 'goodConnection', prev_pos: 'goodConnection', open_question: 'false', next_pos: 'goodConnection', prev_flow: 'tutor' }
       reply = standardReplies('goodConnection', senderName)
       break
 
     case 'maleTutor':
-      flowControlUpdate = { current_pos: 'maleTutor', open_question: 'false', next_pos: 'maleTutor', prev_flow: 'tutor' }
+      flowControlUpdate = { current_pos: 'maleTutor', prev_pos: 'maleTutor', open_question: 'false', next_pos: 'maleTutor', prev_flow: 'tutor' }
       reply = standardReplies('maleTutor', senderName)
       break
 
     case 'femaleTutor':
-      flowControlUpdate = { current_pos: 'femaleTutor', open_question: 'false', next_pos: 'femaleTutor', prev_flow: 'tutor' }
+      flowControlUpdate = { current_pos: 'femaleTutor', prev_pos: 'femaleTutor', open_question: 'false', next_pos: 'femaleTutor', prev_flow: 'tutor' }
       reply = standardReplies('femaleTutor', senderName)
       break
 
     case 'eitherTutor':
-      flowControlUpdate = { current_pos: 'eitherTutor', open_question: 'false', next_pos: 'eitherTutor', prev_flow: 'tutor' }
+      flowControlUpdate = { current_pos: 'eitherTutor', prev_pos: 'eitherTutor', open_question: 'false', next_pos: 'eitherTutor', prev_flow: 'tutor' }
       reply = standardReplies('eitherTutor', senderName)
       break
 
     case 'userCannotPay':
-      flowControlUpdate = { current_pos: 'userCannotPay', open_question: 'false', next_pos: 'userCannotPay', prev_flow: 'tutor' }
+      flowControlUpdate = { current_pos: 'userCannotPay', prev_pos: 'userCannotPay', open_question: 'false', next_pos: 'userCannotPay', prev_flow: 'opentalk' }
       reply = standardReplies('userCannotPay', senderName)
       break
 
     case 'userCanPay':
-      flowControlUpdate = { current_pos: 'userCanPay', open_question: 'false', next_pos: 'userCanPay', prev_flow: 'tutor' }
+      flowControlUpdate = { current_pos: 'userCanPay', prev_pos: 'userCanPay', open_question: 'false', next_pos: 'userCanPay', prev_flow: 'opentalk' }
       reply = standardReplies('userCanPay', senderName)
       break
 
