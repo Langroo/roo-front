@@ -6,7 +6,7 @@ const replyChooser = (replyName, senderName) => {
       {
         type: 'quickReplies',
         content: {
-          title: '(½) Our tutor calls happen via Messenger video, how strong is your internet connection? 📶',
+          title: '(1/2) Our tutor calls happen via Messenger video, how strong is your internet connection? 📶',
           buttons: [
             { title: 'Really Bad 😱', value: 'tutor_answer_connection_really_bad' },
             { title: 'Bad 😦', value: 'tutor_answer_connection_bad' },
@@ -23,7 +23,7 @@ const replyChooser = (replyName, senderName) => {
     goodConnection: [
       { type: 'text', content: 'Good!' },
       { type: 'text', content: `(2/2) Quality comes at a price ${senderName} We have a 95%+ success rate on our tutor classes! 🏆` },
-      { type: 'image', content: 'https://i.imgur.com/kyJADuZ.png' },
+      { type: 'image', content: 'https://s3.amazonaws.com/langroo/images/pricing-chart-tutor-flow.png' },
       {
         type: 'quickReplies',
         content: {
@@ -54,63 +54,133 @@ const replyChooser = (replyName, senderName) => {
     ],
     eitherTutor: [
       { type: 'text', content: 'Ok! 💥' },
-      { type: 'text', content: 'You can choose to have a FREE introduction call with the tutor you like the most! Select an option below' },
+      { type: 'text', content: 'Choose a FREE introduction call 📱 with the tutor you like most! 👇' },
       {
         type: 'carousel',
         content: [
           {
-            title: '"I\'m from Los Angeles"',
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/women-s-white-and-black-button-up-collared-shirt.jpeg',
+            title: '"Abby from Plymouth, UK"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_woman_tutor_1.png',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://about.me/abby.crawford',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
+              },
+            ],
           },
           {
-            title: '"I\'m from London"',
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo-of-a-man-listening-music-on-his-phone.jpeg',
+            title: '"Tanner from Wisconsin, USA"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_man_tutor_1.jpg',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://about.me/tannerlt',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
+              },
+            ],
           },
           {
-            title: '"I\'m from Michigan"',
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/man-young-happy-smiling.jpeg',
-          },
-          {
-            title: '"I\'m from Oxford"',
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/closeup-photo-of-woman-with-brown-coat-and-gray-top.jpeg',
+            title: '"Joanne from London, UK"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_woman_tutor_2.png',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://about.me/joannewood',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
+              },
+            ],
           },
         ],
       },
     ],
     maleTutor: [
       { type: 'text', content: 'Ok! 💥' },
-      { type: 'text', content: 'You can choose to have a FREE introduction call with the tutor you like the most! Select an option below' },
+      { type: 'text', content: 'Choose a FREE introduction call 📱 with the tutor you like most! 👇' },
       {
         type: 'carousel',
         content: [
           {
-            title: '"I\'m from London"',
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo-of-a-man-listening-music-on-his-phone.jpeg',
-          },
-          {
-            title: '"I\'m from Michigan"',
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/man-young-happy-smiling.jpeg',
+            title: '"Tanner from Wisconsin, USA"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_man_tutor_1.jpg',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://about.me/tannerlt',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
+              },
+            ],
           },
         ],
       },
     ],
     femaleTutor: [
       { type: 'text', content: 'Ok! 💥' },
-      { type: 'text', content: 'You can choose to have a FREE introduction call with the tutor you like the most! Select an option below' },
+      { type: 'text', content: 'Choose a FREE introduction call 📱 with the tutor you like most! 👇' },
       {
         type: 'carousel',
         content: [
           {
-            title: '"I\'m from Los Angeles"',
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/women-s-white-and-black-button-up-collared-shirt.jpeg',
+            title: '"Abby from Plymouth, UK"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_woman_tutor_1.png',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://about.me/abby.crawford',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
+              },
+            ],
           },
           {
-            title: '"I\'m from Oxford"',
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/closeup-photo-of-woman-with-brown-coat-and-gray-top.jpeg',
+            title: 'Joanne from London, UK"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_woman_tutor_2.png',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://about.me/joannewood',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
+              },
+            ],
           },
         ],
       },
     ],
+    // haveQuestion: [
+    //   { type: 'text', content: 'If you have any questions, please write #help + your question and a member of my team can answer! 🙋:)' },
+    // ],
+    // haveNotQuestion: [
+    //   { type: 'text', content: 'Ok great 👍, enjoy!' },
+    // ],
   }
 
   return replies[replyName]

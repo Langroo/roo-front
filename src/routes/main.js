@@ -3,7 +3,7 @@
  */
 const express = require('express')
 const router = express.Router()
-const frontReceiver = require('../front.receiver')
+const frontReceiver = require('../director')
 require('dotenv').config()
 
 // -- Facebook Webhook Handler

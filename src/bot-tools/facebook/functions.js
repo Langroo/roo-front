@@ -6,28 +6,6 @@ class FacebookAPI {
   constructor (senderId) {
     this.senderId = senderId
   }
-  /**
-   * Function that gets the user public profile if available
-   * Fields that can be requested:
-   * first_name
-   * last_name
-   * profile_pic
-   * locale
-   * timezone
-   * gender
-   * is_payment_enabled
-   * last_ad_referral
-   * Ex.: first_name,last_name,timezone
-   * Error code is 2018218 :: No profile available for this user
-   * */
-  async GetUserPublicProfile (fields) {
-    try {
-      return (await axios.get(`${process.env.FB_BASE_URL}/${process.env.FB_VERSION}/${this.senderId}?fields=${fields}&access_token=${process.env.FB_ACCESS_TOKEN}`)).data
-    } catch (error) {
-      console.error('-> Error occurred requesting the user\'s public profile from Facebook ::\n', error.response.data)
-      return false
-    }
-  }
 
   /**
   * Function that switches between the inbox app and the bot app
@@ -309,24 +287,24 @@ class FacebookAPI {
         })
 
       }
-    }
 
-    // Set the prepared message
-    preparedMessage = JSON.stringify({
-      messaging_type: 'RESPONSE',
-      recipient: {
-        id: this.senderId,
-      },
-      message: {
-        attachment: {
-          type: 'template',
-          payload: {
-            template_type: 'generic',
-            elements: payload,
+      // Set the prepared message
+      preparedMessage = JSON.stringify({
+        messaging_type: 'RESPONSE',
+        recipient: {
+          id: this.senderId,
+        },
+        message: {
+          attachment: {
+            type: 'template',
+            payload: {
+              template_type: 'generic',
+              elements: payload,
+            },
           },
         },
-      },
-    })
+      })
+    }
 
     if (type === 'button') {
 

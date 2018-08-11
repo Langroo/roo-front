@@ -1,5 +1,5 @@
 const flowPositions = require('./flow-positions')
-const API = require('./api').dbApi
+const API = require('./core').dbApi
 const crypto = require('crypto')
 const generateHash = (str) => crypto.createHash('md5').update(str).digest('hex')
 require('dotenv').config()
@@ -18,8 +18,18 @@ const adminDialogs = (input, senderId) => {
   if (flowResetRegex.test(input)) {
     API.updateFlow(senderId, flowPositions('adminFlowReset'))
       .then(() => API.createInitialUserProfile(senderId)
-        .then(() => FacebookAPI.SendMessages('text', '✔ CONTEXT ADMIN RESET SUCCESSFUL 👍. \nYou are now in the opentalk Context. 👀')
-          .then(() => { return true })))
+        .then(() => {
+          FacebookAPI.SendMessages('quickReplies',
+            {
+              title: '✔ CONTEXT ADMIN RESET SUCCESSFUL 👍. \nYou are now in the opentalk Context. 👀',
+              buttons: [
+                { title: 'Monday Broadcast', value: 'send_monday_broadcast' },
+                { title: 'Wednesday Broadcast', value: 'send_wednesday_broadcast' },
+                { title: 'Friday Broadcast', value: 'send_friday_broadcast' },
+              ],
+            })
+            .then(() => { return true })
+        }))
   }
 
   // -- Allow deactivation of the delays between messages only if this env variable is set
@@ -146,7 +156,7 @@ const lockedContext = (params, isPostback) => {
 }
 
 // -- flowLauncher
-const flowLauncher = (payload, conversation) => {
+const userDialogs = (payload, rawInput) => {
 
   /**
    * Requiring and importing libraries and modules
@@ -154,7 +164,7 @@ const flowLauncher = (payload, conversation) => {
   const Raven = require('raven')
   Raven.config('https://96d6795013a54f8f852719919378cc59@sentry.io/304046').install()
   const context = require('./contexts')
-  const inputHandler = require('./input_handler')
+  const inputHandler = require('./input.handler')
   const Cron = require('node-schedule')
   const BotTools = require('./bot-tools')
   const FbAPIClass = BotTools.FacebookAPI
@@ -175,7 +185,7 @@ const flowLauncher = (payload, conversation) => {
   const userHash = generateHash(payload.sender.id)
   payload = Object.assign({}, payload, { userHash })
 
-  const brain = async (conversation, payload, userFlow) => {
+  const brain = async (rawInput, payload, userFlow) => {
 
     // -- Initialize variable that indicates if user input comes from pressing a button
     let isPostback
@@ -185,7 +195,7 @@ const flowLauncher = (payload, conversation) => {
 
     // -- Create/Update conversation log
     const channel = 'Facebook'
-    ConversationLogs.conversationLogger(payload.sender.id, senderName, conversation.source, isPostback, channel)
+    ConversationLogs.conversationLogger(payload.sender.id, senderName, rawInput, isPostback, channel)
 
     // -- Get the first name (senderName) and full name of the user
     senderName = getUserName(payload).senderName
@@ -209,14 +219,14 @@ const flowLauncher = (payload, conversation) => {
           entityAndFlow.flow = 'introduction'
           entityAndFlow.entity = 'getStarted'
         } else {
-          entityAndFlow = inputHandler.getEntityAndFlow(conversation.source)
+          entityAndFlow = inputHandler.getEntityAndFlow(rawInput)
         }
       } else {
         let userStatus
         userFromDB.data.subscription ? userStatus = userFromDB.data.subscription : userStatus = null
         userStatus ? userStatus = userStatus.status : userStatus = 'UNREGISTERED'
         params = Object.assign({}, { status: userStatus })
-        entityAndFlow = inputHandler.getEntityAndFlow(conversation.source)
+        entityAndFlow = inputHandler.getEntityAndFlow(rawInput)
       }
     } catch (error) {
       console.error('Unbelievable Error ::', error)
@@ -241,7 +251,7 @@ const flowLauncher = (payload, conversation) => {
         OpQ: userFlow.data.open_question,
         repeatedThisPos: userFlow.data.repeated_this_pos,
         surveyDone: userFlow.data.survey_done,
-        rawUserInput: conversation.source,
+        rawUserInput: rawInput,
         autoresponderReply: userFlow.data.autoresponder_reply,
         autoresponderType: userFlow.data.autoresponder_type,
         messageDelay: userFlow.data.message_delay,
@@ -331,8 +341,8 @@ const flowLauncher = (payload, conversation) => {
 
     // -- Send data to chatbase to store statistics
     /* if (process.env.NODE_ENV === 'production') {
-      await ChatBaseAPI.analyticReceived(conversation.source, payload.sender.id, entityAndFlow.entity, false)
-        .catch(e => { console.error('ERROR sending data to CHATBASE.\nVariables:\nRaw User Input :: [%s]\nEntity :: [%s]\nMessage Details :: ', conversation.source, entityAndFlow.entity, e.message) })
+      await ChatBaseAPI.analyticReceived(rawInput, payload.sender.id, entityAndFlow.entity, false)
+        .catch(e => { console.error('ERROR sending data to CHATBASE.\nVariables:\nRaw User Input :: [%s]\nEntity :: [%s]\nMessage Details :: ', rawInput, entityAndFlow.entity, e.message) })
     }*/
 
     return reply
@@ -373,7 +383,7 @@ const flowLauncher = (payload, conversation) => {
             console.log('The content of data in message is :: ', payload)
           }
             // -- Brain function processing the input of the user
-          brain(conversation, payload, userFlowData)
+          brain(rawInput, payload, userFlowData)
             .then(async replyToSend => {
               if (replyToSend) { await replier(0, replyToSend, userFromDB, payload.sender.id) }
             })
@@ -389,7 +399,7 @@ const flowLauncher = (payload, conversation) => {
 }
 
 module.exports = {
-  flowLauncher,
+  userDialogs,
   replier,
   adminDialogs,
 }

@@ -79,8 +79,11 @@ const getEntity = (exp) => {
   expressions = /#AskRoo/i
   if (expressions.test(exp)) { return 'askRoo' }
 
-  expressions = /Pause Chatbot/i
+  expressions = /^Pause Chatbot$/i
   if (expressions.test(exp)) { return 'inboxMode' }
+
+  expressions = /^(send_monday_broadcast|send_friday_broadcast|send_wednesday_broadcast)$/i
+  if (expressions.test(exp)) { return 'sendMessageBroadcast' }
 
   return undefined
 }

@@ -25,34 +25,42 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
     ],
     getStarted: [
       { type: 'text', content: `Welcome to Langroo ${senderName}! 🎉` },
-      { type: 'image', content: 'https://media1.tenor.com/images/57f516f712b25d1fa534dd4e0999e92e/tenor.gif?itemid=12179567' },
+      { type: 'image', content: 'https://s3.amazonaws.com/langroo/images/hello_woman_kitchen_.gif' },
       { type: 'text', content: 'How are you?' },
     ],
-    introDialog2: [
+    _introduceMyselfDialog: [
       { type: 'text', content: '😀😀' },
       { type: 'text', content: `So ${senderName}, let me introduce myself` },
       { type: 'text', content: 'I’m Roo, an AI chatbot which helps you to learn English like a native person! 🙅' },
       { type: 'text', content: 'Who are you?' },
     ],
-    introDialog3: [
+    _welcomeVideoDialog: [
       { type: 'text', content: '👍👍' },
       { type: 'text', content: 'Well, here’s an intro VIDEO from Tim on the Langroo team! 👨👩🏽 🎉' },
-      { type: 'text', content: 'Here is a welcome video for you! 📹' },
       { type: 'video', content: 'https://s3.amazonaws.com/langroo/videos/video_of_the_day1.mp4' },
-      { type: 'delay', content: 40 },
+      { type: 'delay', content: 40000 },
       { type: 'quickReplies',
         content: {
-          title: 'Want to know more about what our team does? 😎',
+          title: 'Want to know more? 😛',
           buttons: [
-            { title: 'YES', value: 'motivation is work' },
+            { title: 'YES', value: 'yes, know more' },
           ],
         },
       },
     ],
-    introDialog4: [
+    _englishQuizDialog: [
+      { type: 'text', content: 'We send an English QUIZ every Monday, Wednesday and Friday! 📝' },
+      { type: 'text', content: 'And every day there is ONE WINNER! 🏆' },
+      { type: 'image', content: 'https://s3.amazonaws.com/langroo/images/boxing-ring-champion.gif' },
+      { type: 'text', content: 'Are you ready to participate....? ' },
+    ],
+    _motivationToLearnDialog: [
+      { type: 'text', content: 'Let’s goooo!!! 🚀' },
+      { type: 'text', content: 'But, I want to understand you a bit more first' },
+      { type: 'text', content: 'So...' },
       { type: 'quickReplies',
         content: {
-          title: 'Well then, what’s the one biggest thing we can help you with? ☺️',
+          title: 'Why are you learning English? ☺️',
           buttons: [
             { title: 'Work 💻', value: 'motivation is work' },
             { title: 'Social Life 😃', value: 'motivation is social life' },
@@ -66,14 +74,14 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
         },
       },
     ],
-    introDialog4Branch1: [
+    _otherMotivationDialog: [
       { type: 'text', content: 'Nice, tell me more please 😄' },
     ],
-    introDialog5: [
-      { type: 'audio', content: 'Before we help you with that, what’s your English level right now?' },
+    _englishLevelDialog: [
+      { type: 'text', content: 'Oooh…..' },
       { type: 'quickReplies',
         content: {
-          title: 'Before we help you with that, what’s your English level right now? 😬',
+          title: 'Before I help you with that, what’s your English level right now? 😅',
           buttons: [
             { title: 'Bad (beginner) 👎', value: 'pd_beginner_level' },
             { title: 'Ok (intermediate) 👍', value: 'pd_intermediate_level' },
@@ -82,13 +90,16 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
         },
       },
     ],
-    introDialog6: [
+    _heardAboutLangrooDialog1: [
+      { type: 'text', content: 'To help find more people like you...' },
       { type: 'quickReplies',
         content: {
-          title: 'Finally, to help find more people like you ☝️ How did you hear about Langroo? 📣',
+          title: 'How did you hear 👂 about Langroo?',
           buttons: [
             { title: 'Influencer 🌟', value: 'Found Roo by Influencer' },
             { title: 'Social Media 📲', value: 'Found Roo from Social Media' },
+            { title: 'Friend 👨', value: 'Found Roo from a Friend' },
+            { title: 'Facebook Group 📱', value: 'Found Roo from a Facebook Group' },
             { title: 'Search 🔍', value: 'Found Roo Searching' },
             { title: 'Article 📰', value: 'Found Roo from Article' },
             { title: 'Other', value: 'Found Roo by other means' },
@@ -96,14 +107,34 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
         },
       },
     ],
-    introDialog7: [
-      { type: 'text', content: 'Hmm… Can you specify? 🙂' },
+    _heardAboutLangrooDialog2: [
+      { type: 'text', content: 'Hmm… Can you tell me exactly? 🙂' },
+    ],
+    _userAllDoneDialog: [
+      { type: 'text', content: `${senderName}..........` },
+      { type: 'text', content: 'You are now a part of the Langroo COMMUNITY 🎉' },
+      { type: 'image', content: 'https://s3.amazonaws.com/langroo/images/wolfpack-guys-group-walking.gif' },
+      { type: 'text', content: 'Do you know how the quiz works?' },
+    ],
+    _howQuizWorksDialog: [
+      { type: 'text', content: 'We will send the quiz here at 3pm 👇(LONDON time)' },
+      { type: 'text', content: 'The FASTEST person 🏃 to respond with the correct answer ✅ receives a prize!' },
+      { type: 'text', content: 'The results 📊 will be announced 30 minutes later!' },
+      { type: 'text', content: 'Now that you have the details…. ' },
+      { type: 'quickReplies',
+        content: {
+          title: 'Would you like to invite a friend to learn with? 📨',
+          buttons: [
+            { title: 'Yes 😁', value: 'share langroo' },
+            { title: 'Maybe 😂', value: 'share langroo' },
+            { title: 'Just Me 😯', value: 'user_wants_to_play_alone' },
+          ],
+        },
+      },
     ],
     introFinal: [
-      { type: 'text', content: `${senderName}` },
-      { type: 'text', content: 'You are now OFFICIALLY ready to start 📱👏' },
-      { type: 'text', content: 'I will send the Daily Quiz tomorrow at 12 p.m. GMT +0 ⌚' },
-      { type: 'text', content: 'Then… the day’s results will be at 14:00 GMT +0 📊' },
+      { type: 'text', content: 'Best of luck!! 👍' },
+      { type: 'text', content: 'Talk to you soon, and great to meet you!!' },
     ],
     jumpToTutorFlow: [
       { type: 'text', content: 'Now, since you requested it...' },
@@ -118,7 +149,7 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       },
     ],
     introPostFinal: [
-      { type: 'text', content: `Very well ${senderName}, see you soon for the Daily Quiz!`}
+      { type: 'text', content: `Very well ${senderName}, see you soon for the Daily Quiz!` },
     ],
   }
   return replies[replyName]

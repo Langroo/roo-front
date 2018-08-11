@@ -16,10 +16,7 @@ const getEntity = (exp) => {
   expressions = /^tf_yes_init$/i
   if (expressions.test(exp)) { return 'tb0' }
 
-  expressions = /^(TALK_TO_TUTOR|initiatePreTutorFlow|Upgrade to Tutor|request personal tutor)$/i
-  if (expressions.test(exp)) { return 'initiatePreTutorFlow' }
-
-  expressions = /^(EXPLORE_TUTORS)$/i
+  expressions = /^(TALK_TO_TUTOR|initiatePreTutorFlow|Upgrade to Tutor|request personal tutor|explore tutors| Explore Tutors| EXPLORE TUTORS)$/i
   if (expressions.test(exp)) { return 'exploreTutorFlow' }
 
   expressions = /^(tutor_answer_connection_really_bad|tutor_answer_connection_bad)$/i
@@ -42,6 +39,12 @@ const getEntity = (exp) => {
 
   expressions = /^(tutor_answer_either_tutor)$/i
   if (expressions.test(exp)) { return 'eitherTutor' }
+
+  // expressions = /^(tutor_answer_have_question)$/i
+  // if (expressions.test(exp)) { return 'haveQuestion' }
+
+  // expressions = /^(tutor_answer_have_not_question)$/i
+  // if (expressions.test(exp)) { return 'haveNotQuestion' }
 
   expressions = /(^tfb_morning$|^tfb_afternoon$|^tfb_evening$)/i
   if (expressions.test(exp)) { return 'confirmWhenToCallTutor' }

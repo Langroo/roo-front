@@ -10,10 +10,6 @@ const axios = require('axios')
 global.Promise = Bluebird
 require('dotenv').load()
 
-// Sentry.io exception and log error handler
-const Raven = require('raven')
-Raven.config('https://96d6795013a54f8f852719919378cc59:de22fdb4d0574096acdb7271181a8c06@sentry.io/304046').install()
-
 Promise.all([Redis])
 .then(async () => {
 
@@ -35,9 +31,6 @@ Promise.all([Redis])
   app.engine('hbs', hbs({ extname: 'hbs', defaultLayout: 'layout', layoutsDir: path.join(__dirname, 'views', 'layouts') }))
   app.set('views', path.join(__dirname, 'views'))
   app.set('view engine', 'hbs')
-
-  // Start Raven
-  app.use(Raven.requestHandler())
 
   // Routes management
   const routes = require('./routes')
@@ -88,8 +81,6 @@ Promise.all([Redis])
     }
 
   })
-
-  app.use(Raven.errorHandler())
 
   // Run Express server, on right port
   app.listen(app.get('port'), () => {
