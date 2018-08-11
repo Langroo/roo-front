@@ -116,7 +116,7 @@ const getReply = async (message, params, userFromDB) => {
     } else if (params.prevFlow === 'tutor') {
 
       flowControlUpdate = { current_flow: 'tutor' }
-      params.currentEntity = 'tb0'
+      params.currentEntity = 'exploreTutorFlow'
       reply = await contexts.tutor(message, params, userFromDB)
 
     } else {
