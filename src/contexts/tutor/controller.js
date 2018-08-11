@@ -98,41 +98,61 @@ const getReply = async (message, params, userFromDB) => {
     case 'exploreTutorFlow':
       flowControlUpdate = { current_pos: 'exploreTutorFlow', prev_pos: 'exploreTutorFlow', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
       reply = standardReplies('exploreTutorFlow', senderName)
+      futureMsgFlowUpdate = flowControlUpdate
+      futureRepliesToSend = standardReplies('exploreTutorFlow', senderName)
+      // controllerSmash.sendNotificationToSlack(process.env.BOT_NOTIFICATIONS_SLACK_URL, `{"text":"User ${userFullName} is *Requesting a native tutor*"}`, 'Tutor Request Flow Initiated')
+      reminderToContinueOn = true
       break
 
     case 'badConnection':
-      flowControlUpdate = { current_pos: 'badConnection', prev_pos: 'badConnection', open_question: 'false', next_pos: 'badConnection', prev_flow: 'tutor' }
+      flowControlUpdate = { current_pos: 'badConnection', prev_pos: 'badConnection', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
       reply = standardReplies('badConnection', senderName)
+      // futureMsgFlowUpdate = flowControlUpdate
+      // utureRepliesToSend = standardReplies('badConnection', senderName)
+      // controllerSmash.sendNotificationToSlack(process.env.BOT_NOTIFICATIONS
+      reminderToContinueOn = true
       break
 
     case 'goodConnection':
-      flowControlUpdate = { current_pos: 'goodConnection', prev_pos: 'goodConnection', open_question: 'false', next_pos: 'goodConnection', prev_flow: 'tutor' }
+      flowControlUpdate = { current_pos: 'goodConnection', prev_pos: 'goodConnection', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
       reply = standardReplies('goodConnection', senderName)
+      futureMsgFlowUpdate = flowControlUpdate
+      futureRepliesToSend = standardReplies('goodConnection', senderName)
+      // controllerSmash.sendNotificationToSlack(process.env.BOT_NOTIFICATIONS
+      reminderToContinueOn = true
       break
 
     case 'maleTutor':
-      flowControlUpdate = { current_pos: 'maleTutor', prev_pos: 'maleTutor', open_question: 'false', next_pos: 'maleTutor', prev_flow: 'tutor' }
+      flowControlUpdate = { current_pos: 'maleTutor', prev_pos: 'maleTutor', open_question: 'false', next_pos: 'TDB', repeated_this_pos: '0', prev_flow: 'tutor' }
       reply = standardReplies('maleTutor', senderName)
       break
 
     case 'femaleTutor':
-      flowControlUpdate = { current_pos: 'femaleTutor', prev_pos: 'femaleTutor', open_question: 'false', next_pos: 'femaleTutor', prev_flow: 'tutor' }
+      flowControlUpdate = { current_pos: 'femaleTutor', prev_pos: 'femaleTutor', open_question: 'false', repeated_this_pos: '0', next_pos: 'TBD', prev_flow: 'tutor' }
       reply = standardReplies('femaleTutor', senderName)
       break
 
     case 'eitherTutor':
-      flowControlUpdate = { current_pos: 'eitherTutor', prev_pos: 'eitherTutor', open_question: 'false', next_pos: 'eitherTutor', prev_flow: 'tutor' }
+      flowControlUpdate = { current_pos: 'eitherTutor', prev_pos: 'eitherTutor', open_question: 'false', next_pos: 'eitherTutor', repeated_this_pos: '0', prev_flow: 'tutor' }
       reply = standardReplies('eitherTutor', senderName)
       break
 
     case 'userCannotPay':
-      flowControlUpdate = { current_pos: 'userCannotPay', prev_pos: 'userCannotPay', open_question: 'false', next_pos: 'userCannotPay', prev_flow: 'opentalk' }
+      flowControlUpdate = { current_pos: 'userCannotPay', prev_pos: 'userCannotPay', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor', repeated_this_pos: '0', tutor_flow_status: 'finished' }
       reply = standardReplies('userCannotPay', senderName)
+      // futureMsgFlowUpdate = flowControlUpdate
+      //   futureRepliesToSend = standardReplies('userCannotPay', senderName)
+      // controllerSmash.sendNotificationToSlack(process.env.BOT_NOTIFICATIONS
+      reminderToContinueOn = true
       break
 
     case 'userCanPay':
-      flowControlUpdate = { current_pos: 'userCanPay', prev_pos: 'userCanPay', open_question: 'false', next_pos: 'userCanPay', prev_flow: 'opentalk' }
+      flowControlUpdate = { current_pos: 'userCanPay', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
       reply = standardReplies('userCanPay', senderName)
+      futureMsgFlowUpdate = flowControlUpdate
+        futureRepliesToSend = standardReplies('userCanPay', senderName)
+      // controllerSmash.sendNotificationToSlack(process.env.BOT_NOTIFICATIONS
+      reminderToContinueOn = true
       break
 
     // case 'haveQuestion':
@@ -297,7 +317,7 @@ const getReply = async (message, params, userFromDB) => {
       console.log('No case matched in tutor flow')
     }
   } else if (userLevel === 2) {
-    reply = [standardReplies('tutorFlowFinished', senderName)[Math.floor(Math.random() * standardReplies('tutorFlowFinished', senderName).length)]]
+    // reply = [standardReplies('tutorFlowFinished', senderName)[Math.floor(Math.random() * standardReplies('tutorFlowFinished', senderName).length)]]
   }
 
   // -- Emergency reply in case reply is undefined in this flow

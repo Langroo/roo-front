@@ -283,7 +283,7 @@ const getReply = async (message, params, userFromDB) => {
 
   case 'helpUser1':
     flowControlUpdate = { current_pos: 'helpUser1', open_question: true, next_pos: 'helpUser_Final', current_flow: 'general' }
-    delayedMsgTime = 1800
+    let delayedMsgTime = 1800
     reply = generalReplies('helpUser1', senderName, wildcard)
     break
 
