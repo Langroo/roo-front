@@ -13,8 +13,6 @@ const controllerSmash = new OneForAll()
 // -- Function to return to a closed context
 const goToPreviousContext = async (message, params, userFromDB, tempReply) => {
 
-  // -- Redefine the entity
-  params.currentEntity = params.currentPos
   // -- Indicate that the previous pos of the previous context will be repeated
   params.repeatedThisPos = '1'
 
@@ -283,7 +281,7 @@ const getReply = async (message, params, userFromDB) => {
 
   case 'helpUser1':
     flowControlUpdate = { current_pos: 'helpUser1', open_question: true, next_pos: 'helpUser_Final', current_flow: 'general' }
-    let delayedMsgTime = 1800
+    const delayedMsgTime = 1800
     reply = generalReplies('helpUser1', senderName, wildcard)
     break
 
@@ -380,11 +378,15 @@ const getReply = async (message, params, userFromDB) => {
   // -- Closed contexts to return if user has not finished them
   if (ifHereGoBack.indexOf(params.currentEntity) > -1) {
     if (params.prevFlow === 'tutor') {
+      // -- Redefine the entity
+      params.currentEntity = params.currentPos
       tempReply = await contexts.tutor(message, params, userFromDB)
       goToPreviousContext(message, params, userFromDB, tempReply)
         .catch(err => console.log('Error returning from general context to Tutor Context :: ', err))
 
     } else if (params.prevFlow === 'introduction') {
+      // -- Redefine the entity
+      params.currentEntity = params.currentPos
       tempReply = await contexts.introduction(message, params, userFromDB)
       goToPreviousContext(message, params, userFromDB, tempReply)
         .catch(err => console.log('Error returning from general context to Tutor Context :: ', err))

@@ -150,7 +150,7 @@ const getReply = async (message, params, userFromDB) => {
       flowControlUpdate = { current_pos: 'userCanPay', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
       reply = standardReplies('userCanPay', senderName)
       futureMsgFlowUpdate = flowControlUpdate
-        futureRepliesToSend = standardReplies('userCanPay', senderName)
+      futureRepliesToSend = standardReplies('userCanPay', senderName)
       // controllerSmash.sendNotificationToSlack(process.env.BOT_NOTIFICATIONS
       reminderToContinueOn = true
       break
