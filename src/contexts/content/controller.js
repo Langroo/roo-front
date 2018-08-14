@@ -14,7 +14,7 @@ const getReply = async (message, params, userFromDB) => {
   let info
 
   // -- IF THE USER IS IN THE INTRODUCTION WE SEND HIM BACK
-  if (params.prevFlow === 'introduction') {
+  if (params.prevFlow === 'introduction' && !params.awaitingAnswer) {
     params.currentEntity = params.currentPos
     const tempReply = await flows.introduction(message, params, userFromDB)
     const trueReply = [tempReply.pop()]
@@ -22,7 +22,7 @@ const getReply = async (message, params, userFromDB) => {
   }
 
   // -- IF THE USER IS UNREGISTERED THEN WE SEND HIM BACK TO FINISH THE INTRO
-  if (params.status === 'UNREGISTERED') {
+  if (params.status === 'UNREGISTERED' && !params.awaitingAnswer) {
     params.currentEntity = 'rooIntroduction'
     const tempReply = await flows.introduction(message, params, userFromDB)
     const trueReply = [tempReply.pop()]
@@ -47,7 +47,7 @@ const getReply = async (message, params, userFromDB) => {
   switch (params.currentEntity) {
 
   case 'quizReceivedReply':
-    flowControlUpdate = { current_flow: params.prevFlow }
+    flowControlUpdate = { current_flow: params.prevFlow, awaiting_answer: '0' }
     reply = standardReplies('quizReceivedReply', senderName)
     break
 

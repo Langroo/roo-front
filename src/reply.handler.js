@@ -140,7 +140,7 @@ const getUserName = payload => {
 // -- Contexts that prevent interaction with other contexts until finished
 const lockedContext = (params, isPostback) => {
 
-  if (params.currentFlow === 'quiz') {
+  if (params.currentFlow === 'quiz' && params.awaitingAnswer) {
     params = Object.assign({}, params, { currentFlow: 'content', currentEntity: 'quizReceivedReply' })
     return params
   }
