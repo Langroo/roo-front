@@ -14,7 +14,7 @@ router.post('/', (req, res) => {
 
 router.get('/', (req, res) => {
   if (!req.body.data) {
-    return response.render('home', {
+    return res.render('home', {
       apiUrl: process.env.API_BASE_URL,
     })
   }
