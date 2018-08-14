@@ -13,6 +13,11 @@ router.post('/', (req, res) => {
 })
 
 router.get('/', (req, res) => {
+  if (!req.body.data) {
+    return response.render('home', {
+      apiUrl: process.env.API_BASE_URL,
+    })
+  }
   frontReceiver.verify(req, res)
   res.end(JSON.stringify({ status: 'ok' }))
 })
