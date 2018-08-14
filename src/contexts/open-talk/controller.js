@@ -5,7 +5,7 @@ const getReply = async (message, params, userFromDB) => {
    * Requiring and importing
    * */
   const flows = require('../index')
-  const API = require('../../api/index').dbApi
+  const API = require('../../core/index').dbApi
   const genericReplies = require('./responses').genericReplies
   const failsafeReplies = require('./responses').failsafeReplies
   const OneForAll = require('../../bot-tools').OneForAll

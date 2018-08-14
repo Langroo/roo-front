@@ -28,7 +28,7 @@ const getEntity = (exp) => {
   expressions = /^(haha+|jaja+)$/i
   if (expressions.test(exp)) { return 'laughterReply' }
 
-  expressions = /^((are|r)\s(yo)?u\s(real|human|a human|a bot|a robot)\s?(or a robot|or a human)?(\?)*|am i talking to a bot\?*|who am i talking to\?*)$/i
+  expressions = /^((are|r)\s(yo)?u\s(real|human|a human|a bot|a robot|a real person)\s?(or a robot|or a human)?(\?)*|am i talking to a bot\?*|who am i talking to\?*)$/i
   if (expressions.test(exp)) { return 'existenceReply' }
 
   expressions = /^(Who am i talking to|What is your name|What's your name|Who are you|who's there|who is there)(\?)*$/i
@@ -49,7 +49,7 @@ const getEntity = (exp) => {
   expressions = /^Do you speak\s+\w+\?*$/i
   if (expressions.test(exp)) { return 'languageReply' }
 
-  expressions = /^(How are you|What's up|Whats up|How's it going)\?*$/i
+  expressions = /^(How are you|What's up|Whats up|How's it going| Hows it going)\?*$/i
   if (expressions.test(exp)) { return 'whatsupReply' }
 
   expressions = /(I don't understand|i do not understand)/i

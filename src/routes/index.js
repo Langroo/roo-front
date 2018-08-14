@@ -1,7 +1,1 @@
-/**
- * Export every route manager
- */
-module.exports = {
-  main: require('./main'),
-  messagesTrigger: require('./messages_trigger'),
-}
+module.exports.main = require('./main')

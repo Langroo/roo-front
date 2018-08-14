@@ -56,20 +56,6 @@ const replyChooser = (replyName, senderName) => {
     thanksForFeedback: [
       { type: 'text', content: 'Ok, great thanks for the feedback, have a great day! :)' },
     ],
-    restartOptions: [
-      {
-        type: 'button',
-        content:
-        {
-          title: `Hey ${senderName}, are you sure you want to restart our conversation again 🔄? Or, is there another option you want 😮?`,
-          buttons: [
-              { title: 'Change Level/Accent', type: 'postback', value: 'change_level_or_accent' },
-              { title: 'Other', type: 'postback', value: 'custom_user_req' },
-              { title: 'Restart', type: 'postback', value: 'full_restart' },
-          ],
-        },
-      },
-    ],
     customUserRequest: [
       { type: 'text', content: 'Cool 👌, would you like to give me some details 📝 and I will respond as soon as I can?' },
     ],
@@ -107,27 +93,21 @@ const replyChooser = (replyName, senderName) => {
       [{ type: 'text', content: 'What did I ask you again? 😶Ow yeah ☝️ ...' }],
       [{ type: 'text', content: `I was waiting for you to respond the below ${senderName} 😁👇` }],
     ],
-    broadcastRestart: [
-      { type: 'text', content: `Brilliant ${senderName}, get ready for takeoff! 🚀But, just before I ask some questions first…. 😉` },
-    ],
-    broadcastStartLater: [
-      { type: 'text', content: `${senderName}, what is more important than learning to speak native English? Do you have a hot date or something? 💕 🍴 😂` },
-    ],
     broadcastShare: [
-      { type: 'text', content: `Super! 👏Send this link to your friend ${senderName} www.m.me/langroo` },
+      { type: 'text', content: `Super! 👏 Send this link to your friend ${senderName} www.m.me/langroo` },
     ],
     generalShareDialog: [
       { type: 'text', content: 'Super! 👏' },
-      { type: 'text', content: 'Click "Share with Friend ❤️️" below and your friends will get sent this 👇' },
+      { type: 'text', content: 'Click SHARE to send this 👇' },
       { type: 'card',
         content: [
           {
-            title: 'Hey! I\'m Participating in the Langroo Daily quiz!',
-            subtitle: 'Do you want to improve your English with me? 😜',
+            title: 'Hey, have you heard of the Langroo chatbot? ',
+            subtitle: 'Accept my invite below to learn English together!',
             imageUrl: 'https://s3.amazonaws.com/langroo/images/roo_logo_plane.png',
             buttons: [
-              { title: 'Yes! Accept Invite! 📱', type: 'web_url', url: 'https://m.me/langroo' },
-              { title: 'Share with Friend ❤️️', type: 'element_share' },
+              { title: 'Share ❤️️', type: 'element_share' },
+              { title: 'Accept Invite 👍', type: 'web_url', url: 'https://m.me/langroo' },
             ],
           },
         ],

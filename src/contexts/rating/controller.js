@@ -4,7 +4,7 @@ const getReply = async (message, params, userFromDB) => {
   const standardReplies = require('./responses').standardReplies
 
   // -- Import the API to send the messages to the API
-  const API = require('../../api').dbApi
+  const API = require('../../core').dbApi
 
   // -- Declare the reply variable
   let reply

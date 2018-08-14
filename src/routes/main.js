@@ -3,7 +3,9 @@
  */
 const express = require('express')
 const router = express.Router()
-const frontReceiver = require('../front.receiver')
+const frontReceiver = require('../director')
+const url = require('url')
+const qs = require('querystring')
 require('dotenv').config()
 
 // -- Facebook Webhook Handler
@@ -13,6 +15,13 @@ router.post('/', (req, res) => {
 })
 
 router.get('/', (req, res) => {
+  const query = qs.parse(url.parse(req.url).query)
+
+  if (!query['hub.verify_token']) {
+    return res.render('home', {
+      apiUrl: process.env.API_BASE_URL,
+    })
+  }
   frontReceiver.verify(req, res)
   res.end(JSON.stringify({ status: 'ok' }))
 })

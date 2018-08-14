@@ -3,7 +3,7 @@ const getReply = async (message, params, userFromDB) => {
   /**
    * Requires and Imports of modules and libraries
    * */
-  const API = require('../../api/index').dbApi
+  const API = require('../../core/index').dbApi
   const standardReplies = require('./responses').standardReplies
   const flows = require('../index')
   const futureMsg = { doSend: false, timeInSeconds: 10800, placeInFlow: {} }
@@ -14,7 +14,7 @@ const getReply = async (message, params, userFromDB) => {
   let info
 
   // -- IF THE USER IS IN THE INTRODUCTION WE SEND HIM BACK
-  if (params.prevFlow === 'introduction') {
+  if (params.prevFlow === 'introduction' && !params.awaitingAnswer) {
     params.currentEntity = params.currentPos
     const tempReply = await flows.introduction(message, params, userFromDB)
     const trueReply = [tempReply.pop()]
@@ -22,7 +22,7 @@ const getReply = async (message, params, userFromDB) => {
   }
 
   // -- IF THE USER IS UNREGISTERED THEN WE SEND HIM BACK TO FINISH THE INTRO
-  if (params.status === 'UNREGISTERED') {
+  if (params.status === 'UNREGISTERED' && !params.awaitingAnswer) {
     params.currentEntity = 'rooIntroduction'
     const tempReply = await flows.introduction(message, params, userFromDB)
     const trueReply = [tempReply.pop()]
@@ -45,6 +45,11 @@ const getReply = async (message, params, userFromDB) => {
   /* ^ Erase this piece of code after August 15, 2018 */
 
   switch (params.currentEntity) {
+
+  case 'quizReceivedReply':
+    flowControlUpdate = { current_flow: params.prevFlow, awaiting_answer: '0' }
+    reply = standardReplies('quizReceivedReply', senderName)
+    break
 
   case 'afterGeneralFunctionReply':
     flowControlUpdate = { current_pos: 'afterGeneralFunctionReply', prev_pos: 'sendContent', next_pos: 'fallback', current_flow: 'opentalk', prev_flow: 'opentalk' }

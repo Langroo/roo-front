@@ -1,7 +1,7 @@
 const getReply = async (message, params, userFromDB) => {
 
   // -- Import of static function containers
-  const API = require('../../api/index').dbApi
+  const API = require('../../core/index').dbApi
   const standardReplies = require('./responses').standardReplies
   const OneForAll = require('../../bot-tools').OneForAll
   const BotCache = require('../../bot-tools').BotCache
