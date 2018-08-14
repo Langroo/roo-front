@@ -47,7 +47,7 @@ const getReply = async (message, params, userFromDB) => {
   switch (params.currentEntity) {
 
   case 'quizReceivedReply':
-    flowControlUpdate = { current_flow: params.prevFlow, awaiting_answer: '0' }
+    flowControlUpdate = { current_pos: params.prevPos, current_flow: params.prevFlow, awaiting_answer: '0' }
     reply = standardReplies('quizReceivedReply', senderName)
     break
 
