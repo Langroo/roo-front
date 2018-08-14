@@ -140,6 +140,11 @@ const getUserName = payload => {
 // -- Contexts that prevent interaction with other contexts until finished
 const lockedContext = (params, isPostback) => {
 
+  if (params.currentFlow === 'quiz' && params.awaitingAnswer) {
+    params = Object.assign({}, params, { currentFlow: 'content', currentEntity: 'quizReceivedReply' })
+    return params
+  }
+
   if (params.awaitingAnswer && !isPostback && params.currentFlow !== 'opentalk' && params.prevFlow !== 'rating') {
     params = Object.assign({}, params, { currentFlow: 'content', currentEntity: 'sendContent' })
     console.info('\n-> USER IS ANSWERING A QUESTION FROM THE CONTENT, SENDING TO :: ', params.currentFlow)
@@ -168,7 +173,6 @@ const userDialogs = (payload, rawInput) => {
   const Cron = require('node-schedule')
   const BotTools = require('./bot-tools')
   const FbAPIClass = BotTools.FacebookAPI
-  const ChatBaseAPI = new BotTools.ChatBaseAPI()
   const ConversationLogs = require('./persistence').filesystem
   const FacebookAPI = new FbAPIClass(payload.sender.id)
 
