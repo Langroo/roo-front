@@ -46,6 +46,11 @@ const getReply = async (message, params, userFromDB) => {
 
   switch (params.currentEntity) {
 
+  case 'quizReceivedReply':
+    flowControlUpdate = { current_flow: params.prevFlow }
+    reply = standardReplies('quizReceivedReply', senderName)
+    break
+
   case 'afterGeneralFunctionReply':
     flowControlUpdate = { current_pos: 'afterGeneralFunctionReply', prev_pos: 'sendContent', next_pos: 'fallback', current_flow: 'opentalk', prev_flow: 'opentalk' }
     reply = standardReplies('afterGeneralFunctionReply', senderName)

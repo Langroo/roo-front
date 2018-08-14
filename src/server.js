@@ -35,7 +35,6 @@ Promise.all([Redis])
   // Routes management
   const routes = require('./routes')
   app.use('/', routes.main)
-  app.use('/messageTrigger', routes.messagesTrigger)
 
   // -- Roo Webhook
   app.post('/webhook', async (request, response) => {
