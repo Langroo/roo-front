@@ -94,7 +94,11 @@ bot.on('delivery', (payload, reply, actions) => console.log('Facebook informs co
 const interact = (req, res) => {
   try {
     bot._handleMessage(req.body)
-  } catch (err) { console.log('Error handling input at Director Module: ', err) }
+  } catch (err) {
+    if (!(err instanceof TypeError)) {
+      console.log('\nError with bot._handleMessage at Director Module: ', err)
+    }
+  }
 }
 
 // -- Verify Webhook authenticity with Facebook
