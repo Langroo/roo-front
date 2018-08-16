@@ -60,40 +60,6 @@ const getReply = async (message, params, userFromDB) => {
     reply = standardReplies('afterGeneralFunctionReply', senderName)
     break
 
-  case 'sendContent':
-    futureMsg.doSend = true
-    flowControlUpdate = { current_pos: 'sendContent', prev_pos: 'sendContent', open_question: true, next_pos: 'sendContent', current_flow: 'content', prev_flow: 'opentalk' }
-    info = await API.sendLesson(message.sender.id)
-    if (info.statusCode >= 200 && info.statusCode < 222) {
-      console.info('[✔️] API informed: Content sent correctly.')
-      reply = []
-    } else if (info.statusCode === 222) {
-      console.error('[✔️] API informed: Lessons for %s are over for today', senderName)
-      flowControlUpdate = { current_pos: 'fallback', prev_pos: 'fallback', next_pos: 'fallback', current_flow: 'opentalk', prev_flow: 'opentalk' }
-      reply = standardReplies('FinalContentMsg', senderName)
-    } else if (info.statusCode >= 400) {
-      console.error('[X] ERROR SENDING CONTENT, this happened ::', info.data)
-    }
-    break
-
-  case 'FinalContentMsg':
-    flowControlUpdate = { current_pos: 'FinalContentMsg', prev_pos: 'sendContent', next_pos: 'fallback', current_flow: 'opentalk', prev_flow: 'opentalk' }
-    reply = standardReplies('FinalContentMsg', senderName)
-    break
-
-  case 'retakeLesson':
-    let incRepCount = parseInt(params.repeatedThisPos, 10) + 1
-    incRepCount = incRepCount.toString()
-    if (parseInt(params.repeatedThisPos, 10) < 2) {
-      flowControlUpdate = { current_pos: 'retakeLesson', open_question: 'false', prev_pos: 'retakeLesson', next_pos: 'TBD', prev_flow: 'content', repeated_this_pos: incRepCount }
-      reply = standardReplies('retakeLesson', senderName)
-    } else {
-      flowControlUpdate = { current_pos: 'fallback', open_question: true, prev_pos: 'fallback', next_pos: 'fallback', prev_flow: 'opentalk', current_flow: 'opentalk', repeated_this_pos: '0' }
-      params.prevFlow = 'opentalk'
-      params.currentEntity = 'fallback'
-      reply = await flows.opentalk(message, params, userFromDB)
-    }
-    break
   default:
     console.log('[X] No case matched inside Content context')
   }
