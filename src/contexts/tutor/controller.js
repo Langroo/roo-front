@@ -47,13 +47,13 @@ const getReply = async (message, params, userFromDB) => {
 
   // -- Is user allowed to request a tutor yet?
   if (userFromDB.data) {
-    if (params.prevFlow === 'introduction' && params.currentEntity !== 'fromIntroPreTutorFlow') {
-      params.currentEntity = params.currentPos
-      await API.updateFlow(message.sender.id, { tutor_flow_status: 'requested' })
-      const tempReply = await flows.introduction(message, params, userFromDB)
-      const trueReply = [tempReply.pop()]
-      return reply = [standardReplies('mustRegisterFirst', senderName)[0]].concat(trueReply)
-    }
+    // if (params.prevFlow === 'introduction' && params.currentEntity !== 'fromIntroPreTutorFlow') {
+    //   params.currentEntity = params.currentPos
+    //   await API.updateFlow(message.sender.id, { tutor_flow_status: 'requested' })
+    //   const tempReply = await flows.introduction(message, params, userFromDB)
+    //   const trueReply = [tempReply.pop()]
+    //   return reply = [standardReplies('mustRegisterFirst', senderName)[0]].concat(trueReply)
+    // }
     if (userFromDB.content) { preTutorAux.accent = userFromDB.content.plan.accent }
     userLevel = 1
   } else {
