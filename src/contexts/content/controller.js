@@ -8,6 +8,8 @@ const getReply = async (message, params, userFromDB) => {
   const flows = require('../index')
   const futureMsg = { doSend: false, timeInSeconds: 10800, placeInFlow: {} }
   const senderName = params.senderName
+  const OneForAll = require('../../bot-tools/universal').OneForAll
+  const contentSmash = new OneForAll()
 
   let reply
   let flowControlUpdate
@@ -47,8 +49,10 @@ const getReply = async (message, params, userFromDB) => {
   switch (params.currentEntity) {
 
   case 'quizReceivedReply':
+    const userAnswer = `{"text":"User ${params.senderName} answered the quiz: *${params.rawUserInput}*"}`
     flowControlUpdate = { current_pos: params.prevPos, current_flow: params.prevFlow, awaiting_answer: '0' }
     reply = standardReplies('quizReceivedReply', senderName)
+    contentSmash.sendNotificationToSlack(process.env.QUIZ_ANSWERS_SLACK, userAnswer)
     break
 
   case 'afterGeneralFunctionReply':
