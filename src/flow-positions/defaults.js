@@ -14,7 +14,7 @@ const flowPositions = positionName => {
     positionObject = {
       current_pos: 'getStarted',
       prev_pos: 'getStarted',
-      next_pos: 'howAreYouReply',
+      next_pos: '_introduceMyselfDialog',
       open_question: true,
       current_flow: 'introduction',
       last_interaction: Date(),
