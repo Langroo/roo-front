@@ -147,7 +147,7 @@ const getReply = async (message, params, userFromDB) => {
       reply = standardReplies('jumpToTutorFlow', params.senderName)
       willCreateUser = true
       reminderToContinueOn = false
-      FlowUpdate = { current_pos: 'introFinal', open_question: 'false', prev_pos: 'introFinal', next_pos: 'TBD', current_flow: 'opentalk', prev_flow: 'introduction', repeated_this_pos: '0' }
+      FlowUpdate = { current_pos: 'introFinal', open_question: 'false', prev_pos: 'introFinal', next_pos: 'TBD', current_flow: 'opentalk', prev_flow: 'opentalk', repeated_this_pos: '0' }
 
     } else {
       reply = standardReplies('introFinal', params.senderName)
