@@ -73,6 +73,15 @@ const botReplier = (payload, reply, actions = null) => {
     // -- Handle User Input and Return Replies
     ReplyHandler.userDialogs(payload, text)
   })
+    .catch(() => bot.sendMessage(payload.sender.id, {
+      text: 'Hello friend 👋! Thanks for trying me out 😁👍!\nUnfortunately, because of Facebook, Messenger or the device 📱 you are using, I cannot function properly 😟 and give you the full Langroo Experience.\nSend me a message with the hashtag #help and a member of our team will contact you to figure out the issue and solve it! ☺👌',
+    },
+      OneForAll.sendNotificationToSlack(
+        process.env.DEPLOYMENT_INFO_SLACK_URL,
+        `{"text":"User with ID ${payload.sender.id} has an issue with this Facebook Public Profile"}`
+      ),
+      'RESPONSE',
+      'ISSUE_RESOLUTION'))
 }
 
 // -- Chatbot referral handling (when users use the m.link)
