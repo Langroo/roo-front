@@ -105,7 +105,7 @@ const getReply = async (message, params, userFromDB) => {
       break
 
     case 'badConnection':
-      flowControlUpdate = { current_pos: 'badConnection', prev_pos: 'badConnection', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
+      flowControlUpdate = { current_pos: 'badConnection', prev_pos: 'badConnection', open_question: 'false', next_pos: 'TBD', prev_flow: 'opentalk' }
       reply = standardReplies('badConnection', senderName)
       // futureMsgFlowUpdate = flowControlUpdate
       // utureRepliesToSend = standardReplies('badConnection', senderName)
@@ -138,7 +138,7 @@ const getReply = async (message, params, userFromDB) => {
       break
 
     case 'userCannotPay':
-      flowControlUpdate = { current_pos: 'userCannotPay', prev_pos: 'userCannotPay', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor', repeated_this_pos: '0', tutor_flow_status: 'finished' }
+      flowControlUpdate = { current_pos: 'userCannotPay', prev_pos: 'userCannotPay', open_question: 'false', next_pos: 'TBD', prev_flow: 'opentalk', repeated_this_pos: '0', tutor_flow_status: 'finished' }
       reply = standardReplies('userCannotPay', senderName)
       // futureMsgFlowUpdate = flowControlUpdate
       //   futureRepliesToSend = standardReplies('userCannotPay', senderName)
@@ -147,7 +147,7 @@ const getReply = async (message, params, userFromDB) => {
       break
 
     case 'userCanPay':
-      flowControlUpdate = { current_pos: 'userCanPay', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
+      flowControlUpdate = { current_pos: 'userCanPay', open_question: 'false', next_pos: 'TBD', prev_flow: 'opentalk', current_flow: 'opentalk' }
       reply = standardReplies('userCanPay', senderName)
       futureMsgFlowUpdate = flowControlUpdate
       futureRepliesToSend = standardReplies('userCanPay', senderName)
