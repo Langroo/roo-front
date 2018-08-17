@@ -45,6 +45,9 @@ const checkForHashTags = (profile, text) => {
 
 const botReplier = (payload, reply, actions = null) => {
 
+  // -- Instantiation of our Smash to Slack
+  const slackSmash = new OneForAll()
+
   // -- Define constants for message content and help regex
   let text
   if (payload.message) {
@@ -76,7 +79,7 @@ const botReplier = (payload, reply, actions = null) => {
     .catch(() => bot.sendMessage(payload.sender.id, {
       text: 'Hello friend 👋! Thanks for trying me out 😁👍!\nUnfortunately, because of Facebook, Messenger or the device 📱 you are using, I cannot function properly 😟 and give you the full Langroo Experience.\nSend me a message with the hashtag #help and a member of our team will contact you to figure out the issue and solve it! ☺👌',
     },
-      OneForAll.sendNotificationToSlack(
+      slackSmash.sendNotificationToSlack(
         process.env.DEPLOYMENT_INFO_SLACK_URL,
         `{"text":"User with ID ${payload.sender.id} has an issue with this Facebook Public Profile"}`
       ),
