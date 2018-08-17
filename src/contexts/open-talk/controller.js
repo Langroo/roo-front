@@ -146,11 +146,11 @@ const getReply = async (message, params, userFromDB) => {
   case 'missunderstandingReply':
     if (params.prevFlow === 'content' && params.OpQ) {
       params.currentFlow = 'content'
-      params.currentEntity = 'sendContent'
+      params.currentEntity = 'quizReceivedReply'
       return reply = await flows.content(message, params, userFromDB)
     } else if (params.prevFlow === 'content' && !params.OpQ) {
       params.currentFlow = 'content'
-      params.currentEntity = 'sendContent'
+      params.currentEntity = 'quizReceivedReply'
       return reply = await flows.content(message, params, userFromDB)
     }
     reply = genericReplies('missunderstandingReply', senderName)
@@ -337,8 +337,8 @@ const getReply = async (message, params, userFromDB) => {
       const repeatedPosNumber = parseInt(params.repeatedThisPos, 10) + 1
       params.currentFlow = 'content'
       params.repeatedThisPos = repeatedPosNumber.toString()
-      params.currentEntity = 'sendContent'
-      params.currentPos = 'sendContent'
+      params.currentEntity = 'quizReceivedReply'
+      params.currentPos = 'quizReceivedReply'
       controllerSmash.CronFunction(delayedMsgTime, API.sendLesson, null, message.sender.id)
     }
   }

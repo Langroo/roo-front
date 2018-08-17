@@ -43,7 +43,7 @@ const getReply = async (message, params, userFromDB) => {
   }
 
   /* SAFETY MEASURE TO PREVENT ERRORS WITH PEOPLE THAT RECEIVED THE BROADCAST MESSAGE WITH THE OLD ENTITY OF SendNextContentMessage*/
-  if (params.currentEntity === 'sendNextContentMsg') { params.currentEntity = 'sendContent' }
+  if (params.currentEntity === 'quizReceivedReply') { params.currentEntity = 'quizReceivedReply' }
   /* ^ Erase this piece of code after August 15, 2018 */
 
   switch (params.currentEntity) {
@@ -56,7 +56,7 @@ const getReply = async (message, params, userFromDB) => {
     break
 
   case 'afterGeneralFunctionReply':
-    flowControlUpdate = { current_pos: 'afterGeneralFunctionReply', prev_pos: 'sendContent', next_pos: 'fallback', current_flow: 'opentalk', prev_flow: 'opentalk' }
+    flowControlUpdate = { current_pos: 'afterGeneralFunctionReply', prev_pos: 'quizReceivedReply', next_pos: 'fallback', current_flow: 'opentalk', prev_flow: 'opentalk' }
     reply = standardReplies('afterGeneralFunctionReply', senderName)
     break
 
