@@ -1,6 +1,9 @@
 const getEntity = (exp) => {
   let expressions
 
+  expressions = /^reset flows for/i
+  if (expressions.test(exp)) { return 'resetFlowForUser' }
+
   expressions = /^help_paying_postback$/i
   if (expressions.test(exp)) { return 'paymentHelpDialog' }
 
