@@ -2,19 +2,19 @@ const getEntity = (exp) => {
   let expressions
 
   expressions = /^jump_from_intro_to_tutor$/i
-  if (expressions.test(exp)) { return 'fromIntroPreTutorFlow' }
+  if (expressions.test(exp)) { return 'exploreTutorFlow' }
 
   expressions = /^go to benefits in tutor flow now$/i
-  if (expressions.test(exp)) { return 'retakePreTutorFromReminder' }
+  if (expressions.test(exp)) { return 'exploreTutorFlow' }
 
   expressions = /^((I|get)*\s+(want|need)*\s+a\s+(tutor|professor|master|sensei|teacher)+(!)*)$/i
-  if (expressions.test(exp)) { return 'initiateTutorFlow' }
+  if (expressions.test(exp)) { return 'exploreTutorFlow' }
 
   expressions = /^I will speak with a tutor later Roo, not now$/i
   if (expressions.test(exp)) { return 'willDoTutorLater' }
 
   expressions = /^tf_yes_init$/i
-  if (expressions.test(exp)) { return 'tb0' }
+  if (expressions.test(exp)) { return 'exploreTutorFlow' }
 
   expressions = /^(TALK_TO_TUTOR|initiatePreTutorFlow|Upgrade to Tutor|request personal tutor|explore tutors| Explore Tutors| EXPLORE TUTORS)$/i
   if (expressions.test(exp)) { return 'exploreTutorFlow' }
