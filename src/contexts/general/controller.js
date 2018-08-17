@@ -137,6 +137,7 @@ const getReply = async (message, params, userFromDB) => {
       reply = []
     } else if (params.rawUserInput === 'send_friday_broadcast') {
       await API.sendBroadcastMessage('fridayBroadcastQuiz', 'UNSUBSCRIBED')
+      reply = []
     }
     break
 
