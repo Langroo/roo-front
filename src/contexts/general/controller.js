@@ -136,7 +136,8 @@ const getReply = async (message, params, userFromDB) => {
       await API.sendBroadcastMessage('wednesdayBroadcastQuiz', 'UNSUBSCRIBED')
       reply = []
     } else if (params.rawUserInput === 'send_friday_broadcast') {
-      reply = [{ type: 'text', content: 'Still not available :P' }]
+      await API.sendBroadcastMessage('fridayBroadcastQuiz', 'UNSUBSCRIBED')
+      reply = []
     }
     break
 
@@ -247,7 +248,7 @@ const getReply = async (message, params, userFromDB) => {
     reply = generalReplies('thanksForFeedback')
     break
 
-  case 'restartUserContent':
+  case 'resetFlowForUser':
     let userSenderId = params.rawUserInput.split('[')[1].split(']')[0]
     if ((/me/i).test(userSenderId)) {
       userSenderId = message.sender.id
@@ -260,8 +261,10 @@ const getReply = async (message, params, userFromDB) => {
       let targetUser = (await API.retrieveUser(userSenderId)).data
       if (targetUser.data) {
         targetUser = targetUser.data.name.short_name
-        reply = [{ type: 'text', content: `Content restarted for ${targetUser} ʕᵔᴥᵔʔ` }]
-        await API.sendLesson(userSenderId)
+        reply = [{ type: 'text', content: `I restarted her ${targetUser} ʕᵔᴥᵔʔ` }]
+        await API.updateFlow(userSenderId, { current_flow: 'opentalk', prev_flow: 'opentalk', current_pos: 'fallback' })
+        const r = await API.createFullUserProfile(userSenderId)
+        if (r.statusCode >= 200 && r.statusCode < 300) { console.info('User Profile Created in [APIDB] Successfully') } else { console.error('ERROR :: User Profile Creation after INTRODUCTION has been UNSUCCESSFUL') }
       } else {
         reply = [{ type: 'text', content: 'Could not restart content for this user, check the logs {•̃_•̃ } ' }]
       }
