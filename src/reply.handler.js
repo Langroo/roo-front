@@ -15,7 +15,7 @@ const adminDialogs = (input, senderId) => {
   const flowResetRegex = /roo masters 101/i
   API.retrieveUser(senderId)
     .then((profile) => {
-      if (!profile.data.is_admin) { return }
+      if (!profile.data.is_admin) { return FacebookAPI.SendMessages('text', 'You are not an admin 🚫') }
       // -- Sets the user in the opentalk context and allows access to all contexts
       if (flowResetRegex.test(input)) {
         API.updateFlow(senderId, flowPositions('adminFlowReset'))
