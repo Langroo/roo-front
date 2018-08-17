@@ -13,42 +13,54 @@ const adminDialogs = (input, senderId) => {
   const delayActivationRegex = /activate message delay/i
   const delayDeactivationRegex = /deactivate message delay/i
   const flowResetRegex = /roo masters 101/i
+  API.retrieveUser(senderId)
+    .then(profile => {
+      if (!profile.data.is_admin) {
+        console.log('PROFILE DATA :: ', profile)
+        return FacebookAPI.SendMessages('text', 'You are not an admin 🚫')
+      }
+      // -- Sets the user in the opentalk context and allows access to all contexts
+      if (flowResetRegex.test(input)) {
+        API.updateFlow(senderId, flowPositions('adminFlowReset'))
+          .then(() => API.createInitialUserProfile(senderId)
+            .then(() => {
+              FacebookAPI.SendMessages('quickReplies',
+                {
+                  title: '✔ CONTEXT ADMIN RESET SUCCESSFUL 👍. \nYou are now in the opentalk Context. 👀',
+                  buttons: [
+                    { title: 'Monday Broadcast', value: 'send_monday_broadcast' },
+                    { title: 'Wednesday Broadcast', value: 'send_wednesday_broadcast' },
+                    { title: 'Friday Broadcast', value: 'send_friday_broadcast' },
+                  ],
+                })
+                .then(() => {
+                  return true
+                })
+            }))
+      }
 
-  // -- Sets the user in the opentalk context and allows access to all contexts
-  if (flowResetRegex.test(input)) {
-    API.updateFlow(senderId, flowPositions('adminFlowReset'))
-      .then(() => API.createInitialUserProfile(senderId)
-        .then(() => {
-          FacebookAPI.SendMessages('quickReplies',
-            {
-              title: '✔ CONTEXT ADMIN RESET SUCCESSFUL 👍. \nYou are now in the opentalk Context. 👀',
-              buttons: [
-                { title: 'Monday Broadcast', value: 'send_monday_broadcast' },
-                { title: 'Wednesday Broadcast', value: 'send_wednesday_broadcast' },
-                { title: 'Friday Broadcast', value: 'send_friday_broadcast' },
-              ],
-            })
-            .then(() => { return true })
-        }))
-  }
+      // -- Allow deactivation of the delays between messages only if this env variable is set
+      if (process.env.DELAY_DEACTIVATION_ALLOWED) {
 
-  // -- Allow deactivation of the delays between messages only if this env variable is set
-  if (process.env.DELAY_DEACTIVATION_ALLOWED) {
+        if (delayActivationRegex.test(input)) {
 
-    if (delayActivationRegex.test(input)) {
+          API.updateFlow(senderId, { message_delay: 'on' })
+            .then(() => FacebookAPI.SendMessages('text', 'BOT :: ⌛⏳ Delay between messages ACTIVE ☑. \nYou may continue operations. \nFlow is unaltered')
+              .then(() => {
+                return true
+              }))
 
-      API.updateFlow(senderId, { message_delay: 'on' })
-        .then(() => FacebookAPI.SendMessages('text', 'BOT :: ⌛⏳ Delay between messages ACTIVE ☑. \nYou may continue operations. \nFlow is unaltered')
-          .then(() => { return true }))
+        } else if (delayDeactivationRegex.test(input)) {
 
-    } else if (delayDeactivationRegex.test(input)) {
+          API.updateFlow(senderId, { message_delay: 'off' })
+            .then(() => FacebookAPI.SendMessages('text', 'BOT :: ⌛⏳ Delay between messages DEACTIVATED 🚫. \nYou may continue operations. \nFlow is unaltered')
+              .then(() => {
+                return true
+              }))
 
-      API.updateFlow(senderId, { message_delay: 'off' })
-        .then(() => FacebookAPI.SendMessages('text', 'BOT :: ⌛⏳ Delay between messages DEACTIVATED 🚫. \nYou may continue operations. \nFlow is unaltered')
-          .then(() => { return true }))
-
-    }
-  }
+        }
+      }
+    })
 }
 
 // -- Function that sends the messages of the dialogs
@@ -146,7 +158,7 @@ const lockedContext = (params, isPostback) => {
   }
 
   if (params.awaitingAnswer && !isPostback && params.currentFlow !== 'opentalk' && params.prevFlow !== 'rating') {
-    params = Object.assign({}, params, { currentFlow: 'content', currentEntity: 'sendContent' })
+    params = Object.assign({}, params, { currentFlow: 'content', currentEntity: 'quizReceivedReply' })
     console.info('\n-> USER IS ANSWERING A QUESTION FROM THE CONTENT, SENDING TO :: ', params.currentFlow)
     return params
   }
