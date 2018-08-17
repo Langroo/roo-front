@@ -146,7 +146,7 @@ const lockedContext = (params, isPostback) => {
   }
 
   if (params.awaitingAnswer && !isPostback && params.currentFlow !== 'opentalk' && params.prevFlow !== 'rating') {
-    params = Object.assign({}, params, { currentFlow: 'content', currentEntity: 'sendContent' })
+    params = Object.assign({}, params, { currentFlow: 'content', currentEntity: 'quizReceivedReply' })
     console.info('\n-> USER IS ANSWERING A QUESTION FROM THE CONTENT, SENDING TO :: ', params.currentFlow)
     return params
   }
