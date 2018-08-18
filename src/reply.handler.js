@@ -152,14 +152,13 @@ const getUserName = payload => {
 // -- Contexts that prevent interaction with other contexts until finished
 const lockedContext = (params, isPostback) => {
 
-  if (params.currentPos === 'quiz' && params.awaitingAnswer) {
-    params = Object.assign({}, params, { currentFlow: 'content', currentEntity: 'quizReceivedReply' })
-    return params
+  const stopBotKeywords = /(^stop bot$|^freeze the current flow$|^unsuscribe$|^stop the content$|^cancel subscription$|^unsubscribe$|^stop$)/i
+  if (stopBotKeywords.test(params.rawUserInput)) {
+    params = Object.assign({}, params, { currentFlow: 'general', currentEntity: 'BOT_STOP' })
   }
 
-  if (params.awaitingAnswer && !isPostback && params.currentFlow !== 'opentalk' && params.prevFlow !== 'rating') {
+  if (params.currentPos === 'quiz' && params.awaitingAnswer && !isPostback) {
     params = Object.assign({}, params, { currentFlow: 'content', currentEntity: 'quizReceivedReply' })
-    console.info('\n-> USER IS ANSWERING A QUESTION FROM THE CONTENT, SENDING TO :: ', params.currentFlow)
     return params
   }
 
@@ -205,7 +204,7 @@ const userDialogs = (payload, rawInput) => {
 
     // -- Initialize variable that indicates if user input comes from pressing a button
     let isPostback
-    payload.type === 'payload'
+    payload.postback
       ? isPostback = true
       : isPostback = false
 
