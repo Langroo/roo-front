@@ -49,7 +49,7 @@ const getEntity = (exp) => {
   expressions = /^(reset|restart|restart bot|restart full conversation)$/i
   if (expressions.test(exp)) { return 'RESET' }
 
-  expressions = /(^stop bot$|^freeze the current flow$|^unsuscribe$|^stop the content$|^cancel subscription$|^unsubscribe$|^stop$|^access payment(s)*$)/i
+  expressions = /(^stop bot$|^freeze the current flow$|^unsuscribe$|^stop the content$|^cancel subscription$|^unsubscribe$|^stop$)/i
   if (expressions.test(exp)) { return 'BOT_STOP' }
 
   expressions = /(^help$|^dismiss bot and go to human$|^i need help$|^help me$|^Can a human speak to me\?*$)/i
