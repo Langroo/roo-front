@@ -37,9 +37,6 @@ const getEntity = (exp) => {
   expressions = /^yes_confirm_account_deletion$/i
   if (expressions.test(exp)) { return 'accountDeletedMsg' }
 
-  expressions = /^yes_stop_bot$/i
-  if (expressions.test(exp)) { return 'stopBotMessages1' }
-
   expressions = /^full_restart$/i
   if (expressions.test(exp)) { return 'confirmRestartOfContent' }
 
@@ -50,7 +47,7 @@ const getEntity = (exp) => {
   if (expressions.test(exp)) { return 'RESET' }
 
   expressions = /(^stop bot$|^freeze the current flow$|^unsuscribe$|^stop the content$|^cancel subscription$|^unsubscribe$|^stop$)/i
-  if (expressions.test(exp)) { return 'BOT_STOP' }
+  if (expressions.test(exp)) { return 'stopBotMessages' }
 
   expressions = /(^help$|^dismiss bot and go to human$|^i need help$|^help me$|^Can a human speak to me\?*$)/i
   if (expressions.test(exp)) { return 'helpUser_Init' }

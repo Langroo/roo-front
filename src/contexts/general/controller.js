@@ -226,26 +226,11 @@ const getReply = async (message, params, userFromDB) => {
     return reply = generalReplies('mustRegisterFirst', senderName).concat(trueReply)
 
   // -- Function triggered by the STOP ALL CONVERSATION in the menu and the DELETE ACCOUNT
-  case 'BOT_STOP':
-    flowControlUpdate = { prev_pos: 'BOT_STOP', open_question: 'false', next_pos: 'stopBotMessages1', current_flow: 'general' }
-    reply = generalReplies('initStopBotMessages', senderName)
-    break
-
-  case 'stopBotMessages1':
+  case 'stopBotMessages':
     await API.deleteUser(message.sender.id)
       .catch((err) => console.log('ERROR UNSUBSCRIBING USER :: ', err))
-    flowControlUpdate = { current_pos: 'stopBotMessages1', prev_pos: 'stopBotMessages1', open_question: true, next_pos: 'stopBotMessages2' }
-    reply = generalReplies('stopBotMessages1', senderName)
-    break
-
-  case 'stopBotMessages2':
-    flowControlUpdate = { prev_pos: 'BOT_FROZEN', open_question: true, next_pos: 'BOT_STOP_THANKS' }
-    reply = generalReplies('stopBotMessages2')
-    break
-
-  case 'BOT_STOP_THANKS':
-    flowControlUpdate = { prev_pos: 'BOT_STOP_THANKS', current_flow: 'opentalk' }
-    reply = generalReplies('thanksForFeedback')
+    flowControlUpdate = { prev_pos: 'stopBotMessages', open_question: 'false', next_pos: 'fallback', current_flow: 'opentalk' }
+    reply = generalReplies('stopBotMessages', senderName)
     break
 
   case 'resetFlowForUser':

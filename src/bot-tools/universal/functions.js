@@ -8,9 +8,6 @@ const API = require('../../core/index').dbApi
 const replyLauncher = require('../../reply.handler')
 require('dotenv').config()
 
-/* *********************************************************************************
- * ALL-MIGHT'S CLASS THAT CONTAINS EVERY POWERFUL FUNCTION USED BY THE BOT *********
- * *********************************************************************************/
 class OneForAll {
 
   sendNotificationToSlack (url, data) {
@@ -123,18 +120,6 @@ class OneForAll {
     }
   }
 
-  addToStringList (theElement, theStringList = '') {
-    try {
-      const tempArray = theStringList.split(',')
-      if (tempArray.indexOf(theElement) !== -1) { return theStringList }
-      tempArray.push(theElement)
-      return tempArray.toString()
-    } catch (error) {
-      console.error('Bloody Error at [addToStringList] :: ', error)
-      return 0
-    }
-  }
-
   killCronJob (entity, senderId) {
     const cronId = senderId + entity
     const h = cronJobScheduler.scheduledJobs[cronId]
@@ -203,22 +188,6 @@ class OneForAll {
       }
       console.log('[Notice] -> Delayed function called successfully')
     })
-  }
-
-  apiCronReminder (endpoint, data, log = null) {
-    try {
-      axios.request({
-        headers: { 'Content-Type': 'application/json' },
-        url: `${process.env.API_BASE_URL}/${endpoint}`,
-        method: 'post',
-        data,
-      })
-      if (log) {
-        console.log(log)
-      }
-    } catch (reason) {
-      console.log('Error in apiCronReminder in Introduction Flow:: ', reason)
-    }
   }
 
 }
