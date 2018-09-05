@@ -33,28 +33,8 @@ const replyChooser = (replyName, senderName) => {
     helpUser_Final: [
       { type: 'text', content: 'Ok, as you wish! 👍 I will contact one of my team members to look after it, and I\'ll get them to contact you! 😉' },
     ],
-    initStopBotMessages: [
-      {
-        type: 'quickReplies',
-        content:
-        {
-          title: `Wait... What? 😱 Am I reading this right? Are you sure you want to stop talking to me ${senderName}? 😲 #devastated`,
-          buttons: [
-              { title: 'I\'m Joking', value: 'return_to_previous_flow' },
-              { title: 'Talk to my Team', value: 'help' },
-              { title: 'Yes, Stop Content', value: 'yes_stop_bot' },
-          ],
-        },
-      },
-    ],
-    stopBotMessages1: [
-      { type: 'text', content: `No problem ${senderName}, thanks for being part of the learning journey with me! 🎓Can you give me one recommendation for how I can improve? 🙏👇` },
-    ],
-    stopBotMessages2: [
-      { type: 'text', content: 'Also, would you be interested in hearing about any future offers for learning with me? 😄' },
-    ],
-    thanksForFeedback: [
-      { type: 'text', content: 'Ok, great thanks for the feedback, have a great day! :)' },
+    stopBotMessages: [
+      { type: 'text', content: `Sure ${senderName}, I will stop sending you messages from now on :) 👍 If you want to start again, just write RESTART` },
     ],
     customUserRequest: [
       { type: 'text', content: 'Cool 👌, would you like to give me some details 📝 and I will respond as soon as I can?' },

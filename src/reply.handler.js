@@ -154,7 +154,7 @@ const lockedContext = (params, isPostback) => {
 
   const stopBotKeywords = /(^stop bot$|^freeze the current flow$|^unsuscribe$|^stop the content$|^cancel subscription$|^unsubscribe$|^stop$)/i
   if (stopBotKeywords.test(params.rawUserInput)) {
-    params = Object.assign({}, params, { currentFlow: 'general', currentEntity: 'BOT_STOP' })
+    params = Object.assign({}, params, { currentFlow: 'general', currentEntity: 'stopBotMessages' })
   }
 
   if (params.currentPos === 'quiz' && params.awaitingAnswer && !isPostback) {
