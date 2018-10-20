@@ -94,7 +94,7 @@ const getReply = async (message, params, userFromDB) => {
    * Disable the following options during the following flow
    * */
   const disablingFlow = 'introduction'
-  const optionsToDisable = ['paymentDialog_Init', 'helpUser_Init', 'userProfile', 'chooseNewLevel', 'chooseNewAccent']
+  const optionsToDisable = ['helpUser_Init', 'userProfile', 'chooseNewLevel', 'chooseNewAccent']
   if (optionsToDisable.indexOf(params.currentEntity) > -1 && params.prevFlow === disablingFlow) {
     params.currentEntity = 'mustRegisterFirst'
   }
@@ -141,15 +141,17 @@ const getReply = async (message, params, userFromDB) => {
     }
     break
 
-  case 'paymentDialog_Init':
+  case 'paymentDialog_Init': {
     const paymentInitMsg = `{"text":"User ${userFullName} has initiated the *Payment/Upgrade Plan conversational flow*"}`
     const paymentInitURL = process.env.PAYMENT_NOTIFICATIONS_SLACK_URL
     const paymentInitErr = controllerSmash.sendNotificationToSlack(paymentInitURL, paymentInitMsg)
-    if (paymentInitErr) { console.log('(╯°□°）╯︵ ┻━┻ ERROR sending the notification to SLACK :: ', paymentInitRes) }
+    if (paymentInitErr) {
+      console.log('(╯°□°）╯︵ ┻━┻ ERROR sending the notification to SLACK :: ', paymentInitErr)
+    }
     flowControlUpdate = { current_pos: 'paymentDialog_Init', open_question: 'false', next_pos: 'paymentDialog1' }
     reply = paymentReplies('paymentDialog_Init', senderName, {})
     break
-
+  }
   case 'paymentDialog1':
     currency = params.rawUserInput.substr(0, 3)
     paymentUrl = {
@@ -184,15 +186,18 @@ const getReply = async (message, params, userFromDB) => {
     console.info('\nInbox Mode Enabled - Control of the bot is now in the hands of the admin\n')
     break
 
-  case 'askRoo':
+  case 'askRoo': {
     const askRooMsg = `{"text":"*User ${userFullName} asks:* ${params.rawUserInput}", "icon_emoji": ":question:", "username": "Ask Roo"}`
     const askRooURL = 'https://hooks.slack.com/services/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'
     const askRooErr = controllerSmash.sendNotificationToSlack(askRooURL, askRooMsg, 'User is making a question')
-    if (askRooErr) { console.log('(╯°□°）╯︵ ┻━┻ ERROR sending question to SLACK :: ', askRooErr) }
+    if (askRooErr) {
+      console.log('(╯°□°）╯︵ ┻━┻ ERROR sending question to SLACK :: ', askRooErr)
+    }
     reply = [generalReplies('askRoo', senderName)[Math.floor(Math.random() * generalReplies('askRoo', senderName).length)]]
     break
+  }
 
-  case 'pronounceThis':
+  case 'pronounceThis': {
     let textToAudio
     let actualText = params.rawUserInput.toLowerCase()
     actualText = actualText.split('pronounce ')[1]
@@ -211,13 +216,20 @@ const getReply = async (message, params, userFromDB) => {
       if (!error) {
         reply = []
       } else {
-        reply = [{ type: 'text', content: `I am sorry😫 ${senderName}, my throat is a bit sore right now 😖... Try again ☝ later and I will send you a voice note 📢 with the pronunciation of that.` }]
+        reply = [{
+          type: 'text',
+          content: `I am sorry😫 ${senderName}, my throat is a bit sore right now 😖... Try again ☝ later and I will send you a voice note 📢 with the pronunciation of that.`,
+        }]
       }
 
     } else {
-      reply = [{ type: 'text', content: `I am sorry😫 ${senderName}, my throat is a bit sore right now 😖... Try again ☝ later and I will send you a voice note 📢 with the pronunciation of that.` }]
+      reply = [{
+        type: 'text',
+        content: `I am sorry😫 ${senderName}, my throat is a bit sore right now 😖... Try again ☝ later and I will send you a voice note 📢 with the pronunciation of that.`,
+      }]
     }
     break
+  }
 
   case 'mustRegisterFirst':
     params.currentEntity = params.currentPos
