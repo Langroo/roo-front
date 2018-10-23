@@ -80,6 +80,7 @@ class FacebookAPI {
                 type: 'nested',
                 call_to_actions:
                 [
+                  { title: '🔂 Translate', type: 'web_url', url: 'https://translate.google.com' },
                   { title: '🔐 Pay', type: 'postback', payload: 'subscribe me' },
                   { title: '🙋 Help', type: 'postback', payload: 'help' },
                   { title: '📵 Stop All Messages', type: 'postback', payload: 'FREEZE THE CURRENT FLOW' },

@@ -31,7 +31,7 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
     _introduceMyselfDialog: [
       { type: 'text', content: '😀😀' },
       { type: 'text', content: `So ${senderName}, let me introduce myself` },
-      { type: 'text', content: 'I’m Roo, an AI chatbot which helps you to learn English like a native person! 🙅' },
+      { type: 'text', content: 'I’m Roo, a chatbot which helps you to understand native English people! 👂🏼📲' },
       { type: 'text', content: 'Who are you?' },
     ],
     _welcomeVideoDialog: [
@@ -49,13 +49,13 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       },
     ],
     _englishQuizDialog: [
-      { type: 'text', content: 'We send an English QUIZ every Monday, Wednesday and Friday! 📝' },
-      { type: 'text', content: 'And every day there is ONE WINNER! 🏆' },
+      { type: 'text', content: 'Me and our team of tutors send you a comprehension quiz every Monday-Friday! 📝💪' },
+      { type: 'text', content: 'And if you get the answers right & the fastest YOU WIN A PRIZE! 🏆' },
       { type: 'image', content: 'https://s3.amazonaws.com/langroo/images/boxing-ring-champion.gif' },
-      { type: 'text', content: 'Are you ready to participate....? ' },
+      { type: 'text', content: 'Are you ready to get started....?' },
     ],
     _motivationToLearnDialog: [
-      { type: 'text', content: 'Let’s goooo!!! 🚀' },
+      { type: 'text', content: 'Awesome!!! 🚀' },
       { type: 'text', content: 'But, I want to understand you a bit more first' },
       { type: 'text', content: 'So...' },
       { type: 'quickReplies',
@@ -117,20 +117,10 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'text', content: 'Do you know how the quiz works?' },
     ],
     _howQuizWorksDialog: [
-      { type: 'text', content: 'We will send the quiz here at 3pm 👇(LONDON time)' },
-      { type: 'text', content: 'The FASTEST person 🏃 to respond with the correct answer ✅ receives a prize!' },
-      { type: 'text', content: 'The results 📊 will be announced 30 minutes later!' },
-      { type: 'text', content: 'Now that you have the details…. ' },
-      { type: 'quickReplies',
-        content: {
-          title: 'Would you like to invite a friend to learn with? 📨',
-          buttons: [
-            { title: 'Yes 😁', value: 'share langroo' },
-            { title: 'Maybe 😂', value: 'share langroo' },
-            { title: 'Just Me 😯', value: 'user_wants_to_play_alone' },
-          ],
-        },
-      },
+      { type: 'text', content: 'The quiz will get sent at 2pm 👇(LONDON time)' },
+      { type: 'text', content: 'You need to respond as fast as you can with your answers!' },
+      { type: 'text', content: '30 minutes later we announce the winner! 😍' },
+      { type: 'text', content: 'If you want to write to the Langroo team anytime just write your message + #team 😉' },
     ],
     introFinal: [
       { type: 'text', content: 'Best of luck!! 👍' },
