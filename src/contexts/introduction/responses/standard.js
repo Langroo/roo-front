@@ -31,7 +31,7 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
     _introduceMyselfDialog: [
       { type: 'text', content: '😀😀' },
       { type: 'text', content: `So ${senderName}, let me introduce myself` },
-      { type: 'text', content: 'I’m Roo, an AI chatbot which helps you to learn English like a native person! 🙅' },
+      { type: 'text', content: 'I’m Roo, a chatbot which helps you to understand native English people! 👂🏼📲' },
       { type: 'text', content: 'Who are you?' },
     ],
     _welcomeVideoDialog: [
