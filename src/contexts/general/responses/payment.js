@@ -1,5 +1,25 @@
 const replyChooser = (replyName, senderName, url = {}) => {
 
+  const menuOptions = (planURL) => {
+    return [
+      {
+        type: 'web_url',
+        url: url[planURL],
+        title: 'Pay now!',
+      },
+      {
+        type: 'postback',
+        title: 'Payment Complete! ↩️',
+        value: 'payment_complete_postback',
+      },
+      {
+        type: 'postback',
+        title: 'Help❓',
+        value: 'help_paying_postback',
+      },
+    ]
+  }
+
   const replies = {
     paymentDialog_Init: [
       {
@@ -20,66 +40,18 @@ const replyChooser = (replyName, senderName, url = {}) => {
         content: [
           {
             title: 'Casual Plan!',
-            imageUrl: 'https://s3.amazonaws.com/langroo/images/pricing-20-dollars-v2.png',
-            buttons: [
-              {
-                type: 'web_url',
-                url: url.casualURL,
-                title: 'Pay in 10 seconds!',
-              },
-              {
-                type: 'postback',
-                title: 'Help Needed ❓',
-                value: 'help_paying_postback',
-              },
-              {
-                type: 'postback',
-                title: 'Payment Complete! ↩️',
-                value: 'payment_complete_postback',
-              },
-            ],
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/casual_plan_pricing.png',
+            buttons: menuOptions('casualURL'),
           },
           {
             title: 'Ambitious Plan!',
             imageUrl: 'https://i.imgur.com/XiEt2WX.png',
-            buttons: [
-              {
-                type: 'web_url',
-                url: url.standardURL,
-                title: 'Pay in 10 seconds!',
-              },
-              {
-                type: 'postback',
-                title: 'Help Needed ❓',
-                value: 'help_paying_postback',
-              },
-              {
-                type: 'postback',
-                title: 'Payment Complete! ↩️',
-                value: 'payment_complete_postback',
-              },
-            ],
+            buttons: menuOptions('standardURL'),
           },
           {
             title: 'Elite Plan!',
             imageUrl: 'https://i.imgur.com/WtILnZS.png',
-            buttons: [
-              {
-                type: 'web_url',
-                url: url.eliteURL,
-                title: 'Pay in 10 seconds!',
-              },
-              {
-                type: 'postback',
-                title: 'Help Needed ❓',
-                value: 'help_paying_postback',
-              },
-              {
-                type: 'postback',
-                title: 'Payment Complete! ↩️',
-                value: 'payment_complete_postback',
-              },
-            ],
+            buttons: menuOptions('eliteURL'),
           },
         ],
       },
