@@ -29,7 +29,7 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'text', content: 'How are you?' },
     ],
     _introduceMyselfDialog: [
-      { type: 'text', content: '😀😀' },
+      { type: 'text', content: '👌👌' },
       { type: 'text', content: `So ${senderName}, let me introduce myself` },
       { type: 'text', content: 'I’m Roo, a chatbot which helps you to understand native English people! 👂🏼📲' },
       { type: 'text', content: 'Who are you?' },

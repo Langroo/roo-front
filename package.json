@@ -24,7 +24,6 @@
     "aws-sdk": "^2.378.0",
     "axios": "^0.16.2",
     "babel-cli": "^6.11.4",
-    "babel-eslint": "^6.1.2",
     "babel-plugin-syntax-async-functions": "^6.13.0",
     "babel-plugin-transform-runtime": "^6.22.0",
     "babel-polyfill": "^6.22.0",
@@ -43,9 +42,7 @@
     "crypto-js": "^3.1.9-1",
     "debug": "~2.6.3",
     "dotenv": "^4.0.0",
-    "eslint": "^3.2.0",
     "eslint-config-zavatta": "^4.2.0",
-    "eslint-plugin-import": "^1.6.1",
     "express": "^4.16.4",
     "express-busboy": "^6.0.1",
     "express-fileupload": "^0.2.0",
@@ -63,7 +60,6 @@
     "nodemon": "^1.18.9",
     "raven": "^2.6.4",
     "raven-js": "^3.27.0",
-    "recastai": "^4.0.0",
     "redis": "^2.8.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
@@ -71,7 +67,10 @@
     "superagent": "^3.8.3"
   },
   "devDependencies": {
-    "babel-preset-env": "^1.7.0"
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.10.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
   },
   "babel": {
     "presets": [
@@ -82,14 +81,5 @@
       "transform-runtime",
       "syntax-async-functions"
     ]
-  },
-  "eslintConfig": {
-    "extends": "zavatta",
-    "rules": {
-      "no-console": 0,
-      "callback-return": 0,
-      "camelcase": 0,
-      "require-await": 0
-    }
   }
 }
