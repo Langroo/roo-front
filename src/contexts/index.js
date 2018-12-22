@@ -19,4 +19,4 @@ module.exports = {
   reminderReplies: require('./reminders').reminderReplies,
   ratingController: require('./rating').controller,
   ratingNLP: require('./rating').NLP,
-}
+};

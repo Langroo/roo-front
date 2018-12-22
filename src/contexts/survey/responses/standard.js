@@ -1,15 +1,14 @@
 const replyChooser = (replyName, senderName, choice = 'that') => {
-
   // Imports of external modules and libraries
-  const OneForAll = require('../../../bot-tools').OneForAll
-  const controllerSmash = new OneForAll()
+  const OneForAll = require('../../../bot-tools').OneForAll;
+  const controllerSmash = new OneForAll();
 
   const randomResponses = [
     { type: 'text', content: 'So 😀, as I was saying... ' },
     { type: 'text', content: 'I know we got lost in conversation 😆, but...' },
     { type: 'text', content: 'What did I ask you again? 😶Ow yeah ☝️ ...' },
     { type: 'text', content: `I was waiting for you to respond below ${senderName} 😁👇` },
-  ]
+  ];
 
   const replies = {
     pressBtnFirstReminder: [
@@ -176,7 +175,7 @@ const replyChooser = (replyName, senderName, choice = 'that') => {
       { type: 'text', content: 'Every Monday we give our community a weekly challenge :D' },
       { type: 'text', content: 'Have a great day! 💪' },
     ],
-  }
-  return replies[replyName]
-}
-module.exports = replyChooser
+  };
+  return replies[replyName];
+};
+module.exports = replyChooser;

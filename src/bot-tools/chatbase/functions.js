@@ -1,6 +1,6 @@
-require('dotenv').config()
+require('dotenv').config();
 
-const axios = require('axios')
+const axios = require('axios');
 
 /*
  handled = false
@@ -9,7 +9,7 @@ const axios = require('axios')
  */
 
 class chatbaseFunctions {
-  async analyticReceived (messageContent, messageId, entityAndFlow, notHandled, version = '1.01') {
+  async analyticReceived(messageContent, messageId, entityAndFlow, notHandled, version = '1.01') {
     try {
       const call = {
         headers: { 'content-type': 'application/json', 'cache-control': 'no-cache' },
@@ -29,18 +29,18 @@ class chatbaseFunctions {
             "not_handled": ${notHandled}
           }
         }`,
-      }
-      return (await axios.request(call)).data
+      };
+      return (await axios.request(call)).data;
     } catch (reason) {
       if (reason.response) {
-        console.log('ERROR sending the fucking request to CHATBASE in AnalyticsReceived :: ', reason.response.data)
+        console.log('ERROR sending the fucking request to CHATBASE in AnalyticsReceived :: ', reason.response.data);
       } else {
-        console.log('ERROR sending the fucking request to CHATBASE in AnalyticsReceived  :: ', reason)
+        console.log('ERROR sending the fucking request to CHATBASE in AnalyticsReceived  :: ', reason);
       }
     }
   }
 
-  async analyticSent (messageContent, messageId, entityAndFlow, version = '1.01', handled = false) {
+  async analyticSent(messageContent, messageId, entityAndFlow, version = '1.01', handled = false) {
     try {
       return (await axios.request({
         headers: { 'content-type': 'application/json', 'cache-control': 'no-cache' },
@@ -59,16 +59,15 @@ class chatbaseFunctions {
             "version": '${version}',
           }
         }`,
-      })).data
+      })).data;
     } catch (reason) {
       if (reason.response) {
-        console.log('ERROR sending the fucking request to CHATBASE in AnalyticsSent (the other function) :: ', reason.response.data)
+        console.log('ERROR sending the fucking request to CHATBASE in AnalyticsSent (the other function) :: ', reason.response.data);
       } else {
-        console.log('ERROR sending the fucking request to CHATBASE in AnalyticsSent (the other function) :: ', reason)
+        console.log('ERROR sending the fucking request to CHATBASE in AnalyticsSent (the other function) :: ', reason);
       }
     }
   }
-
 }
 
-module.exports = chatbaseFunctions
+module.exports = chatbaseFunctions;

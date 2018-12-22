@@ -1,5 +1,5 @@
 const langNameGetter = (toSearch) => {
-  let languageName
+  let languageName;
   const availableLanguages = {
     afrikaans: {
       lang_code: 'af',
@@ -196,16 +196,16 @@ const langNameGetter = (toSearch) => {
     yiddish: {
       lang_code: 'yi',
     },
-  }
+  };
 
-  let key
+  let key;
   for (key in availableLanguages) {
     if (availableLanguages[key].lang_code.indexOf(toSearch) > -1) {
-      languageName = key
+      languageName = key;
     }
   }
 
-  return languageName
-}
+  return languageName;
+};
 
-module.exports = langNameGetter
+module.exports = langNameGetter;

@@ -4,4 +4,4 @@
 module.exports = {
   redis: require('./redis'),
   filesystem: require('./filesystem'),
-}
+};

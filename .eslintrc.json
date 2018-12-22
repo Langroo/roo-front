@@ -18,6 +18,7 @@
     "camelcase": "off",
     "arrow-body-style": "warn",
     "no-return-await": "off",
-    "array-callback-return": "off"
+    "array-callback-return": "off",
+    "global-require": "off"
   }
 }

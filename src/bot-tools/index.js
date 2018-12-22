@@ -6,4 +6,4 @@ module.exports = {
   ChatBaseAPI: require('./chatbase').functions,
   OneForAll: require('./universal').OneForAll,
   BotCache: require('./memory').BotCache,
-}
+};
