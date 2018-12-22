@@ -4,20 +4,32 @@ const getEntity = (exp) => {
   expressions = /^(get_started|initial_state|start_from_introduction_now)$/i;
   if (expressions.test(exp)) { return 'getStarted'; }
 
-  expressions = /^(user_has_invite)$/i;
+  expressions = /^(speak_japanese|speak_english)$/i;
+  if (expressions.test(exp)) { return '_userIsNewOrInvited'; }
+
+  expressions = /^user_has_invite$/i;
   if (expressions.test(exp)) { return '_userHasInvite'; }
 
-  expressions = /^(motivation is work|motivation is social life|motivation is university|motivation is school|motivation is english exams|motivation is job interviews|motivation is travel)$/i;
+  expressions = /^user_is_new$/i;
   if (expressions.test(exp)) { return '_newUser'; }
 
-  expressions = /^(Found Roo by Influencer|Found Roo from Social Media|Found Roo from a Facebook Group|Found Roo Searching|Found Roo from Article|Found Roo by other means|Found Roo from a Friend)$/i;
-  if (expressions.test(exp)) { return '_heardAboutLangrooDialog2'; }
-
-  expressions = /^motivation is other and will be asked$/i;
+  expressions = /^awaiting_our_first_call$/i;
   if (expressions.test(exp)) { return '_awaitingOurFirstCall'; }
 
-  expressions = /(^pd_beginner_level$|^pd_intermediate_level$|^pd_advanced_level$)/i;
-  if (expressions.test(exp)) { return '_heardAboutLangrooDialog1'; }
+  expressions = /^already_had_a_call$/i;
+  if (expressions.test(exp)) { return '_alreadyHadACall'; }
+
+  expressions = /^proceed_with_trial$/i;
+  if (expressions.test(exp)) { return '_willProceedWithFreeTrial'; }
+
+  expressions = /^dont_proceed_with_trial$/i;
+  if (expressions.test(exp)) { return '_wontProceedWithFreeTrial'; }
+
+  expressions = /^proceed_with_trial_with_a_friend$/i;
+  if (expressions.test(exp)) { return '_freeTrialWithFriend'; }
+
+  expressions = /^proceed_with_trial_by_myself$/i;
+  if (expressions.test(exp)) { return '_freeTrialAlone'; }
 
   expressions = /^keep_going_with_intro_flow$/i;
   if (expressions.test(exp)) { return 'introPostFinal'; }

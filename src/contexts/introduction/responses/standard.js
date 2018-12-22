@@ -94,7 +94,8 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'text', content: '👐 2. You can choose and add the tutor you like on Facebook ' },
       { type: 'text', content: '👐 3. You will have a free 15 minute call online via Messenger' },
       { type: 'text', content: '👐 4. If you like the tutor, you can sign-up to have weekly video classes again through Facebook!' },
-      { type: 'quickReplies',
+      {
+        type: 'quickReplies',
         content: {
           title: `Do you want to proceed with a free trial ${senderName}? 😃`,
           buttons: [
@@ -112,7 +113,8 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'text', content: 'If your circumstances change, we’re always here for you! 🙌 ' },
     ],
     _willProceedWithFreeTrial: [
-      { type: 'quickReplies',
+      {
+        type: 'quickReplies',
         content: {
           title: 'Ok, awesome, will you be learning with a friend or by yourself?',
           buttons: [
@@ -128,15 +130,140 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'text', content: '👐 2. Say hello via Messenger' },
       { type: 'text', content: '👐 3. Organise your free 15 minute call' },
       { type: 'text', content: 'Start below:' },
-      { type: 'quickReplies',
-        content: {
-          title: 'Ok, awesome, will you be learning with a friend or by yourself?',
-          buttons: [
-            { title: 'By myself ✌️', value: 'proceed_with_trial_by_myself' },
-            { title: 'With a friend 👨👩', value: 'proceed_with_trial_with_a_friend' },
-          ],
-        },
+      {
+        type: 'carousel',
+        content: [
+          {
+            title: '"Abby from Plymouth, UK"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_woman_tutor_1.png',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://about.me/abby.crawford',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
+              },
+            ],
+          },
+          {
+            title: '"Tanner from Wisconsin, USA"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_man_tutor_1.jpg',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://about.me/tannerlt',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
+              },
+            ],
+          },
+          {
+            title: '"Joanne from London, UK"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_woman_tutor_2.png',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://about.me/joannewood',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
+              },
+            ],
+          },
+        ],
       },
+      { type: 'delay', content: 30000 },
+      { type: 'text', content: '👐 4. After your free class, once you’re happy you can start weekly classes by saying PAY NOW' },
+    ],
+    _freeTrialWithFriend: [
+      { type: 'text', content: `Let the games begin ${senderName}!!` },
+      { type: 'text', content: 'Start by nominating your friend below:' },
+      {
+        type: 'card',
+        content: [
+          {
+            title: 'Hey! Do you want to start doing an English class together?',
+            subtitle: 'With Langroo you can chat with an English tutor & it’s half/price with 2 people!',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/friend-invite-roo.jpeg',
+            buttons: [
+              { title: 'Invite 📩', type: 'element_share' },
+              { title: 'Accept Friend’s Invite 👍', type: 'web_url', url: 'https://m.me/langroo' },
+            ],
+          },
+        ],
+      },
+      { type: 'delay', content: 10000 },
+      { type: 'text', content: 'Once you have invited your friend, it’s time to choose your tutor! Look at the different profiles, and whoever you think is the coolest for you and your friend:' },
+      { type: 'text', content: '👐 1. Add them directly on Facebook' },
+      { type: 'text', content: '👐 2. Say hello via messenger and invite your friend to the conversation' },
+      { type: 'text', content: '👐 3. Organise a three-way free 15 minute call' },
+      { type: 'text', content: 'Continue below:' },
+      {
+        type: 'carousel',
+        content: [
+          {
+            title: '"Abby from Plymouth, UK"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_woman_tutor_1.png',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://about.me/abby.crawford',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
+              },
+            ],
+          },
+          {
+            title: '"Tanner from Wisconsin, USA"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_man_tutor_1.jpg',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://about.me/tannerlt',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
+              },
+            ],
+          },
+          {
+            title: '"Joanne from London, UK"',
+            imageUrl: 'https://s3.amazonaws.com/langroo/images/photo_of_woman_tutor_2.png',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://about.me/joannewood',
+                title: 'FREE Call! 💻',
+              },
+              {
+                type: 'postback',
+                title: 'Help ❓',
+                value: 'help',
+              },
+            ],
+          },
+        ],
+      },
+      { type: 'delay', content: 30000 },
+      { type: 'text', content: '👐 4. After your free class, once you’re happy you can sign-up to weekly classes by saying PAY WITH FRIEND' },
     ],
     _alreadyHadACall: [
       { type: 'text', content: 'Awesome, the next step for you is to choose your subscription plan! :)' },

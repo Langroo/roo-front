@@ -1,6 +1,6 @@
+const crypto = require('crypto');
 const flowPositions = require('./flow-positions');
 const API = require('./core').dbApi;
-const crypto = require('crypto');
 const generateHash = str => crypto.createHash('md5').update(str).digest('hex');
 require('dotenv').config();
 

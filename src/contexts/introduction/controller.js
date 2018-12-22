@@ -91,7 +91,15 @@ const getReply = async (message, params, userFromDB) => {
       reply = standardReplies('_userIsNewOrInvited', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_userIsNewOrInvited', open_question: true, prev_pos: '_userIsNewOrInvited', next_pos: '_hardestThing', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_userIsNewOrInvited', open_question: true, prev_pos: '_userIsNewOrInvited', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+      };
+      break;
+
+    case '_userHasInvite':
+      reply = standardReplies('_userHasInvite', params.senderName);
+      reminderToContinueOn = true;
+      FlowUpdate = {
+        current_pos: '_userHasInvite', open_question: true, prev_pos: '_userHasInvite', next_pos: '_hardestThing', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
       };
       break;
 
@@ -99,7 +107,47 @@ const getReply = async (message, params, userFromDB) => {
       reply = standardReplies('_hardestThing', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_hardestThing', open_question: true, prev_pos: '_hardestThing', next_pos: '_alreadyHadACall', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_hardestThing', open_question: 'false', prev_pos: '_hardestThing', next_pos: '_alreadyHadACall', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+      };
+      break;
+
+    case '_hardestThingNewUser':
+      reply = standardReplies('_hardestThingNewUser', params.senderName);
+      reminderToContinueOn = true;
+      FlowUpdate = {
+        current_pos: '_hardestThingNewUser', open_question: true, prev_pos: '_hardestThingNewUser', next_pos: '_alreadyHadACall', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+      };
+      break;
+
+    case '_explainABitToUser':
+      reply = standardReplies('_explainABitToUser', params.senderName);
+      reminderToContinueOn = true;
+      FlowUpdate = {
+        current_pos: '_explainABitToUser', open_question: 'false', prev_pos: '_explainABitToUser', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+      };
+      break;
+
+    case '_willProceedWithFreeTrial':
+      reply = standardReplies('_willProceedWithFreeTrial', params.senderName);
+      reminderToContinueOn = true;
+      FlowUpdate = {
+        current_pos: '_willProceedWithFreeTrial', open_question: 'false', prev_pos: '_willProceedWithFreeTrial', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+      };
+      break;
+
+    case '_wontProceedWithFreeTrial':
+      reply = standardReplies('_wontProceedWithFreeTrial', params.senderName);
+      reminderToContinueOn = true;
+      FlowUpdate = {
+        current_pos: '_wontProceedWithFreeTrial', open_question: true, prev_pos: '_wontProceedWithFreeTrial', next_pos: '_introFinalNoFreeTrial', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+      };
+      break;
+
+    case '_introFinalNoFreeTrial':
+      reply = standardReplies('_introFinalNoFreeTrial', params.senderName);
+      reminderToContinueOn = true;
+      FlowUpdate = {
+        current_pos: '_introFinalNoFreeTrial', open_question: true, prev_pos: '_wontProceedWithFreeTrial', next_pos: 'TBD', current_flow: 'opentalk', prev_flow: 'opentalk',
       };
       break;
 
@@ -117,7 +165,6 @@ const getReply = async (message, params, userFromDB) => {
       FlowUpdate = {
         current_pos: '_awaitingOurFirstCall', open_question: true, prev_pos: '_awaitingOurFirstCall', next_pos: '_newUser', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
       };
-      await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput);
       break;
 
     case '_newUser':
@@ -129,38 +176,11 @@ const getReply = async (message, params, userFromDB) => {
       await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput);
       break;
 
-    case '_heardAboutLangrooDialog1':
-      reply = standardReplies('_heardAboutLangrooDialog1', params.senderName);
-      reminderToContinueOn = true;
-      FlowUpdate = {
-        current_pos: '_heardAboutLangrooDialog1', open_question: 'false', prev_pos: '_heardAboutLangrooDialog1', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
-      };
-      await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput);
-      break;
-
-    case '_heardAboutLangrooDialog2':
-      reply = standardReplies('_heardAboutLangrooDialog2', params.senderName);
-      reminderToContinueOn = true;
-      FlowUpdate = {
-        current_pos: '_heardAboutLangrooDialog2', open_question: true, prev_pos: '_heardAboutLangrooDialog2', next_pos: '_userAllDoneDialog', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
-      };
-      await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput);
-      break;
-
     case '_userAllDoneDialog':
       reply = standardReplies('_userAllDoneDialog', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
         current_pos: '_userAllDoneDialog', open_question: true, prev_pos: '_userAllDoneDialog', next_pos: '_howQuizWorksDialog', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
-      };
-      await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput);
-      break;
-
-    case '_howQuizWorksDialog':
-      reply = standardReplies('_howQuizWorksDialog', params.senderName);
-      reminderToContinueOn = true;
-      FlowUpdate = {
-        current_pos: '_howQuizWorksDialog', open_question: 'false', prev_pos: '_howQuizWorksDialog', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'opentalk', translate_dialog: 'false',
       };
       await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput);
       break;
