@@ -1,5 +1,4 @@
 const replyChooser = (replyName, senderName) => {
-
   const replies = {
     pressButtonForRating: [
       {
@@ -21,8 +20,8 @@ const replyChooser = (replyName, senderName) => {
         },
       },
     ],
-  }
+  };
 
-  return replies[replyName]
-}
-module.exports = replyChooser
+  return replies[replyName];
+};
+module.exports = replyChooser;

@@ -3,4 +3,4 @@
  */
 module.exports = {
   dbApi: require('./core-api'),
-}
+};

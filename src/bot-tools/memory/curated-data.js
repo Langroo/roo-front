@@ -42,8 +42,8 @@ const getCuratedValue = (rawInput) => {
     yes_make_me_part_of_community: 'yes',
     yes_join_country_community: 'yes',
     no_dont_join_country_community: 'no',
-  }
-  return list[rawInput]
-}
+  };
+  return list[rawInput];
+};
 
-module.exports = getCuratedValue
+module.exports = getCuratedValue;

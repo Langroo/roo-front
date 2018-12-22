@@ -3,4 +3,4 @@
  */
 module.exports = {
   FacebookAPI: require('./functions'),
-}
+};

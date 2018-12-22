@@ -1,5 +1,4 @@
 const replyChooser = (replyName, senderName, aux = {}) => {
-
   const replies = {
     pressBtnFirstReminder: [
       { type: 'text', content: `Hey ${senderName}, I need you to select a button below 👇:` },
@@ -60,8 +59,8 @@ const replyChooser = (replyName, senderName, aux = {}) => {
         },
       },
     ],
-  }
+  };
 
-  return replies[replyName]
-}
-module.exports = replyChooser
+  return replies[replyName];
+};
+module.exports = replyChooser;

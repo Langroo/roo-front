@@ -3,4 +3,4 @@
  */
 module.exports = {
   reminderReplies: require('./responses').standardReplies,
-}
+};

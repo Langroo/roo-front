@@ -3,4 +3,4 @@
  */
 module.exports = {
   OneForAll: require('./functions'),
-}
+};

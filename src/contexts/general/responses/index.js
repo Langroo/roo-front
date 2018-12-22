@@ -6,4 +6,4 @@ module.exports = {
   paymentReplies: require('./payment'),
   generalReplies: require('./general'),
   translateReplies: require('./translate'),
-}
+};

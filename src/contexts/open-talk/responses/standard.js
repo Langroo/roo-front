@@ -1,5 +1,4 @@
 const replyChooser = (replyName, senderName) => {
-
   const replies = {
     footballReply: [
       [{ type: 'text', content: `${senderName} you can see ESPN or some sports channel to get info about that.` }],
@@ -30,7 +29,7 @@ const replyChooser = (replyName, senderName) => {
     ],
     functionReply: [
       {
-        type: 'text', content: 'How can I help you? 💁 Well, every day you will receive a quiz from our community! And, at any time our team of tutors is here to help you, just write EXPLORE TUTORS! ;)'
+        type: 'text', content: 'How can I help you? 💁 Well, every day you will receive a quiz from our community! And, at any time our team of tutors is here to help you, just write EXPLORE TUTORS! ;)',
       },
     ],
     languageReply: [
@@ -265,32 +264,32 @@ const replyChooser = (replyName, senderName) => {
       { type: 'text', content: `Sí, ${senderName} 😇, ¡adivinaste! Pero, ¡intento ser lo más humano posible para ti! 😁` },
     ],
     esIdentityReply: [
-    { type: 'text', content: `¡Me llamo Roo! Que esto quede entre tú y yo, ${senderName}, ¡podemos volverme famoso! 👑` },
+      { type: 'text', content: `¡Me llamo Roo! Que esto quede entre tú y yo, ${senderName}, ¡podemos volverme famoso! 👑` },
     ],
     esLanguageReply: [
-    { type: 'text', content: `¡Hablo todos los idiomas humanos y todos los lenguajes de programación que existen! 😋 ¡Pero para mejorar tu inglés solo te hablaré en inglés! 🙈 #inmersi \n Sin embargo, si quieres que traduzca algo,${senderName}, tan solo escribe "Traduce (text) al (language you want)" 🔠` },
+      { type: 'text', content: `¡Hablo todos los idiomas humanos y todos los lenguajes de programación que existen! 😋 ¡Pero para mejorar tu inglés solo te hablaré en inglés! 🙈 #inmersi \n Sin embargo, si quieres que traduzca algo,${senderName}, tan solo escribe "Traduce (text) al (language you want)" 🔠` },
     ],
     esBadWordsReply: [
-    { type: 'text', content: 'Hey, no te enseñé eso.' },
+      { type: 'text', content: 'Hey, no te enseñé eso.' },
     ],
     // portuguese custom
     ptExistenceReply: [
-    { type: 'text', content: `Sim ${senderName} 😇, você adivinhou certo! Mas tento ser o mais humano possível para você! 😁` },
+      { type: 'text', content: `Sim ${senderName} 😇, você adivinhou certo! Mas tento ser o mais humano possível para você! 😁` },
     ],
     ptIdentity: [
-    { type: 'text', content: `Meu nome é Roo! Entre você e eu ${senderName}, podemos me tornar famoso! 👑` },
+      { type: 'text', content: `Meu nome é Roo! Entre você e eu ${senderName}, podemos me tornar famoso! 👑` },
     ],
     ptAgeReply: [
-    { type: 'text', content: 'Eu tenho a juventude e a paixão de um jovem de 16 anos e a sabedoria de um jovem de 70 anos! 📚' },
+      { type: 'text', content: 'Eu tenho a juventude e a paixão de um jovem de 16 anos e a sabedoria de um jovem de 70 anos! 📚' },
     ],
     ptLocationReply: [
-    { type: 'text', content: `Para ser sincero, ${senderName} estou constantemente viajando pelo mundo! 🌐 Eu nunca estou no mesmo lugar! ✈️` },
+      { type: 'text', content: `Para ser sincero, ${senderName} estou constantemente viajando pelo mundo! 🌐 Eu nunca estou no mesmo lugar! ✈️` },
     ],
     ptFunctionReply: [
-    { type: 'text', content: `Bem, vou mandar tudo que você precisa para falar inglês como um nativo! 🇺🇸🇬🇧 Se você é paciente eu garanto que eu posso fazer você ${senderName} fluente! 😉` },
+      { type: 'text', content: `Bem, vou mandar tudo que você precisa para falar inglês como um nativo! 🇺🇸🇬🇧 Se você é paciente eu garanto que eu posso fazer você ${senderName} fluente! 😉` },
     ],
     ptLanguageReply: [
-    { type: 'text', content: `Eu falo toda linguagem humana e de programação por aí! 😋 Mas, para melhorar seu inglês, vou falar com você em inglês! Im #imersão \nNo entanto, se você quiser que eu traduza alguma coisa ${senderName}, apenas escreva "Translate (text) em (language you want)" 🔠🈺` },
+      { type: 'text', content: `Eu falo toda linguagem humana e de programação por aí! 😋 Mas, para melhorar seu inglês, vou falar com você em inglês! Im #imersão \nNo entanto, se você quiser que eu traduza alguma coisa ${senderName}, apenas escreva "Translate (text) em (language you want)" 🔠🈺` },
     ],
     ptWhatsupReply: [
       [{ type: 'text', content: 'Tudo ótimo! ✌️ Obrigado por perguntar!' }],
@@ -398,8 +397,10 @@ const replyChooser = (replyName, senderName) => {
       [{ type: 'image', content: 'https://media1.tenor.com/images/3240b08b8c1d722625dfb9e5d73b7b11/tenor.gif?itemid=3535805' }],
     ],
     repliesForNoQuestions: [
-      [{ type: 'text', content: `I’m more focused on delivering the quiz 📝 at the moment ${senderName}, but here is a piece of advice: “Speaking = making a sound with your mouth that other people understand.👂 Work hard on your pronunciation! 😉”
-` }],
+      [{
+        type: 'text', content: `I’m more focused on delivering the quiz 📝 at the moment ${senderName}, but here is a piece of advice: “Speaking = making a sound with your mouth that other people understand.👂 Work hard on your pronunciation! 😉”
+`,
+      }],
       [{ type: 'text', content: `I’m more focused on delivering the quiz 📝 at the moment ${senderName}, but here is a piece of advice: “If at anytime you want to ask our team a question, just write #team, and we will respond! 👨👩🏾”` }],
       [{ type: 'text', content: `I’m more focused on delivering the quiz 📝 at the moment ${senderName}, but here is a piece of advice: “You need to live a language, not learn it! Try to consume as much of that country’s culture as you can! 📚🗽”` }],
       [{ type: 'text', content: `I’m more focused on delivering the quiz 📝 at the moment ${senderName}, but here is a piece of advice: “Want to hear more about who uses Langroo and what motivates them? 😍 Here are my social media accounts: \nFB 📱: www.facebook.com / langroo\nInstagram 📷: https://www.instagram.com/langroobot/\nTwitter 🐦: https://twitter.com/Langroobot` }],
@@ -475,9 +476,9 @@ const replyChooser = (replyName, senderName) => {
     noVideoBeforeIntro: [
       { type: 'text', content: `Ow, you can watch my daily story in a few seconds ⌚ ${senderName}, let's get you started on a course first! 🎓` },
     ],
-  }
+  };
 
-  return replies[replyName]
-}
+  return replies[replyName];
+};
 
-module.exports = replyChooser
+module.exports = replyChooser;

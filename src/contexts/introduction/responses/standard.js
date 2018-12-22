@@ -1,17 +1,17 @@
 const replyChooser = (replyName, senderName, choice = 'this') => {
   // -- Required imports
-  const OneForAll = require('../../../bot-tools').OneForAll
+  const { OneForAll } = require('../../../bot-tools');
   // -- Instantiation of classes
-  const controllerSmash = new OneForAll()
+  const controllerSmash = new OneForAll();
 
   // -- Dialogs
   const randomResponses = [
-      { type: 'text', content: 'So 😀, as I was saying... ' },
-      { type: 'text', content: 'I know we got lost in conversation 😆, but...' },
-      { type: 'text', content: 'What did I ask you again? 😶Ow yeah ☝️ ...' },
-      { type: 'text', content: `I was waiting for you to respond below ${senderName} 😁👇` },
-      { type: 'text', content: 'Retaking the subject:' },
-  ]
+    { type: 'text', content: 'So 😀, as I was saying... ' },
+    { type: 'text', content: 'I know we got lost in conversation 😆, but...' },
+    { type: 'text', content: 'What did I ask you again? 😶Ow yeah ☝️ ...' },
+    { type: 'text', content: `I was waiting for you to respond below ${senderName} 😁👇` },
+    { type: 'text', content: 'Retaking the subject:' },
+  ];
 
   const replies = {
     gifForReminder: [
@@ -29,7 +29,7 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'text', content: 'How are you?' },
     ],
     _introduceMyselfDialog: [
-      { type: 'text', content: '😀😀' },
+      { type: 'text', content: '👌👌' },
       { type: 'text', content: `So ${senderName}, let me introduce myself` },
       { type: 'text', content: 'I’m Roo, a chatbot which helps you to understand native English people! 👂🏼📲' },
       { type: 'text', content: 'Who are you?' },
@@ -39,7 +39,8 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'text', content: 'Well, here’s an intro VIDEO from Tim on the Langroo team! 👨👩🏽 🎉' },
       { type: 'video', content: 'https://s3.amazonaws.com/langroo/videos/video_of_the_day1.mp4' },
       { type: 'delay', content: 40000 },
-      { type: 'quickReplies',
+      {
+        type: 'quickReplies',
         content: {
           title: 'Want to know more? 😛',
           buttons: [
@@ -58,7 +59,8 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'text', content: 'Awesome!!! 🚀' },
       { type: 'text', content: 'But, I want to understand you a bit more first' },
       { type: 'text', content: 'So...' },
-      { type: 'quickReplies',
+      {
+        type: 'quickReplies',
         content: {
           title: 'Why are you learning English? ☺️',
           buttons: [
@@ -79,7 +81,8 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
     ],
     _englishLevelDialog: [
       { type: 'text', content: 'Oooh…..' },
-      { type: 'quickReplies',
+      {
+        type: 'quickReplies',
         content: {
           title: 'Before I help you with that, what’s your English level right now? 😅',
           buttons: [
@@ -92,7 +95,8 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
     ],
     _heardAboutLangrooDialog1: [
       { type: 'text', content: 'To help find more people like you...' },
-      { type: 'quickReplies',
+      {
+        type: 'quickReplies',
         content: {
           title: 'How did you hear 👂 about Langroo?',
           buttons: [
@@ -128,7 +132,8 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
     ],
     jumpToTutorFlow: [
       { type: 'text', content: 'Now, since you requested it...' },
-      { type: 'quickReplies',
+      {
+        type: 'quickReplies',
         content: {
           title: 'Are you ready to give me some more details for your tutor request? 👩',
           buttons: [
@@ -141,7 +146,7 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
     introPostFinal: [
       { type: 'text', content: `Very well ${senderName}, see you soon for the Daily Quiz!` },
     ],
-  }
-  return replies[replyName]
-}
-module.exports = replyChooser
+  };
+  return replies[replyName];
+};
+module.exports = replyChooser;

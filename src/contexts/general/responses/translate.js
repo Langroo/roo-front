@@ -1,13 +1,13 @@
 /**
  * Bot translate functionality using Google Translate
  * */
-const translate = require('google-translate-api')
+const translate = require('google-translate-api');
 
 const replyChooser = async (rawUserInput) => {
-  let expression
-  let textToTranslate
-  let userLanguage
-  let textAndLanguage
+  let expression;
+  let textToTranslate;
+  let userLanguage;
+  let textAndLanguage;
   const availableLanguages = {
     afrikaans: {
       lang_code: 'af',
@@ -204,105 +204,105 @@ const replyChooser = async (rawUserInput) => {
     yiddish: {
       lang_code: 'yi',
     },
-  }
+  };
 
   try {
-    expression = /into\s(\w+(\s|$))+/i
+    expression = /into\s(\w+(\s|$))+/i;
     if (expression.test(rawUserInput)) {
-      textAndLanguage = rawUserInput.split(/translate/i)[1].split(/into\s/i)
+      textAndLanguage = rawUserInput.split(/translate/i)[1].split(/into\s/i);
 
       // -- Get the text that the user wants translated
-      textToTranslate = textAndLanguage[0]
+      textToTranslate = textAndLanguage[0];
 
       // -- Verify that the language the user requested is among the ones google can translate
-      const langFullName = textAndLanguage[1].toLowerCase()
+      const langFullName = textAndLanguage[1].toLowerCase();
       if (!availableLanguages[langFullName]) {
-        userLanguage = 'en'
+        userLanguage = 'en';
       } else {
-        userLanguage = availableLanguages[langFullName].lang_code
+        userLanguage = availableLanguages[langFullName].lang_code;
       }
     }
 
-    expression = /in\s(\w+(\s|$))+/i
+    expression = /in\s(\w+(\s|$))+/i;
     if (expression.test(rawUserInput)) {
-      textAndLanguage = rawUserInput.split(/translate/i)[1].split(/in\s/i)
+      textAndLanguage = rawUserInput.split(/translate/i)[1].split(/in\s/i);
 
       // -- Get the text that the user wants translated
-      textToTranslate = textAndLanguage[0]
+      textToTranslate = textAndLanguage[0];
 
       // -- Verify that the language the user requested is among the ones google can translate
-      const langFullName = textAndLanguage[1].toLowerCase()
+      const langFullName = textAndLanguage[1].toLowerCase();
       if (!availableLanguages[langFullName]) {
-        userLanguage = 'en'
+        userLanguage = 'en';
       } else {
-        userLanguage = availableLanguages[langFullName].lang_code
+        userLanguage = availableLanguages[langFullName].lang_code;
       }
     }
 
-    expression = /\sto\s(\w+(\s|$))+/i
+    expression = /\sto\s(\w+(\s|$))+/i;
     if (expression.test(rawUserInput)) {
-      textAndLanguage = rawUserInput.split(/translate/i)[1].split(/to\s/i)
+      textAndLanguage = rawUserInput.split(/translate/i)[1].split(/to\s/i);
 
       // -- Get the text that the user wants translated
-      textToTranslate = textAndLanguage[0]
+      textToTranslate = textAndLanguage[0];
 
       // -- Verify that the language the user requested is among the ones google can translate
-      const langFullName = textAndLanguage[1].toLowerCase()
+      const langFullName = textAndLanguage[1].toLowerCase();
       if (!availableLanguages[langFullName]) {
-        userLanguage = 'en'
+        userLanguage = 'en';
       } else {
-        userLanguage = availableLanguages[langFullName].lang_code
+        userLanguage = availableLanguages[langFullName].lang_code;
       }
     }
 
-    expression = /\ssay\s(\w+(\s|$))+/i
+    expression = /\ssay\s(\w+(\s|$))+/i;
     if (expression.test(rawUserInput)) {
-      textAndLanguage = rawUserInput.split(/say\s/i)
+      textAndLanguage = rawUserInput.split(/say\s/i);
 
       // -- Get the text that the user wants translated
-      textToTranslate = textAndLanguage[1]
-      userLanguage = 'en'
+      textToTranslate = textAndLanguage[1];
+      userLanguage = 'en';
     }
 
-    expression = /\sfor\s(\w+(\s|$))+/i
+    expression = /\sfor\s(\w+(\s|$))+/i;
     if (expression.test(rawUserInput)) {
-      textAndLanguage = rawUserInput.split(/for\s/i)
+      textAndLanguage = rawUserInput.split(/for\s/i);
 
       // -- Get the text that the user wants translated
-      textToTranslate = textAndLanguage[1]
-      userLanguage = 'en'
+      textToTranslate = textAndLanguage[1];
+      userLanguage = 'en';
     }
 
-    expression = /\stranslate\s(\w+(\s|$))+/i
+    expression = /\stranslate\s(\w+(\s|$))+/i;
     if (expression.test(rawUserInput)) {
-      textAndLanguage = rawUserInput.split(/translate\s/i)
+      textAndLanguage = rawUserInput.split(/translate\s/i);
 
       // -- Get the text that the user wants translated
-      textToTranslate = textAndLanguage[1]
-      userLanguage = 'en'
+      textToTranslate = textAndLanguage[1];
+      userLanguage = 'en';
     }
 
-    expression = /\smean\s/i
+    expression = /\smean\s/i;
     if (expression.test(rawUserInput)) {
-      textAndLanguage = rawUserInput.split(/\sdoes\s/)[1].split(/\smean/i)
+      textAndLanguage = rawUserInput.split(/\sdoes\s/)[1].split(/\smean/i);
 
       // -- Get the text that the user wants translated
-      textToTranslate = textAndLanguage[0]
-      userLanguage = 'en'
+      textToTranslate = textAndLanguage[0];
+      userLanguage = 'en';
     }
 
-    const translatedText = await translate(textToTranslate, { to: userLanguage })
+    const translatedText = await translate(textToTranslate, { to: userLanguage });
 
     const replies = {
       directTranslate: [
         { type: 'text', content: `Here it is 👉: ${translatedText.text}` },
       ],
-    }
+    };
 
-    return replies.directTranslate
+    return replies.directTranslate;
   } catch (err) {
-    console.error('Dude, something failed horribly in the translation department: [translate.js in general context]\nDate of the failure: [%s]\nError ::', Date(), err)
+    console.error('Dude, something failed horribly in the translation department: [translate.js in general context]\nDate of the failure: [%s]\nError ::', Date(), err);
   }
-}
+};
 
-module.exports = replyChooser
+module.exports = replyChooser;

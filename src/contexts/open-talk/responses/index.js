@@ -4,4 +4,4 @@
 module.exports = {
   genericReplies: require('./standard'),
   failsafeReplies: require('./failsafe'),
-}
+};

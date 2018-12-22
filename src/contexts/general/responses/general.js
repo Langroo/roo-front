@@ -1,5 +1,4 @@
 const replyChooser = (replyName, senderName) => {
-
   const replies = {
     askRoo: [
       { type: 'text', content: `Received ${senderName} 🔥 Look at our daily story during the next 3 days to see if my team select it :D :D` },
@@ -21,8 +20,8 @@ const replyChooser = (replyName, senderName) => {
         {
           title: `Hey ${senderName}, is there something you want help with? 🙍✊`,
           buttons: [
-              { title: 'Yes', value: 'yes_user_wants_help' },
-              { title: 'Not right now', value: 'cancel_request' },
+            { title: 'Yes', value: 'yes_user_wants_help' },
+            { title: 'Not right now', value: 'cancel_request' },
           ],
         },
       },
@@ -43,7 +42,8 @@ const replyChooser = (replyName, senderName) => {
       { type: 'text', content: `Great! ${senderName}, I'll let my bosses know and get back with an answer as soon as possible.` },
     ],
     confirmDeleteAccRequest: [
-      { type: 'quickReplies',
+      {
+        type: 'quickReplies',
         content: {
           title: '😮 Would you like to delete your account ❌ with me⁉',
           buttons: [
@@ -54,7 +54,8 @@ const replyChooser = (replyName, senderName) => {
       },
     ],
     userDeleteAccSecondStep: [
-      { type: 'button',
+      {
+        type: 'button',
         content: {
           title: 'Are you absolutely sure? Once you delete your account 📉, you will lose your subscription and you will have to start over. ♻',
           buttons: [
@@ -79,7 +80,8 @@ const replyChooser = (replyName, senderName) => {
     generalShareDialog: [
       { type: 'text', content: 'Super! 👏' },
       { type: 'text', content: 'Click SHARE to send this 👇' },
-      { type: 'card',
+      {
+        type: 'card',
         content: [
           {
             title: 'Hey, have you heard of the Langroo chatbot? ',
@@ -93,9 +95,9 @@ const replyChooser = (replyName, senderName) => {
         ],
       },
     ],
-  }
+  };
 
-  return replies[replyName]
-}
+  return replies[replyName];
+};
 
-module.exports = replyChooser
+module.exports = replyChooser;

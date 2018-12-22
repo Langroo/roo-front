@@ -3,4 +3,4 @@
  */
 module.exports = {
   reminders: require('./reminders').management,
-}
+};
