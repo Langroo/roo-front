@@ -185,7 +185,7 @@ const userDialogs = (payload, rawInput) => {
   const userHash = generateHash(payload.sender.id);
   payload = Object.assign({}, payload, { userHash });
 
-  const brain = async (rawInput, payload, userFlow) => {
+  const brain = async (brainRawInput, payload, userFlow) => {
     // -- Initialize variable that indicates if user input comes from pressing a button
     let isPostback;
     payload.postback
@@ -194,7 +194,7 @@ const userDialogs = (payload, rawInput) => {
 
     // -- Create/Update conversation log
     const channel = 'Facebook';
-    ConversationLogs.conversationLogger(payload.sender.id, senderName, rawInput, isPostback, channel);
+    ConversationLogs.conversationLogger(payload.sender.id, senderName, brainRawInput, isPostback, channel);
 
     // -- Get the first name (senderName) and full name of the user
     senderName = getUserName(payload).senderName;
@@ -218,14 +218,14 @@ const userDialogs = (payload, rawInput) => {
           entityAndFlow.flow = 'introduction';
           entityAndFlow.entity = 'getStarted';
         } else {
-          entityAndFlow = inputHandler.getEntityAndFlow(rawInput);
+          entityAndFlow = inputHandler.getEntityAndFlow(brainRawInput);
         }
       } else {
         let userStatus;
         userFromDB.data.subscription ? userStatus = userFromDB.data.subscription : userStatus = null;
         userStatus ? userStatus = userStatus.status : userStatus = 'UNREGISTERED';
         params = Object.assign({}, { status: userStatus });
-        entityAndFlow = inputHandler.getEntityAndFlow(rawInput);
+        entityAndFlow = inputHandler.getEntityAndFlow(brainRawInput);
       }
     } catch (error) {
       console.error('Unbelievable Error ::', error);
@@ -249,8 +249,7 @@ const userDialogs = (payload, rawInput) => {
         translateDialog: userFlow.data.translate_dialog,
         OpQ: userFlow.data.open_question,
         repeatedThisPos: userFlow.data.repeated_this_pos,
-        surveyDone: userFlow.data.survey_done,
-        rawUserInput: rawInput,
+        rawUserInput: brainRawInput,
         autoresponderReply: userFlow.data.autoresponder_reply,
         autoresponderType: userFlow.data.autoresponder_type,
         messageDelay: userFlow.data.message_delay,
@@ -286,7 +285,7 @@ const userDialogs = (payload, rawInput) => {
     // -- Console logs for Flow control
     console.info('\n################## FLOW CONTROL REDIS VARIABLES ######################');
     console.info('- Raw Input :: %s\n- SenderId :: [%s]\n- Username: [%s]\n- Last Interaction :: [%s]\n- Entity :: [%s]\n- Current Flow :: [%s]\n- PrevPos :: [%s]\n- CurrentPos :: [%s]\n- NextPos :: [%s]\n- OpenQuestion :: [%s]\n- PrevFlow :: [%s]\n- Translate Next Dialog :: [%s]\n- This position has been repeated :: [%s] times\n- User surveyed :: [%s]\n- User Reminders :: [%s]',
-      params.rawUserInput, payload.sender.id, params.fullName, params.lastInteraction, params.currentEntity, params.currentFlow, params.prevPos, params.currentPos, params.nextPos, params.OpQ, params.prevFlow, params.translateDialog, params.repeatedThisPos, params.surveyDone, params.reminderList);
+      params.rawUserInput, payload.sender.id, params.fullName, params.lastInteraction, params.currentEntity, params.currentFlow, params.prevPos, params.currentPos, params.nextPos, params.OpQ, params.prevFlow, params.translateDialog, params.repeatedThisPos, params.reminderList);
     console.info('#######################################################################\n');
 
     // -- CONDITIONAL'S GROUP: CONTROLLER OF MAIN ENTITIES AND CONVERSATIONAL FLOWS
@@ -304,29 +303,14 @@ const userDialogs = (payload, rawInput) => {
       console.log('----------------------------\nEntering tutor flow\n----------------------------');
       await API.updateFlow(payload.sender.id, { current_flow: 'tutor' });
       reply = context.tutor(payload, params, userFromDB);
-    } else if (params.currentFlow === 'survey') {
-      console.log('----------------------------\nEntering survey flow\n----------------------------');
-      await API.updateFlow(payload.sender.id, { current_flow: 'survey' });
-      reply = context.survey(payload, params, userFromDB);
     } else if (params.currentFlow === 'content') {
       console.log('----------------------------\nEntering content flow\n----------------------------');
       await API.updateFlow(payload.sender.id, { current_flow: 'content' });
-      reply = context.content(payload, params, userFromDB);
-    } else if (params.currentFlow === 'rating') {
-      console.log('----------------------------\nEntering rating flow\n----------------------------');
-      await API.updateFlow(payload.sender.id, { current_flow: 'rating' });
       reply = context.content(payload, params, userFromDB);
     } else {
       console.log('----------------------------\nEntering open-talk flow\n----------------------------');
       reply = context.opentalk(payload, params, userFromDB);
     }
-
-    // -- Send data to chatbase to store statistics
-    /* if (process.env.NODE_ENV === 'production') {
-      await ChatBaseAPI.analyticReceived(rawInput, payload.sender.id, entityAndFlow.entity, false)
-        .catch(e => { console.error('ERROR sending data to CHATBASE.\nVariables:\nRaw User Input :: [%s]\nEntity :: [%s]\nMessage Details :: ', rawInput, entityAndFlow.entity, e.message) })
-    } */
-
     return reply;
   };
 

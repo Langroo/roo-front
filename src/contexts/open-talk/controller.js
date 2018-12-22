@@ -17,7 +17,7 @@ const getReply = async (message, params, userFromDB) => {
   // -- Constants
   const delayedMsgTime = 6;
   const senderName = params.senderName;
-  const contextsToReturn = ['introduction', 'tutor', 'survey', 'content'];
+  const contextsToReturn = ['introduction', 'tutor', 'content'];
   const regexQuestion = /.*\?+$/i;
 
   switch (params.currentEntity) {
@@ -309,15 +309,6 @@ const getReply = async (message, params, userFromDB) => {
       params.repeatedThisPos = '1';
       params.currentEntity = params.currentPos;
       const tempReply = await flows.introduction(message, params, userFromDB);
-      trueReply = [tempReply.pop()];
-      delayedRepliesToSend = failsafeReplies('lostInConversation', senderName)[Math.floor(Math.random() * failsafeReplies('lostInConversation', senderName).length)];
-      delayedRepliesToSend = delayedRepliesToSend.concat(trueReply);
-      controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.prevPos, repeated_this_pos: params.repeatedThisPos }, message.sender.id, userFromDB);
-    } else if (params.prevFlow === 'survey') {
-      params.currentFlow = 'survey';
-      params.repeatedThisPos = '1';
-      params.currentEntity = params.currentPos;
-      const tempReply = await flows.survey(message, params, userFromDB);
       trueReply = [tempReply.pop()];
       delayedRepliesToSend = failsafeReplies('lostInConversation', senderName)[Math.floor(Math.random() * failsafeReplies('lostInConversation', senderName).length)];
       delayedRepliesToSend = delayedRepliesToSend.concat(trueReply);

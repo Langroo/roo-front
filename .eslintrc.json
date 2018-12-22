@@ -20,6 +20,8 @@
     "no-return-await": "off",
     "array-callback-return": "off",
     "global-require": "off",
-    "linebreak-style": "warn"
+    "linebreak-style": "off",
+    "no-unused-expressions": "off",
+    "prefer-destructuring": "off"
   }
 }

@@ -13,10 +13,6 @@ const getEntityAndFlow = (exp) => {
   if (handler) {
     return { entity: handler, flow: 'introduction' };
   }
-  handler = flows.surveyNLP(exp);
-  if (handler) {
-    return { entity: handler, flow: 'survey' };
-  }
   handler = flows.tutor_NLP(exp);
   if (handler) {
     return { entity: handler, flow: 'tutor' };

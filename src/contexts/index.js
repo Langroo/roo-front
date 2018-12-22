@@ -11,8 +11,6 @@ module.exports = {
   opentalk: require('./open-talk').controller,
   opentalkNLP: require('./open-talk').NLP,
   opentalkDialogs: require('./open-talk').Dialogs,
-  survey: require('./survey').controller,
-  surveyNLP: require('./survey').NLP,
   content: require('./content').controller,
   contentNLP: require('./content').NLP,
   contentReplies: require('./content').contentReplies,

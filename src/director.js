@@ -42,7 +42,11 @@ const checkForHashTags = (profile, text) => {
   return 0;
 };
 
-const botReplier = (payload, reply, actions = null) => {
+/**
+* @description This function verifies that the user has a profile in facebook and then replies
+* @param {Object} payload
+* */
+const botReplier = (payload) => {
   // -- Instantiation of our Smash to Slack
   const slackSmash = new OneForAll();
 

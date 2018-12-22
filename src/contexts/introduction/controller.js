@@ -75,56 +75,56 @@ const getReply = async (message, params, userFromDB) => {
       reply = standardReplies('getStarted', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: 'getStarted', open_question: true, prev_pos: 'getStarted', next_pos: '_introduceMyselfDialog', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: 'getStarted', open_question: true, prev_pos: 'getStarted', next_pos: '_userChoosesLanguage', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
       };
       break;
 
-    case '_introduceMyselfDialog':
-      reply = standardReplies('_introduceMyselfDialog', params.senderName);
+    case '_userChoosesLanguage':
+      reply = standardReplies('_userChoosesLanguage', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_introduceMyselfDialog', open_question: true, prev_pos: '_introduceMyselfDialog', next_pos: '_welcomeVideoDialog', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_userChoosesLanguage', open_question: true, prev_pos: '_userChoosesLanguage', next_pos: '_userIsNewOrInvited', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
       };
       break;
 
-    case '_welcomeVideoDialog':
-      reply = standardReplies('_welcomeVideoDialog', params.senderName);
+    case '_userIsNewOrInvited':
+      reply = standardReplies('_userIsNewOrInvited', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_welcomeVideoDialog', open_question: true, prev_pos: '_welcomeVideoDialog', next_pos: '_englishQuizDialog', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_userIsNewOrInvited', open_question: true, prev_pos: '_userIsNewOrInvited', next_pos: '_hardestThing', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
       };
       break;
 
-    case '_englishQuizDialog':
-      reply = standardReplies('_englishQuizDialog', params.senderName);
+    case '_hardestThing':
+      reply = standardReplies('_hardestThing', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_englishQuizDialog', open_question: true, prev_pos: '_englishQuizDialog', next_pos: '_motivationToLearnDialog', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_hardestThing', open_question: true, prev_pos: '_hardestThing', next_pos: '_alreadyHadACall', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
       };
       break;
 
-    case '_motivationToLearnDialog':
-      reply = standardReplies('_motivationToLearnDialog', params.senderName);
+    case '_alreadyHadACall':
+      reply = standardReplies('_alreadyHadACall', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_motivationToLearnDialog', open_question: 'false', prev_pos: '_motivationToLearnDialog', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_alreadyHadACall', open_question: 'false', prev_pos: '_alreadyHadACall', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
       };
       break;
 
-    case '_otherMotivationDialog':
-      reply = standardReplies('_otherMotivationDialog', params.senderName);
+    case '_awaitingOurFirstCall':
+      reply = standardReplies('_awaitingOurFirstCall', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_otherMotivationDialog', open_question: true, prev_pos: '_otherMotivationDialog', next_pos: '_englishLevelDialog', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_awaitingOurFirstCall', open_question: true, prev_pos: '_awaitingOurFirstCall', next_pos: '_newUser', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
       };
       await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput);
       break;
 
-    case '_englishLevelDialog':
-      reply = standardReplies('_englishLevelDialog', params.senderName);
+    case '_newUser':
+      reply = standardReplies('_newUser', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_englishLevelDialog', open_question: 'false', prev_pos: '_heardAboutLangrooDialog1', next_pos: '_heardAboutLangrooDialog2', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_newUser', open_question: 'false', prev_pos: '_heardAboutLangrooDialog1', next_pos: '_heardAboutLangrooDialog2', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
       };
       await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput);
       break;
@@ -234,8 +234,8 @@ const getReply = async (message, params, userFromDB) => {
     * the conversation, we will send as the reminder the next message/dialog
     * */
     if (params.currentEntity === 'getStarted') {
-      FlowUpdate = Object.assign({}, FlowUpdate, { current_pos: '_introduceMyselfDialog' });
-      params.currentEntity = '_introduceMyselfDialog';
+      FlowUpdate = Object.assign({}, FlowUpdate, { current_pos: '_userChoosesLanguage' });
+      params.currentEntity = '_userChoosesLanguage';
       controllerSmash.CronReminder(params.currentEntity, standardReplies('gifForReminder', params.senderName).concat(standardReplies(params.currentEntity, params.senderName).pop()), waitingTime, FlowUpdate, message.sender.id, userFromDB);
     } else {
       controllerSmash.CronReminder(params.currentEntity, standardReplies('gifForReminder', params.senderName).concat(standardReplies(params.currentEntity, params.senderName).pop()), waitingTime, FlowUpdate, message.sender.id, userFromDB);

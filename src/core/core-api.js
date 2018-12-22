@@ -146,7 +146,6 @@ class Api {
     repeated_this_pos: '0',
     autoresponder_reply: '0',
     autoresponder_type: 'text',
-    survey_done: 'no',
     message_delay: 'on',
     reminder_list: '',
     // -- Possible values: unrequested, requested, completed
@@ -171,7 +170,6 @@ class Api {
         repeated_this_pos: update.repeated_this_pos,
         autoresponder_reply: update.autoresponder_reply,
         autoresponder_type: update.autoresponder_type,
-        survey_done: update.survey_done,
         message_delay: update.message_delay,
         reminder_list: update.reminder_list,
         tutor_flow_status: update.tutor_flow_status,
@@ -240,10 +238,6 @@ class Api {
 
   async createTutorRequest(userHash) {
     return Api.request('post', 'tutor_request', { userHash });
-  }
-
-  async createSurveyCollection(senderId) {
-    return Api.request('post', '/user/saveSurvey', { senderId });
   }
 
   /**
