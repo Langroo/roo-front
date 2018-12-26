@@ -13,6 +13,7 @@ const getReply = async (message, params, userFromDB) => {
   const flows = require('../index');
   const reminderReplies = require('../index').reminderReplies;
   let reply; let replyTranslated; let FlowUpdate; let willCreateUser; let DelayedUpdate; let reminderToContinueOn;
+  let tempReply; let trueReply;
 
 
   let delayedReplies; let userLanguage; let userSpeaksEnglish; let langVar; let userMustPressButton; let
@@ -171,7 +172,7 @@ const getReply = async (message, params, userFromDB) => {
       reply = standardReplies('_newUser', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_newUser', open_question: 'false', prev_pos: '_heardAboutLangrooDialog1', next_pos: '_heardAboutLangrooDialog2', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_newUser', open_question: 'false', prev_pos: '_newUser', next_pos: '_explainABitToUser', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
       };
       await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput);
       break;
@@ -213,9 +214,9 @@ const getReply = async (message, params, userFromDB) => {
 
     case 'reliefOfUserContinuing':
       params.currentEntity = params.prevPos;
-      const tempReply = await flows.introduction(message, params, userFromDB);
-      const trueReply = [tempReply.pop()];
-      return reply = standardReplies('reliefOfUserContinuing', params.senderName).concat(trueReply);
+      tempReply = await flows.introduction(message, params, userFromDB);
+      trueReply = [tempReply.pop()];
+      return standardReplies('reliefOfUserContinuing', params.senderName).concat(trueReply);
 
     default:
       if (!reply) {
