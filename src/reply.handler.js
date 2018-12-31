@@ -147,12 +147,6 @@ const lockedContext = (params, isPostback) => {
     return params;
   }
 
-  if (params.awaitingAnswer && params.prevFlow === 'rating') {
-    params = Object.assign({}, params, { currentFlow: 'rating', currentEntity: 'getRating' });
-    console.info('\n-> USER IS IN RATING CONTEXT AND MUST ANSWER, SENDING TO :: ', params.currentFlow);
-    return params;
-  }
-
   return params;
 };
 

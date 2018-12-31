@@ -15,6 +15,4 @@ module.exports = {
   contentNLP: require('./content').NLP,
   contentReplies: require('./content').contentReplies,
   reminderReplies: require('./reminders').reminderReplies,
-  ratingController: require('./rating').controller,
-  ratingNLP: require('./rating').NLP,
 };

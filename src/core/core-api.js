@@ -80,13 +80,6 @@ class Api {
     return this.userDataToRedis(data, slug);
   }
 
-  async setRatingCache(userHash, rating_value) {
-    return this.userDataToRedis({
-      userHash,
-      rating_value,
-    }, 'rating_value');
-  }
-
   /* ************************************************************************************************************
 * ************************************ Mongo Database CRUD section ********************************************
 * ************************************************************************************************************ */
@@ -226,10 +219,6 @@ class Api {
 
   async updateContext(senderId, parameters) {
     return Api.request('post', 'user/update_context', { senderId, parameters });
-  }
-
-  async sendRating(senderId) {
-    return Api.request('post', '/user/ratingSystemRespond', { senderId });
   }
 
   async sendLesson(senderId) {
