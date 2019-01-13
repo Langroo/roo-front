@@ -92,7 +92,7 @@ const getReply = async (message, params, userFromDB) => {
       reply = standardReplies('_userIsNewOrInvited', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_userIsNewOrInvited', open_question: true, prev_pos: '_userIsNewOrInvited', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_userIsNewOrInvited', open_question: 'false', prev_pos: '_userIsNewOrInvited', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
       };
       break;
 
