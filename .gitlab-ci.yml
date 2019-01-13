@@ -9,4 +9,4 @@ before_script:
   - apt-get install -y nodejs
 production:
   script:
-    - npm run prod
+    - npm -v
