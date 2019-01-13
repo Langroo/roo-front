@@ -86,7 +86,7 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'text', content: '👉 Flexibility and fun' },
       { type: 'text', content: 'And that’s what I am solving!💥' },
       { type: 'text', content: 'I will introduce you to tutors and you can choose to learn with them by yourself or with a friend – if you’re up for the challenge! 🏆😜' },
-      { type: 'text', content: 'Are you ready to get started....? ' },
+      { type: 'text', content: 'Are you ready to get started....?' },
     ],
     _explainABitToUser: [
       { type: 'text', content: 'Ok, let me explain a bit more! ' },

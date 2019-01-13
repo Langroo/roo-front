@@ -108,7 +108,7 @@ const getReply = async (message, params, userFromDB) => {
       reply = standardReplies('_hardestThing', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_hardestThing', open_question: 'false', prev_pos: '_hardestThing', next_pos: '_alreadyHadACall', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_hardestThing', open_question: true, prev_pos: '_hardestThing', next_pos: '_alreadyHadACall', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
       };
       break;
 
@@ -172,7 +172,7 @@ const getReply = async (message, params, userFromDB) => {
       reply = standardReplies('_newUser', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_newUser', open_question: 'false', prev_pos: '_newUser', next_pos: '_explainABitToUser', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_newUser', open_question: true, prev_pos: '_newUser', next_pos: '_explainABitToUser', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
       };
       await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput);
       break;
