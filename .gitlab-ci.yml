@@ -1,3 +1,6 @@
+# Specify the docker image to use
+image: ubuntu:14.04
+
 # Define the commmands that run before each job's script
 before_script:
   - apt-get update
