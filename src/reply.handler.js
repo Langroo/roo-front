@@ -27,9 +27,7 @@ const adminDialogs = (input, senderId) => {
                 {
                   title: '✔ CONTEXT ADMIN RESET SUCCESSFUL 👍. \nYou are now in the opentalk Context. 👀',
                   buttons: [
-                    { title: 'Monday Broadcast', value: 'send_monday_broadcast' },
-                    { title: 'Wednesday Broadcast', value: 'send_wednesday_broadcast' },
-                    { title: 'Friday Broadcast', value: 'send_friday_broadcast' },
+                    { title: 'Continue', value: 'random_data' },
                   ],
                 })
                 .then(() => true);
