@@ -426,6 +426,7 @@ class FacebookAPI {
   }
 
   async getUserPublicInformation() {
+    console.log(this.senderId);
     try {
       return (await axios.request({
         url: `${process.env.FB_BASE_URL}/${process.env.FB_VERSION}/${this.senderId}`,
