@@ -7,8 +7,7 @@ const getReply = async (message, params, userFromDB) => {
   const API = require('../../core/index').dbApi;
   const genericReplies = require('./responses').genericReplies;
   const failsafeReplies = require('./responses').failsafeReplies;
-  const OneForAll = require('../../bot-tools').OneForAll;
-  const controllerSmash = new OneForAll();
+  const { cronReminder, cronFunction } = require('../../bot-tools').universal;
 
   // -- Variable Declaration
   let reply; let trueReply; let delayedRepliesToSend; let flowControlUpdate; let metadataUpdate; let hasQuestionMark; let dice; let
@@ -17,7 +16,7 @@ const getReply = async (message, params, userFromDB) => {
   // -- Constants
   const delayedMsgTime = 6;
   const senderName = params.senderName;
-  const contextsToReturn = ['introduction', 'tutor', 'survey', 'content'];
+  const contextsToReturn = ['introduction', 'tutor', 'content'];
   const regexQuestion = /.*\?+$/i;
 
   switch (params.currentEntity) {
@@ -84,7 +83,7 @@ const getReply = async (message, params, userFromDB) => {
       if (params.prevFlow === 'introduction' && params.prevPos === 'askWhoIsRoo') {
         params.currentFlow = 'introduction';
         params.currentEntity = params.nextPos;
-        return reply = await flows.introduction(message, params, userFromDB);
+        return await flows.introduction(message, params, userFromDB);
       }
       reply = genericReplies('identityReply', senderName);
       break;
@@ -97,11 +96,11 @@ const getReply = async (message, params, userFromDB) => {
       if (params.prevFlow === 'introduction' && params.OpQ) {
         params.currentFlow = 'introduction';
         params.currentEntity = params.nextPos;
-        return reply = await flows.introduction(message, params, userFromDB);
+        return await flows.introduction(message, params, userFromDB);
       } if (params.prevFlow === 'introduction' && !params.OpQ) {
         params.currentFlow = 'introduction';
         params.currentEntity = undefined;
-        return reply = await flows.introduction(message, params, userFromDB);
+        return await flows.introduction(message, params, userFromDB);
       }
       reply = genericReplies('agreementReply', senderName)[Math.floor(Math.random() * genericReplies('existenceReply', senderName).length)];
       break;
@@ -126,11 +125,11 @@ const getReply = async (message, params, userFromDB) => {
       if (params.prevFlow === 'introduction' && params.OpQ) {
         params.currentFlow = 'introduction';
         params.currentEntity = params.nextPos;
-        return reply = await flows.introduction(message, params, userFromDB);
+        return await flows.introduction(message, params, userFromDB);
       } if (params.prevFlow === 'introduction' && !params.OpQ) {
         params.currentFlow = 'introduction';
         params.currentEntity = undefined;
-        return reply = await flows.introduction(message, params, userFromDB);
+        return await flows.introduction(message, params, userFromDB);
       }
       reply = genericReplies('whatsupReply', senderName)[Math.floor(Math.random() * genericReplies('whatsupReply', senderName).length)];
       break;
@@ -143,11 +142,11 @@ const getReply = async (message, params, userFromDB) => {
       if (params.prevFlow === 'content' && params.OpQ) {
         params.currentFlow = 'content';
         params.currentEntity = 'quizReceivedReply';
-        return reply = await flows.content(message, params, userFromDB);
+        return await flows.content(message, params, userFromDB);
       } if (params.prevFlow === 'content' && !params.OpQ) {
         params.currentFlow = 'content';
         params.currentEntity = 'quizReceivedReply';
-        return reply = await flows.content(message, params, userFromDB);
+        return await flows.content(message, params, userFromDB);
       }
       reply = genericReplies('missunderstandingReply', senderName);
       break;
@@ -164,7 +163,7 @@ const getReply = async (message, params, userFromDB) => {
       if (params.prevFlow === 'introduction') {
         params.currentFlow = 'introduction';
         params.currentEntity = params.currentPos;
-        return reply = [genericReplies('teachMeReply', senderName)[1]].concat((await flows.introduction(message, params, userFromDB)).pop());
+        return [genericReplies('teachMeReply', senderName)[1]].concat((await flows.introduction(message, params, userFromDB)).pop());
       }
       reply = [genericReplies('teachMeReply', senderName)[0]];
       break;
@@ -181,11 +180,11 @@ const getReply = async (message, params, userFromDB) => {
       if (params.prevFlow === 'introduction' && params.OpQ) {
         params.currentFlow = 'introduction';
         params.currentEntity = params.nextPos;
-        return reply = await flows.introduction(message, params, userFromDB);
+        return await flows.introduction(message, params, userFromDB);
       } if (params.prevFlow === 'introduction' && !params.OpQ) {
         params.currentFlow = 'introduction';
         params.currentEntity = undefined;
-        return reply = await flows.introduction(message, params, userFromDB);
+        return await flows.introduction(message, params, userFromDB);
       }
       reply = genericReplies('salutationReply', senderName)[Math.floor(Math.random() * genericReplies('salutationReply', senderName).length)];
       break;
@@ -222,11 +221,11 @@ const getReply = async (message, params, userFromDB) => {
       if (params.prevFlow === 'introduction' && params.OpQ) {
         params.currentFlow = 'introduction';
         params.currentEntity = params.nextPos;
-        return reply = await flows.introduction(message, params, userFromDB);
+        return await flows.introduction(message, params, userFromDB);
       } if (params.prevFlow === 'introduction' && !params.OpQ) {
         params.currentFlow = 'introduction';
         params.currentEntity = undefined;
-        return reply = await flows.introduction(message, params, userFromDB);
+        return await flows.introduction(message, params, userFromDB);
       }
       reply = genericReplies('whatAboutYouReply', senderName)[Math.floor(Math.random() * genericReplies('whatAboutYouReply', senderName).length)];
       break;
@@ -303,7 +302,7 @@ const getReply = async (message, params, userFromDB) => {
       trueReply = [tempReply.pop()];
       delayedRepliesToSend = failsafeReplies('lostInConversation', senderName)[Math.floor(Math.random() * failsafeReplies('lostInConversation', senderName).length)];
       delayedRepliesToSend = delayedRepliesToSend.concat(trueReply);
-      controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.prevPos, repeated_this_pos: params.repeatedThisPos }, message.sender.id, userFromDB);
+      cronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.prevPos, repeated_this_pos: params.repeatedThisPos }, message.sender.id, userFromDB);
     } else if (params.prevFlow === 'introduction') {
       params.currentFlow = 'introduction';
       params.repeatedThisPos = '1';
@@ -312,23 +311,14 @@ const getReply = async (message, params, userFromDB) => {
       trueReply = [tempReply.pop()];
       delayedRepliesToSend = failsafeReplies('lostInConversation', senderName)[Math.floor(Math.random() * failsafeReplies('lostInConversation', senderName).length)];
       delayedRepliesToSend = delayedRepliesToSend.concat(trueReply);
-      controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.prevPos, repeated_this_pos: params.repeatedThisPos }, message.sender.id, userFromDB);
-    } else if (params.prevFlow === 'survey') {
-      params.currentFlow = 'survey';
-      params.repeatedThisPos = '1';
-      params.currentEntity = params.currentPos;
-      const tempReply = await flows.survey(message, params, userFromDB);
-      trueReply = [tempReply.pop()];
-      delayedRepliesToSend = failsafeReplies('lostInConversation', senderName)[Math.floor(Math.random() * failsafeReplies('lostInConversation', senderName).length)];
-      delayedRepliesToSend = delayedRepliesToSend.concat(trueReply);
-      controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.prevPos, repeated_this_pos: params.repeatedThisPos }, message.sender.id, userFromDB);
+      cronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, { current_flow: params.prevFlow, current_pos: params.prevPos, repeated_this_pos: params.repeatedThisPos }, message.sender.id, userFromDB);
     } else if (params.prevFlow === 'content') {
       const repeatedPosNumber = parseInt(params.repeatedThisPos, 10) + 1;
       params.currentFlow = 'content';
       params.repeatedThisPos = repeatedPosNumber.toString();
       params.currentEntity = 'quizReceivedReply';
       params.currentPos = 'quizReceivedReply';
-      controllerSmash.CronFunction(delayedMsgTime, API.sendLesson, null, message.sender.id);
+      cronFunction(delayedMsgTime, API.sendLesson, null, message.sender.id);
     }
   }
 

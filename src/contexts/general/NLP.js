@@ -55,7 +55,7 @@ const getEntity = (exp) => {
   expressions = /^yes_user_wants_help$/i;
   if (expressions.test(exp)) { return 'helpUser1'; }
 
-  expressions = /^(upgrade subscription|subscribe me|learning plans|upgrade plan|pay|upgrade|payment|how do i pay\?*|i want to pay)$/i;
+  expressions = /^(upgrade subscription|subscribe me|learning plans|upgrade plan|pay|pay with a friend|upgrade|payment|how do i pay\?*|i want to pay)$/i;
   if (expressions.test(exp)) { return 'paymentDialog_Init'; }
 
   expressions = /(^usd_currency$|^eur_currency$)/i;

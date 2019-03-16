@@ -1,14 +1,14 @@
 /**
  * Global Imports
  * */
-const translate = require('google-translate-api');
+const translate = require('@vitalets/google-translate-api');
 const axios = require('axios');
 const cronJobScheduler = require('node-schedule');
 const API = require('../../core/index').dbApi;
-const replyLauncher = require('../../reply.handler');
+const { replier } = require('../../replyHandler');
 require('dotenv').config();
 
-class OneForAll {
+module.exports = {
   sendNotificationToSlack(url, data) {
     axios.request({
       headers: { 'Content-Type': 'application/json' },
@@ -18,7 +18,7 @@ class OneForAll {
     })
       .then(() => 0)
       .catch(err => err);
-  }
+  },
 
   async translateReply(reply, lang, skipTranslationIndex = [], dontTranslate = /^undefined$/) {
     let replyTranslated;
@@ -64,23 +64,18 @@ class OneForAll {
             });
           }
 
-          const translatedButtons = [];
-          for (let buttonObject of reply[i].content.buttons) {
+          reply[i].content.buttons = reply[i].content.buttons.map(async (buttonObject) => {
             replyTranslated = await translate(buttonObject.title, { to: lang });
-            buttonObject = Object.assign({}, buttonObject, { title: replyTranslated.text });
-            translatedButtons.push(buttonObject);
-          }
-          reply[i].content.buttons = translatedButtons;
+            return Object.assign({}, buttonObject, { title: replyTranslated.text });
+          });
         }
       }
     }
     return await reply;
-  }
+  },
 
   shuffle(array) {
     let m = array.length;
-
-
     let t; let
       i;
     while (m) {
@@ -90,7 +85,7 @@ class OneForAll {
       array[i] = t;
     }
     return array;
-  }
+  },
 
   async textToAudio(text, senderId, gender = 'male', accent = 'uk') {
     try {
@@ -109,7 +104,7 @@ class OneForAll {
     } catch (reason) {
       console.log('ERROR REQUESTING TEXT TO AUDIO TO PYBRAIN :: ', reason);
     }
-  }
+  },
 
   killCronJob(entity, senderId) {
     const cronId = senderId + entity;
@@ -118,9 +113,9 @@ class OneForAll {
       h.cancel();
       console.log('Cronjob %s canceled.', cronId);
     }
-  }
+  },
 
-  async CronMessage(entity, replyToSend, timeToSend, flowToUpdate, senderId, userFromDB) {
+  async cronMessage(entity, replyToSend, timeToSend, flowToUpdate, senderId, userFromDB) {
     const cronId = senderId + entity;
     const h = cronJobScheduler.scheduledJobs[cronId];
     if (h) {
@@ -132,14 +127,14 @@ class OneForAll {
     cronJobScheduler.scheduleJob(cronId, timeOfSending, async () => {
       try {
         await API.updateFlow(senderId, flowToUpdate);
-        await replyLauncher.replier(0, replyToSend, userFromDB, senderId);
+        await replier(0, replyToSend, userFromDB, senderId);
         await API.updateFlow(senderId, { ready_to_reply: true });
         console.info('✔✔ Delayed reply sent successfully ✔✔');
       } catch (error) { console.error('❌❌❌ Error sending the scheduled message ::', error); }
     });
-  }
+  },
 
-  async CronReminder(entity, replyToSend, delayTime, flowToUpdate, senderId, userFromDB) {
+  async cronReminder(entity, replyToSend, delayTime, flowToUpdate, senderId, userFromDB) {
     const cronId = senderId + entity;
     const h = cronJobScheduler.scheduledJobs[cronId];
     if (h) {
@@ -159,7 +154,7 @@ class OneForAll {
         const userHasNotReplied = (await API.retrieveFlow(senderId)).data.current_pos === entity;
         if (userHasNotReplied) {
           await API.updateFlow(senderId, flowToUpdate);
-          await replyLauncher.replier(0, replyToSend, userFromDB, senderId);
+          await replier(0, replyToSend, userFromDB, senderId);
           await API.updateFlow(senderId, { ready_to_reply: true });
           console.info('✔✔ Delayed reply sent successfully ✔✔');
         } else {
@@ -167,19 +162,17 @@ class OneForAll {
         }
       } catch (error) { console.error('❌❌❌ Error sending the scheduled message ::', error); }
     });
-  }
+  },
 
-  async CronFunction(time, callback, params, senderId) {
+  async cronFunction(time, callback, params, senderId) {
     const timeOfSending = new Date(Date.now() + (time * 1000));
     cronJobScheduler.scheduleJob(timeOfSending, async () => {
       if (params) {
-        const functionStatus = callback(senderId, params);
+        callback(senderId, params);
       } else {
-        const functionStatus = callback(senderId);
+        callback(senderId);
       }
       console.log('[Notice] -> Delayed function called successfully');
     });
-  }
-}
-
-module.exports = OneForAll;
+  },
+};

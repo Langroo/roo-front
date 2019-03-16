@@ -45,7 +45,7 @@ class CacheDataPoints {
             return 0;
           } catch (error) { console.log('Error saving Name of Source where user heard about Roo :: ', error); return error; }
 
-        case '_englishLevelDialog':
+        case '_newUser':
           try {
             res = await this.setUserIDsInRedis(senderId, userHash);
             if (res) { throw new Error(`${res}`); }
@@ -53,7 +53,7 @@ class CacheDataPoints {
             return 0;
           } catch (error) { console.log('Error saving User English Level :: ', error); return error; }
 
-        case '_motivationToLearnDialog':
+        case '_alreadyHadACall':
           try {
             res = await this.setUserIDsInRedis(senderId, userHash);
             if (res) { throw new Error(`${res}`); }
@@ -61,7 +61,7 @@ class CacheDataPoints {
             return 0;
           } catch (error) { console.log('Error saving User Big Motivation :: ', error); return error; }
 
-        case '_otherMotivationDialog':
+        case '_awaitingOurFirstCall':
           try {
             res = await this.setUserIDsInRedis(senderId, userHash);
             if (res) { throw new Error(`${res}`); }

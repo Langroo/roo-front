@@ -1,6 +1,6 @@
 const axios = require('axios');
-const redis = require('../persistence').redis;
 const crypto = require('crypto');
+const redis = require('../redis');
 const generateHash = str => crypto.createHash('md5').update(str).digest('hex');
 require('dotenv').config();
 
@@ -80,13 +80,6 @@ class Api {
     return this.userDataToRedis(data, slug);
   }
 
-  async setRatingCache(userHash, rating_value) {
-    return this.userDataToRedis({
-      userHash,
-      rating_value,
-    }, 'rating_value');
-  }
-
   /* ************************************************************************************************************
 * ************************************ Mongo Database CRUD section ********************************************
 * ************************************************************************************************************ */
@@ -146,7 +139,6 @@ class Api {
     repeated_this_pos: '0',
     autoresponder_reply: '0',
     autoresponder_type: 'text',
-    survey_done: 'no',
     message_delay: 'on',
     reminder_list: '',
     // -- Possible values: unrequested, requested, completed
@@ -171,7 +163,6 @@ class Api {
         repeated_this_pos: update.repeated_this_pos,
         autoresponder_reply: update.autoresponder_reply,
         autoresponder_type: update.autoresponder_type,
-        survey_done: update.survey_done,
         message_delay: update.message_delay,
         reminder_list: update.reminder_list,
         tutor_flow_status: update.tutor_flow_status,
@@ -230,20 +221,12 @@ class Api {
     return Api.request('post', 'user/update_context', { senderId, parameters });
   }
 
-  async sendRating(senderId) {
-    return Api.request('post', '/user/ratingSystemRespond', { senderId });
-  }
-
   async sendLesson(senderId) {
     return Api.request('put', '/user/wrote', { senderId });
   }
 
   async createTutorRequest(userHash) {
     return Api.request('post', 'tutor_request', { userHash });
-  }
-
-  async createSurveyCollection(senderId) {
-    return Api.request('post', '/user/saveSurvey', { senderId });
   }
 
   /**

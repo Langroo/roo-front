@@ -1,14 +1,11 @@
-const API = require('../../core/index').dbApi;
 const axios = require('axios');
+const API = require('../../core/index').dbApi;
 const accountReplies = require('./responses').accountReplies;
 const paymentReplies = require('./responses').paymentReplies;
 const generalReplies = require('./responses').generalReplies;
 const translateReplies = require('./responses').translateReplies;
-const OneForAll = require('../../bot-tools').OneForAll;
+const { cronReminder, sendNotificationToSlack, textToAudio } = require('../../bot-tools').universal;
 const FbAPIClass = require('../../bot-tools').FacebookAPI;
-
-// -- Instantiations
-const controllerSmash = new OneForAll();
 
 // -- Function to return to a closed context
 const goToPreviousContext = async (message, params, userFromDB) => {
@@ -28,7 +25,7 @@ const goToPreviousContext = async (message, params, userFromDB) => {
   const trueReply = [lastMessageSent.pop()];
   delayedRepliesToSend = generalReplies('returningMessages', params.senderName)[Math.floor(Math.random() * generalReplies('returningMessages', params.senderName).length)];
   delayedRepliesToSend = delayedRepliesToSend.concat(trueReply);
-  controllerSmash.CronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, {
+  cronReminder(params.currentPos, delayedRepliesToSend, delayedMsgTime, {
     current_flow: params.prevFlow, current_pos: params.currentPos, prev_pos: params.prevPos, repeated_this_pos: '1',
   }, message.sender.id, userFromDB);
 };
@@ -139,7 +136,7 @@ const getReply = async (message, params, userFromDB) => {
     case 'paymentDialog_Init': {
       const paymentInitMsg = `{"text":"User ${userFullName} has initiated the *Payment/Upgrade Plan conversational flow*"}`;
       const paymentInitURL = process.env.PAYMENT_NOTIFICATIONS_SLACK_URL;
-      const paymentInitErr = controllerSmash.sendNotificationToSlack(paymentInitURL, paymentInitMsg);
+      const paymentInitErr = sendNotificationToSlack(paymentInitURL, paymentInitMsg);
       if (paymentInitErr) {
         console.log('(╯°□°）╯︵ ┻━┻ ERROR sending the notification to SLACK :: ', paymentInitErr);
       }
@@ -188,7 +185,7 @@ const getReply = async (message, params, userFromDB) => {
     case 'askRoo': {
       const askRooMsg = `{"text":"*User ${userFullName} asks:* ${params.rawUserInput}", "icon_emoji": ":question:", "username": "Ask Roo"}`;
       const askRooURL = 'https://hooks.slack.com/services/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';
-      const askRooErr = controllerSmash.sendNotificationToSlack(askRooURL, askRooMsg, 'User is making a question');
+      const askRooErr = sendNotificationToSlack(askRooURL, askRooMsg, 'User is making a question');
       if (askRooErr) {
         console.log('(╯°□°）╯︵ ┻━┻ ERROR sending question to SLACK :: ', askRooErr);
       }
@@ -197,20 +194,20 @@ const getReply = async (message, params, userFromDB) => {
     }
 
     case 'pronounceThis': {
-      let textToAudio;
+      let audio;
       let actualText = params.rawUserInput.toLowerCase();
       actualText = actualText.split('pronounce ')[1];
       if (userFromDB.data) {
         if (userFromDB.data.gender && userFromDB.data.content) {
-          textToAudio = await controllerSmash.textToAudio(actualText, message.sender.id, userFromDB.data.gender, userFromDB.data.content.plan.accent);
+          audio = await textToAudio(actualText, message.sender.id, userFromDB.data.gender, userFromDB.data.content.plan.accent);
         } else {
-          textToAudio = await controllerSmash.textToAudio(actualText, message.sender.id);
+          audio = await textToAudio(actualText, message.sender.id);
         }
       } else {
-        textToAudio = await controllerSmash.textToAudio(actualText, message.sender.id);
+        audio = await textToAudio(actualText, message.sender.id);
       }
       if (textToAudio) {
-        const error = await FacebookAPI.SendMessages('audio', textToAudio);
+        const error = await FacebookAPI.SendMessages('audio', audio);
         if (!error) {
           reply = [];
         } else {
@@ -232,7 +229,7 @@ const getReply = async (message, params, userFromDB) => {
       params.currentEntity = params.currentPos;
       tempReply = await contexts.introduction(message, params, userFromDB);
       trueReply = [tempReply.pop()];
-      return reply = generalReplies('mustRegisterFirst', senderName).concat(trueReply);
+      return generalReplies('mustRegisterFirst', senderName).concat(trueReply);
 
       // -- Function triggered by the STOP ALL CONVERSATION in the menu and the DELETE ACCOUNT
     case 'stopBotMessages':
@@ -244,28 +241,49 @@ const getReply = async (message, params, userFromDB) => {
       reply = generalReplies('stopBotMessages', senderName);
       break;
 
-    case 'resetFlowForUser':
+    case 'resetFlowForUser': {
       let userSenderId = params.rawUserInput.split('[')[1].split(']')[0];
       if ((/me/i).test(userSenderId)) {
         userSenderId = message.sender.id;
         await API.createFullUserProfile(userSenderId);
         await API.sendLesson(userSenderId);
-        reply = [{ type: 'text', content: 'Content restarted for you ( ˘ ³˘)♥ ' }];
+        reply = [{
+          type: 'text',
+          content: 'Content restarted for you ( ˘ ³˘)♥ ',
+        }];
       } else if (!(/[0-9]+/).test(userSenderId)) {
-        reply = [{ type: 'text', content: 'This user doesn\'t exist 😕 or you sent me something that is not a senderId 😡' }];
+        reply = [{
+          type: 'text',
+          content: 'This user doesn\'t exist 😕 or you sent me something that is not a senderId 😡',
+        }];
       } else {
         let targetUser = (await API.retrieveUser(userSenderId)).data;
         if (targetUser.data) {
           targetUser = targetUser.data.name.short_name;
-          reply = [{ type: 'text', content: `I restarted her ${targetUser} ʕᵔᴥᵔʔ` }];
-          await API.updateFlow(userSenderId, { current_flow: 'opentalk', prev_flow: 'opentalk', current_pos: 'fallback' });
+          reply = [{
+            type: 'text',
+            content: `I restarted her ${targetUser} ʕᵔᴥᵔʔ`,
+          }];
+          await API.updateFlow(userSenderId, {
+            current_flow: 'opentalk',
+            prev_flow: 'opentalk',
+            current_pos: 'fallback',
+          });
           const r = await API.createFullUserProfile(userSenderId);
-          if (r.statusCode >= 200 && r.statusCode < 300) { console.info('User Profile Created in [APIDB] Successfully'); } else { console.error('ERROR :: User Profile Creation after INTRODUCTION has been UNSUCCESSFUL'); }
+          if (r.statusCode >= 200 && r.statusCode < 300) {
+            console.info('User Profile Created in [APIDB] Successfully');
+          } else {
+            console.error('ERROR :: User Profile Creation after INTRODUCTION has been UNSUCCESSFUL');
+          }
         } else {
-          reply = [{ type: 'text', content: 'Could not restart content for this user, check the logs {•̃_•̃ } ' }];
+          reply = [{
+            type: 'text',
+            content: 'Could not restart content for this user, check the logs {•̃_•̃ } ',
+          }];
         }
       }
       break;
+    }
 
     case 'continueCurrentFlow':
       if (params.prevFlow === 'introduction') {

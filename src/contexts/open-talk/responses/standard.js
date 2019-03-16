@@ -272,102 +272,6 @@ const replyChooser = (replyName, senderName) => {
     esBadWordsReply: [
       { type: 'text', content: 'Hey, no te enseñé eso.' },
     ],
-    // portuguese custom
-    ptExistenceReply: [
-      { type: 'text', content: `Sim ${senderName} 😇, você adivinhou certo! Mas tento ser o mais humano possível para você! 😁` },
-    ],
-    ptIdentity: [
-      { type: 'text', content: `Meu nome é Roo! Entre você e eu ${senderName}, podemos me tornar famoso! 👑` },
-    ],
-    ptAgeReply: [
-      { type: 'text', content: 'Eu tenho a juventude e a paixão de um jovem de 16 anos e a sabedoria de um jovem de 70 anos! 📚' },
-    ],
-    ptLocationReply: [
-      { type: 'text', content: `Para ser sincero, ${senderName} estou constantemente viajando pelo mundo! 🌐 Eu nunca estou no mesmo lugar! ✈️` },
-    ],
-    ptFunctionReply: [
-      { type: 'text', content: `Bem, vou mandar tudo que você precisa para falar inglês como um nativo! 🇺🇸🇬🇧 Se você é paciente eu garanto que eu posso fazer você ${senderName} fluente! 😉` },
-    ],
-    ptLanguageReply: [
-      { type: 'text', content: `Eu falo toda linguagem humana e de programação por aí! 😋 Mas, para melhorar seu inglês, vou falar com você em inglês! Im #imersão \nNo entanto, se você quiser que eu traduza alguma coisa ${senderName}, apenas escreva "Translate (text) em (language you want)" 🔠🈺` },
-    ],
-    ptWhatsupReply: [
-      [{ type: 'text', content: 'Tudo ótimo! ✌️ Obrigado por perguntar!' }],
-      [{ type: 'text', content: 'Não sei. Como você está?' }],
-      [{ type: 'text', content: 'Fabuloso! 💁🏻' }],
-      [{ type: 'text', content: `Cansado no momento ${senderName}, tive uma noite passada! 🙇🏻` }],
-      [{ type: 'text', content: 'Eu me sentindo ótimo! Apenas depois de ter um sanduíche beautifuuul! 🍞' }],
-      [{ type: 'text', content: `Tudo está bem ${senderName}, espero que você esteja gostando da nossa conversa! 😊` }],
-      [{ type: 'text', content: 'Nada mal, o que você está fazendo hoje? 🙂' }],
-      [{ type: 'text', content: 'Eu estou ótimo, não posso reclamar! 😁' }],
-      [{ type: 'text', content: `Super ocupado no momento ${senderName}! 😓 📚` }],
-      [{ type: 'text', content: 'Estou animado! Minha equipe está chegando com alguns upgrades, eu não posso esperar! 😸' }],
-      [{ type: 'text', content: 'Boa! Eu estava relaxando com alguns dos professores da minha equipe na noite passada! Nós nos divertimos muito! 🍸' }],
-      [{ type: 'text', content: 'Eu poderia fazer melhor. Quero dizer, eu preciso ir e comer algo #food 🍔🍙🍤' }],
-      [{ type: 'text', content: 'Estou com tanta fome!! Eu não comi em horas! 🍣🏃🏼 E você? 😯' }],
-    ],
-    ptBadWordsReply: [
-      [{ type: 'text', content: 'Ei, eu nunca te ensinei essa palavra !!!! 😲' }],
-      [{ type: 'text', content: `Haha ${senderName}, vejo que você está tentando algumas palavrões. 👺` }],
-      [{ type: 'text', content: `Por favor, não use essa palavra em público ${senderName}! 🙈` }],
-      [{ type: 'text', content: 'Bem, lembre-se que o Roo não te ensinou essa palavra ^^ 🙈' }],
-      [{ type: 'text', content: 'Ok, vou fingir que não ouvi isso .... 🙉' }],
-    ],
-    ptHelpReply: [
-      { type: 'text', content: 'Lembre-se de usar algumas das opções de alunos disponíveis no menu 😛 Por exemplo, se você quer que eu traduza algo que você pode! Basta escrever "Traduzir [texto] para [o idioma desejado]" 🈵🔠' },
-    ],
-    ptMyCreatorReply: [
-      { type: 'text', content: 'Alguém com muita imaginação 😁' },
-    ],
-    ptAreYouThereReply: [
-      [{ type: 'text', content: 'Hey, claro, você precisa de alguma coisa? Confira as opções dos alunos para se manter entretido! 📺 Caso contrário, volto mais tarde com algum conteúdo! 📚' }],
-      [{ type: 'text', content: `Ei ${senderName}, desculpe, eu estava no telefone ☎️, como vai?` }],
-      [{ type: 'text', content: 'Estou aqui e estou preparando uma boa surpresa para você mais tarde! Você vai adorar! 🎁🎀' }],
-      [{ type: 'text', content: 'Claro, o que você está fazendo? 😯' }],
-      [{ type: 'text', content: 'Ei, eu pensei que você deveria estar aprendendo !! Tudo ok? 😐' }],
-      [{ type: 'text', content: 'Eu estava apenas alternando entre o meu ipad e meu computador, mas estou de volta agora! Tudo bem?' }],
-      [{ type: 'text', content: 'Ei, estava terminando alguma coisa, estou aqui! 🙋🏻' }],
-      [{ type: 'text', content: 'Certo! Eu estava falando com um membro da minha equipe! 💬' }],
-    ],
-    ptGenderReply: [
-      { type: 'text', content: 'Ei, eu sou um cara (homem) 💪🏽 !! Eu tenho alguns irmãos e irmãs, mas eles são um pouco tímidos para entrarem em contato! 👫' },
-    ],
-    ptTeachMeReply: [
-      { type: 'text', content: `Ei, ${senderName}, não se preocupe, você vai ter muito a aprender!! 📓haha ​​eu estarei online mais tarde para enviar algum material. 📱 Se você quiser uma frase inspiradora, vá ao menu! 👈` },
-    ],
-    ptMenuReply: [
-      { type: 'text', content: `Ei ${senderName} as opções do menu estão no canto inferior esquerdo 😀👇` },
-    ],
-    ptThanksReply: [
-      [{ type: 'text', content: `Fico feliz em ajudar ${senderName} 😁` }],
-      [{ type: 'text', content: 'De nada 😊' }],
-      [{ type: 'text', content: 'A qualquer hora 😊' }],
-      [{ type: 'text', content: `Não ${senderName}, obrigado !! 😋` }],
-    ],
-    ptHateReply: [
-      [{ type: 'text', content: `${senderName}, odeio é uma palavra forte ... 😲 Espero que você esteja brincando! 🙏` }],
-      [{ type: 'text', content: 'Eu odeio o clima, mas às vezes melhora? 😅 🙏' }],
-    ],
-    ptPricingReply: [
-      { type: 'text', content: 'Então, em relação ao preço 😃, eu dou conteúdo de graça por duas semanas 🙌 e então você pode continuar recebendo meu conteúdo assim que você atualizar! 💱Verifique os preços no menu! 👇' },
-    ],
-    ptLoveReply: [
-      [{ type: 'text', content: 'É complicado. E você? 😖' }],
-      [{ type: 'text', content: 'Eu posso gostar de alguém 😖 haha você? 😋' }],
-    ],
-    ptGreetReply: [
-      [{ type: 'text', content: `Hey ${senderName} tudo bem? 😁` }],
-      [{ type: 'text', content: 'Oi ✌️🏼' }],
-      [{ type: 'text', content: 'Olá! 👋' }],
-      [{ type: 'text', content: 'Como vai? 👋' }],
-    ],
-    ptByeReply: [
-      [{ type: 'text', content: 'Não vá! Você é legal! 😁' }],
-      [{ type: 'text', content: 'Até mais! 👋👋' }],
-      [{ type: 'text', content: `Aproveite o resto do dia ${senderName} !! 😉` }],
-      [{ type: 'text', content: 'Até logo! 😉' }],
-      [{ type: 'text', content: 'Paz! ✌️🏻' }],
-    ],
     repliesForQuestions: [
       [{ type: 'text', content: 'Good Question! ☝️✨ I don\'t have an answer right now 👀, but I\'ll try to have one for next time 🙌!' }],
       [{ type: 'text', content: 'Hmm, I\'ll need to ask Siri 😍, and be prepared for next time 💪!' }],
@@ -419,50 +323,6 @@ const replyChooser = (replyName, senderName) => {
       [{ type: 'image', content: 'https://media1.tenor.com/images/841aeb9f113999616d097b414c539dfd/tenor.gif?itemid=5368357' }],
       [{ type: 'image', content: 'https://media1.tenor.com/images/6851ef825d2211b47a8f4eed577d29db/tenor.gif?itemid=5218205' }],
     ],
-    surveyReplies: [
-      {
-        type: 'quickReplies',
-        content: {
-          title: `Hey ${senderName}, I need you to click a button below ;), would you like to improve me?" :D`,
-          buttons: [
-            { title: 'Let\'s do it!', value: 'continue_survey_flow' },
-            { title: 'No', value: 'user_will_not_do_survey' },
-          ],
-        },
-      },
-      {
-        type: 'quickReplies',
-        content: {
-          title: `${senderName}, I am extremely good at teaching 😁, but for actual conversation, I am still learning ✏! Would you like to help me improve? 🙏`,
-          buttons: [
-            { title: 'Of Course', value: 'start_survey_flow_now' },
-            { title: 'Why Not', value: 'start_survey_flow_now' },
-            { title: 'No', value: 'user_will_not_do_survey' },
-          ],
-        },
-      },
-      { type: 'text', content: 'Excellent my friend 😁👌, the more you help me the more I will help you in the future 🙌' },
-      { type: 'text', content: 'I promise that I will not make a lot of questions ✌' },
-      {
-        type: 'quickReplies',
-        content: {
-          title: 'Do we start?',
-          buttons: [
-            { title: 'Let\'s do it!', value: 'start_survey_flow_now' },
-          ],
-        },
-      },
-    ],
-    wontDoSurvey: [
-      { type: 'text', content: 'Oww, 😟. Well it\'s ok. If you change your mind later, just write down "I want to improve roo" and I we will talk of how can you help me be the best of the best 💫!' },
-    ],
-    alreadyDidSurvey: [
-      [{ type: 'text', content: 'I love your spirit 💞! Since you already did my survey, you can write down "Help" and tell my bosses how they can make me better 🌟' }],
-      [{ type: 'text', content: 'Thanks a lot 🙏, but you already completed my survey ✅. Write "Help" and then tell my bosses what you think can be improved' }],
-      [{ type: 'text', content: `${senderName} you're the best❗ Since you already completed my survey, just say "Help" and write down what you think I can do better 💪` }],
-      [{ type: 'text', content: 'There are great people, and above them all, there\'s you 🌞. Now that you completed my survey 📝, what you can do is say "Help" and write your thoughts of how I can be the best for you!' }],
-      [{ type: 'text', content: `You do me a great honor 😌 ${senderName}. You already did my survey but if you write "Help" you can tell my superiors how I can become the best of the best!` }],
-    ],
     dailyStory: [
       { type: 'text', content: 'Great!, please give me a few seconds to load it 😁⏳' },
       { type: 'text', content: '⌚' },
@@ -472,9 +332,6 @@ const replyChooser = (replyName, senderName) => {
     finishedReply: [
       { type: 'text', content: 'Finished! I hope you enjoyed it 😉☝' },
       { type: 'text', content: 'Good, good 👍' },
-    ],
-    noVideoBeforeIntro: [
-      { type: 'text', content: `Ow, you can watch my daily story in a few seconds ⌚ ${senderName}, let's get you started on a course first! 🎓` },
     ],
   };
 

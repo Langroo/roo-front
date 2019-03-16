@@ -1,11 +1,11 @@
+const crypto = require('crypto');
 const flowPositions = require('./flow-positions');
 const API = require('./core').dbApi;
-const crypto = require('crypto');
 const generateHash = str => crypto.createHash('md5').update(str).digest('hex');
 require('dotenv').config();
 
-// -- Function that returns specific dialogs and set specific flows for administrators
-const adminDialogs = (input, senderId) => {
+// -- Function that returns specific Dialogues and set specific flows for administrators
+function getAdminDialogues(input, senderId) {
   const FbAPIClass = require('./bot-tools').FacebookAPI;
   const FacebookAPI = new FbAPIClass(senderId);
 
@@ -27,9 +27,7 @@ const adminDialogs = (input, senderId) => {
                 {
                   title: '✔ CONTEXT ADMIN RESET SUCCESSFUL 👍. \nYou are now in the opentalk Context. 👀',
                   buttons: [
-                    { title: 'Monday Broadcast', value: 'send_monday_broadcast' },
-                    { title: 'Wednesday Broadcast', value: 'send_wednesday_broadcast' },
-                    { title: 'Friday Broadcast', value: 'send_friday_broadcast' },
+                    { title: 'Continue', value: 'random_data' },
                   ],
                 })
                 .then(() => true);
@@ -49,18 +47,16 @@ const adminDialogs = (input, senderId) => {
         }
       }
     });
-};
+}
 
-// -- Function that sends the messages of the dialogs
-const replier = async (messageToSend, dialog, userFromDB, senderId) => {
+async function replier(messageToSend, dialog, userFromDB, senderId) {
   // -- Import of general tools and functions
   const BotTools = require('./bot-tools');
   const FbAPIClass = BotTools.FacebookAPI;
-  const OneForAll = BotTools.OneForAll;
+  const { textToAudio } = BotTools.universal;
 
   // -- Create instances of tools
   const FacebookAPI = new FbAPIClass(senderId);
-  const controllerSmash = new OneForAll();
 
   // -- Define the function awaiting time
   const awaitingTime = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -89,8 +85,8 @@ const replier = async (messageToSend, dialog, userFromDB, senderId) => {
       }
       if (userLang === 'en_US' || userLang === 'en_GB') {
         ms = 4000;
-        const textToAudio = await controllerSmash.textToAudio(dialog[messageToSend].content, senderId);
-        dialog[messageToSend] = Object.assign({}, dialog[messageToSend], { content: textToAudio });
+        const audio = await textToAudio(dialog[messageToSend].content, senderId);
+        dialog[messageToSend] = Object.assign({}, dialog[messageToSend], { content: audio });
       } else {
         dialog.splice(messageToSend, 1);
       }
@@ -114,29 +110,17 @@ const replier = async (messageToSend, dialog, userFromDB, senderId) => {
     }
   }
   return true;
-};
+}
 
-const getUserName = (payload) => {
-  // -- Define the variables with the first name and the full name
-  let senderName; let
-    fullName;
-
-  try {
-    if (payload.profile) {
-      senderName = payload.profile.first_name;
-      fullName = `${payload.profile.first_name} ${payload.profile.last_name}`;
-    } else { senderName = 'buddy'; }
-  } catch (error) {
-    console.log('Unable to obtain the username from the data inside the message');
-    senderName = 'buddy';
-    fullName = 'buddy';
-  }
-
-  return { senderName, fullName };
-};
+function getUserName(payload) {
+  return {
+    senderName: payload.profile.first_name,
+    fullName: `${payload.profile.first_name} ${payload.profile.last_name}`,
+  };
+}
 
 // -- Contexts that prevent interaction with other contexts until finished
-const lockedContext = (params, isPostback) => {
+function isLockedContext(params, isPostback) {
   const stopBotKeywords = /(^stop bot$|^freeze the current flow$|^unsuscribe$|^stop the content$|^cancel subscription$|^unsubscribe$|^stop$)/i;
   if (stopBotKeywords.test(params.rawUserInput)) {
     params = Object.assign({}, params, { currentFlow: 'general', currentEntity: 'stopBotMessages' });
@@ -147,31 +131,16 @@ const lockedContext = (params, isPostback) => {
     return params;
   }
 
-  if (params.awaitingAnswer && params.prevFlow === 'rating') {
-    params = Object.assign({}, params, { currentFlow: 'rating', currentEntity: 'getRating' });
-    console.info('\n-> USER IS IN RATING CONTEXT AND MUST ANSWER, SENDING TO :: ', params.currentFlow);
-    return params;
-  }
-
   return params;
-};
+}
 
-// -- flowLauncher
-const userDialogs = (payload, rawInput) => {
-  /**
-   * Requiring and importing libraries and modules
-   */
-  const Raven = require('raven');
-  Raven.config('https://96d6795013a54f8f852719919378cc59@sentry.io/304046').install();
+function getUserDialogues(data, rawInput) {
   const context = require('./contexts');
-  const inputHandler = require('./input.handler');
+  const { getEntityAndFlow } = require('./inputHandler');
   const Cron = require('node-schedule');
   const BotTools = require('./bot-tools');
   const FbAPIClass = BotTools.FacebookAPI;
-  const ConversationLogs = require('./persistence').filesystem;
-  const FacebookAPI = new FbAPIClass(payload.sender.id);
-
-  // -- Time of restoring the bot's receiving window
+  const FacebookAPI = new FbAPIClass(data.sender.id);
   const timeOfSending = new Date(Date.now() + 11000);
 
   // -- Flow control variables
@@ -182,19 +151,15 @@ const userDialogs = (payload, rawInput) => {
   let entityAndFlow = {};
 
   // -- Include the userHash inside the object message received
-  const userHash = generateHash(payload.sender.id);
-  payload = Object.assign({}, payload, { userHash });
+  const userHash = generateHash(data.sender.id);
+  data = Object.assign({}, data, { userHash });
 
-  const brain = async (rawInput, payload, userFlow) => {
+  async function brain(brainRawInput, payload, userFlow) {
     // -- Initialize variable that indicates if user input comes from pressing a button
     let isPostback;
     payload.postback
       ? isPostback = true
       : isPostback = false;
-
-    // -- Create/Update conversation log
-    const channel = 'Facebook';
-    ConversationLogs.conversationLogger(payload.sender.id, senderName, rawInput, isPostback, channel);
 
     // -- Get the first name (senderName) and full name of the user
     senderName = getUserName(payload).senderName;
@@ -218,14 +183,14 @@ const userDialogs = (payload, rawInput) => {
           entityAndFlow.flow = 'introduction';
           entityAndFlow.entity = 'getStarted';
         } else {
-          entityAndFlow = inputHandler.getEntityAndFlow(rawInput);
+          entityAndFlow = getEntityAndFlow(brainRawInput);
         }
       } else {
         let userStatus;
         userFromDB.data.subscription ? userStatus = userFromDB.data.subscription : userStatus = null;
         userStatus ? userStatus = userStatus.status : userStatus = 'UNREGISTERED';
         params = Object.assign({}, { status: userStatus });
-        entityAndFlow = inputHandler.getEntityAndFlow(rawInput);
+        entityAndFlow = getEntityAndFlow(brainRawInput);
       }
     } catch (error) {
       console.error('Unbelievable Error ::', error);
@@ -249,8 +214,7 @@ const userDialogs = (payload, rawInput) => {
         translateDialog: userFlow.data.translate_dialog,
         OpQ: userFlow.data.open_question,
         repeatedThisPos: userFlow.data.repeated_this_pos,
-        surveyDone: userFlow.data.survey_done,
-        rawUserInput: rawInput,
+        rawUserInput: brainRawInput,
         autoresponderReply: userFlow.data.autoresponder_reply,
         autoresponderType: userFlow.data.autoresponder_type,
         messageDelay: userFlow.data.message_delay,
@@ -267,7 +231,6 @@ const userDialogs = (payload, rawInput) => {
       process.env.messageDelay = params.messageDelay;
     } catch (error) {
       console.error('Error while initializing the flow controlling variables :: ', error);
-      Raven.captureException(error);
     }
 
     // -- Set the currentEntity according to its current value after the inputHandler
@@ -281,12 +244,12 @@ const userDialogs = (payload, rawInput) => {
     }
 
     // -- Check if the user is in a Locked Context
-    params = Object.assign({}, params, lockedContext(params, isPostback));
+    params = Object.assign({}, params, isLockedContext(params, isPostback));
 
     // -- Console logs for Flow control
     console.info('\n################## FLOW CONTROL REDIS VARIABLES ######################');
     console.info('- Raw Input :: %s\n- SenderId :: [%s]\n- Username: [%s]\n- Last Interaction :: [%s]\n- Entity :: [%s]\n- Current Flow :: [%s]\n- PrevPos :: [%s]\n- CurrentPos :: [%s]\n- NextPos :: [%s]\n- OpenQuestion :: [%s]\n- PrevFlow :: [%s]\n- Translate Next Dialog :: [%s]\n- This position has been repeated :: [%s] times\n- User surveyed :: [%s]\n- User Reminders :: [%s]',
-      params.rawUserInput, payload.sender.id, params.fullName, params.lastInteraction, params.currentEntity, params.currentFlow, params.prevPos, params.currentPos, params.nextPos, params.OpQ, params.prevFlow, params.translateDialog, params.repeatedThisPos, params.surveyDone, params.reminderList);
+      params.rawUserInput, payload.sender.id, params.fullName, params.lastInteraction, params.currentEntity, params.currentFlow, params.prevPos, params.currentPos, params.nextPos, params.OpQ, params.prevFlow, params.translateDialog, params.repeatedThisPos, params.reminderList);
     console.info('#######################################################################\n');
 
     // -- CONDITIONAL'S GROUP: CONTROLLER OF MAIN ENTITIES AND CONVERSATIONAL FLOWS
@@ -304,47 +267,32 @@ const userDialogs = (payload, rawInput) => {
       console.log('----------------------------\nEntering tutor flow\n----------------------------');
       await API.updateFlow(payload.sender.id, { current_flow: 'tutor' });
       reply = context.tutor(payload, params, userFromDB);
-    } else if (params.currentFlow === 'survey') {
-      console.log('----------------------------\nEntering survey flow\n----------------------------');
-      await API.updateFlow(payload.sender.id, { current_flow: 'survey' });
-      reply = context.survey(payload, params, userFromDB);
     } else if (params.currentFlow === 'content') {
       console.log('----------------------------\nEntering content flow\n----------------------------');
       await API.updateFlow(payload.sender.id, { current_flow: 'content' });
-      reply = context.content(payload, params, userFromDB);
-    } else if (params.currentFlow === 'rating') {
-      console.log('----------------------------\nEntering rating flow\n----------------------------');
-      await API.updateFlow(payload.sender.id, { current_flow: 'rating' });
       reply = context.content(payload, params, userFromDB);
     } else {
       console.log('----------------------------\nEntering open-talk flow\n----------------------------');
       reply = context.opentalk(payload, params, userFromDB);
     }
-
-    // -- Send data to chatbase to store statistics
-    /* if (process.env.NODE_ENV === 'production') {
-      await ChatBaseAPI.analyticReceived(rawInput, payload.sender.id, entityAndFlow.entity, false)
-        .catch(e => { console.error('ERROR sending data to CHATBASE.\nVariables:\nRaw User Input :: [%s]\nEntity :: [%s]\nMessage Details :: ', rawInput, entityAndFlow.entity, e.message) })
-    } */
-
     return reply;
-  };
+  }
 
   /* Section where the message is received and processed */
   try {
-    API.retrieveFlow(payload.sender.id)
+    API.retrieveFlow(data.sender.id)
       .then(async (userFlowData) => {
         try {
           if (!userFlowData.data) {
             console.info('This user lacks a Flow Collection, creating it!!!');
             firstTime = true;
-            await API.createFlow(payload.sender.id, flowPositions('newUser'));
-            userFlowData = await API.retrieveFlow(payload.sender.id);
+            await API.createFlow(data.sender.id, flowPositions('newUser'));
+            userFlowData = await API.retrieveFlow(data.sender.id);
           }
 
           // -- Allow user input processing after 6 seconds of the last interaction
           if ((userFlowData.data.last_interaction + 10000) < Date()) {
-            await API.updateFlow(payload.sender.id, { ready_to_reply: 'true' });
+            await API.updateFlow(data.sender.id, { ready_to_reply: 'true' });
             readyToReply = true;
           } else {
             readyToReply = userFlowData.data.ready_to_reply;
@@ -356,15 +304,15 @@ const userDialogs = (payload, rawInput) => {
         // -- If the bot is ready to reply
         if (readyToReply !== 'false') {
           // -- Bot is shut down to prevent more replies being triggered from additional user input before the actual one is sent
-          await API.updateFlow(payload.sender.id, { ready_to_reply: 'false' });
-          if (!payload.profile) {
+          await API.updateFlow(data.sender.id, { ready_to_reply: 'false' });
+          if (!data.profile) {
             console.log('The user\'s userName is undefined, probably writing from a phone.\nSetting it as "buddy"');
-            console.log('The content of data in message is :: ', payload);
+            console.log('The content of data in message is :: ', data);
           }
           // -- Brain function processing the input of the user
-          brain(rawInput, payload, userFlowData)
+          brain(rawInput, data, userFlowData)
             .then(async (replyToSend) => {
-              if (replyToSend) { await replier(0, replyToSend, userFromDB, payload.sender.id); }
+              if (replyToSend) { await replier(0, replyToSend, userFromDB, data.sender.id); }
             });
         } else {
           console.info('\n### BOT STILL REPLYING ###\n');
@@ -372,13 +320,12 @@ const userDialogs = (payload, rawInput) => {
       });
   } catch (error) {
     console.error('Error starting processing of user input :: ', error);
-    Raven.captureException(error);
   }
-  API.updateFlow(payload.sender.id, { ready_to_reply: 'true' });
-};
+  API.updateFlow(data.sender.id, { ready_to_reply: 'true' });
+}
 
 module.exports = {
-  userDialogs,
+  getUserDialogues,
   replier,
-  adminDialogs,
+  getAdminDialogues,
 };

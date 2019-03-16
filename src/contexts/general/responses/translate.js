@@ -1,7 +1,7 @@
 /**
  * Bot translate functionality using Google Translate
  * */
-const translate = require('google-translate-api');
+const translate = require('@vitalets/google-translate-api');
 
 const replyChooser = async (rawUserInput) => {
   let expression;

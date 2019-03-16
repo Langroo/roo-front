@@ -1,7 +1,0 @@
-{
-    "name": "Roo-Chatbot",
-    "description": "Main component of the Langroo Chatbot",
-    "repository": "github.com:langroo/roo-front.git",
-    "keywords": ["Chatbot", "Langroo", "Bot", "Roo", "roo-chatbot"],
-    "image": "heroku/nodejs"
-}
