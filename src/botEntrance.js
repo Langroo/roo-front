@@ -32,7 +32,7 @@ function checkForHashTags(profile, text) {
 }
 
 function botReplier(payload) {
-  const fbApi = FacebookAPI(payload.sender.id);
+  const fbApi = new FacebookAPI(payload.sender.id);
   let text;
   if (payload.message) {
     payload.message.quick_reply
