@@ -1,6 +1,7 @@
 const Bot = require('messenger-bot');
 const { getUserDialogues, getAdminDialogues } = require('./replyHandler');
 const { sendNotificationToSlack } = require('./bot-tools').universal;
+const { FacebookAPI } = require('./bot-tools');
 
 const bot = new Bot({
   token: process.env.FB_ACCESS_TOKEN,
@@ -31,15 +32,15 @@ function checkForHashTags(profile, text) {
 }
 
 function botReplier(payload) {
+  const fbApi = FacebookAPI(payload.sender.id);
   let text;
   if (payload.message) {
     payload.message.quick_reply
       ? text = payload.message.quick_reply.payload
       : text = payload.message.text;
   }
-
   if (payload.postback) { text = payload.postback.payload; }
-  bot.getProfile(payload.sender.id, (err, profile) => {
+  fbApi.getUserPublicInformation().then((err, profile) => {
     console.log('\n############### USER INPUT DATE ##############\n[%s]', Date());
 
     payload.profile = profile;
