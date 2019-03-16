@@ -19,9 +19,9 @@
     "npm": "5.6.0"
   },
   "dependencies": {
+    "@vitalets/google-translate-api": "^2.7.0",
     "aws-sdk": "^2.422.0",
     "axios": "^0.16.2",
-    "babel-cli": "^6.26.0",
     "babel-plugin-syntax-async-functions": "^6.13.0",
     "babel-plugin-transform-runtime": "^6.22.0",
     "babel-polyfill": "^6.22.0",
@@ -45,7 +45,6 @@
     "express-handlebars": "^3.0.2",
     "express-session": "^1.15.6",
     "form-data": "^2.3.3",
-    "google-translate-api": "^2.3.0",
     "hbs": "^4.0.3",
     "jsonwebtoken": "^8.5.0",
     "messenger-bot": "^2.5.0",

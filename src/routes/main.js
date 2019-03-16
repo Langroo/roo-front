@@ -5,12 +5,12 @@ const express = require('express');
 const router = express.Router();
 const url = require('url');
 const qs = require('querystring');
-const frontReceiver = require('../director');
+const { interact, verify } = require('../botEntrance');
 require('dotenv').config();
 
 // -- Facebook Webhook Handler
 router.post('/', (req, res) => {
-  frontReceiver.interact(req, res);
+  interact(req, res);
   res.end(JSON.stringify({ status: 'ok' }));
 });
 
@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
       apiUrl: process.env.API_BASE_URL,
     });
   }
-  frontReceiver.verify(req, res);
+  verify(req, res);
   res.end(JSON.stringify({ status: 'ok' }));
 });
 

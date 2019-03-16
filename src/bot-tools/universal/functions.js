@@ -1,7 +1,7 @@
 /**
  * Global Imports
  * */
-const translate = require('google-translate-api');
+const translate = require('@vitalets/google-translate-api');
 const axios = require('axios');
 const cronJobScheduler = require('node-schedule');
 const API = require('../../core/index').dbApi;
@@ -64,13 +64,10 @@ class OneForAll {
             });
           }
 
-          const translatedButtons = [];
-          for (let buttonObject of reply[i].content.buttons) {
+          reply[i].content.buttons = reply[i].content.buttons.map(async (buttonObject) => {
             replyTranslated = await translate(buttonObject.title, { to: lang });
-            buttonObject = Object.assign({}, buttonObject, { title: replyTranslated.text });
-            translatedButtons.push(buttonObject);
-          }
-          reply[i].content.buttons = translatedButtons;
+            return Object.assign({}, buttonObject, { title: replyTranslated.text });
+          });
         }
       }
     }

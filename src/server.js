@@ -3,9 +3,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const hbs = require('express-handlebars');
-const axios = require('axios');
 const FacebookAPI = require('./bot-tools').FacebookAPI;
-const Redis = require('./persistence/redis/connect');
+const Redis = require('./redis/connect');
 require('dotenv').load();
 
 Promise.all([Redis])
@@ -83,39 +82,5 @@ Promise.all([Redis])
     });
   })
   .catch((err) => {
-    if (process.env.NODE_ENV === 'production') {
-      try {
-        axios.request({
-          headers: { 'Content-Type': 'application/json' },
-          url: process.env.DEPLOYMENT_INFO_SLACK_URL,
-          method: 'post',
-          data: '{"text":"*EMERGENCY! THE BOT IN PRODUCTION IS DOWN, I REPEAT, THE BOT IN PRODUCTION IS DOWN! RUN AND FIX IT QUICKLY, WE ARE LOSING MONEY!*"}',
-        });
-      } catch (dafuq) {
-        console.log('(╯°□°）╯︵ ┻━┻ ERROR sending the notification to SLACK :: ', dafuq);
-      }
-    } else if (process.env.NODE_ENV === 'quality') {
-      try {
-        axios.request({
-          headers: { 'Content-Type': 'application/json' },
-          url: process.env.DEPLOYMENT_INFO_SLACK_URL,
-          method: 'post',
-          data: '{"text":"*ALERT --> Bot in QA (Reactor AI) is DOWN - DevOps, time to haul ass and fix it!*"}',
-        });
-      } catch (dafuq) {
-        console.log('(╯°□°）╯︵ ┻━┻ ERROR sending the notification to SLACK :: ', dafuq);
-      }
-    } else if (process.env.NODE_ENV === 'develop') {
-      try {
-        axios.request({
-          headers: { 'Content-Type': 'application/json' },
-          url: process.env.DEPLOYMENT_INFO_SLACK_URL,
-          method: 'post',
-          data: '{"text":"*ALERT --> Bot in develop (The Great Berenguer) is DOWN.*"}',
-        });
-      } catch (dafuq) {
-        console.log('(╯°□°）╯︵ ┻━┻ ERROR sending the notification to SLACK :: ', dafuq);
-      }
-    }
     console.error('❌ GRAVE ERROR ❌ - Bot initialization failed', err);
   });

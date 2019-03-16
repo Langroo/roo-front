@@ -1,6 +1,6 @@
 const axios = require('axios');
-const redis = require('../persistence').redis;
 const crypto = require('crypto');
+const redis = require('../redis');
 const generateHash = str => crypto.createHash('md5').update(str).digest('hex');
 require('dotenv').config();
 

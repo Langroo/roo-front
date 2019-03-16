@@ -1,8 +1,6 @@
-const crypto = require('crypto');
 const redis = require('./connect');
-const generateHash = str => crypto.createHash('md5').update(str).digest('hex');
 
-class RedisManagement {
+module.exports = {
   /**
    * hmset to store a user hash
    */
@@ -10,9 +8,9 @@ class RedisManagement {
     try {
       return await (await redis).hset(`user:${userHash}`, key, value);
     } catch (error) {
-      console.log('An error ocurred :: ', error);
+      console.log('An error occurred :: ', error);
     }
-  }
+  },
 
   /**
    * hdel user
@@ -22,9 +20,9 @@ class RedisManagement {
       await (await redis).del(`user:${userHash}`);
       return true;
     } catch (error) {
-      console.log('An error ocurred :: ', error);
+      console.log('An error occurred :: ', error);
     }
-  }
+  },
 
   /**
    * Get all the hash keys
@@ -41,9 +39,9 @@ class RedisManagement {
         reject(error);
       }
     });
-  }
+  },
 
-  async hashGetEveryone() {
+  async hashGetEveryone(userHash) {
     return new Promise(async (resolve, reject) => {
       try {
         (await redis).hgetall(`user:${userHash}`, (error, user) => {
@@ -55,7 +53,5 @@ class RedisManagement {
         reject(error);
       }
     });
-  }
-}
-
-module.exports = new RedisManagement();
+  },
+};

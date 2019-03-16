@@ -1,5 +1,5 @@
 const Bot = require('messenger-bot');
-const ReplyHandler = require('./replyHandler');
+const { getUserDialogues, getAdminDialogues } = require('./replyHandler');
 const OneForAll = require('./bot-tools').OneForAll;
 
 const bot = new Bot({
@@ -11,7 +11,7 @@ const bot = new Bot({
 const checkForAdminInput = (payload, text) => {
   const adminRegex = /(activate message delay|deactivate message delay|roo masters 101)/i;
   if (adminRegex.test(text)) {
-    ReplyHandler.adminDialogues(text, payload.sender.id);
+    getAdminDialogues(text, payload.sender.id);
     console.info('<< Admin Request received and processed >>');
     return 1;
   }
@@ -46,25 +46,23 @@ const botReplier = (payload) => {
 
   if (payload.postback) { text = payload.postback.payload; }
   bot.getProfile(payload.sender.id, (err, profile) => {
-    if (err) { throw err; }
     console.log('\n############### USER INPUT DATE ##############\n[%s]', Date());
+
     payload.profile = profile;
-
-    if (checkForHashTags(profile, text)) { return 0; }
-    if (checkForAdminInput(payload, text)) { return 0; }
-
-    // -- Handle User Input and Return Replies
-    ReplyHandler.userDialogues(payload, text);
-  })
-    .catch(() => bot.sendMessage(payload.sender.id, {
+    if (checkForHashTags(profile, text) || checkForAdminInput(payload, text)) { return 0; }
+    getUserDialogues(payload, text);
+  }).catch((problem) => {
+    console.log('Problem with getProfile function:', problem);
+    bot.sendMessage(payload.sender.id, {
       text: 'Hello friend 👋! Thanks for trying me out 😁👍!\nUnfortunately, because of Facebook, Messenger or the device 📱 you are using, I cannot function properly 😟 and give you the full Langroo Experience.\nSend me a message with the hashtag #help and a member of our team will contact you to figure out the issue and solve it! ☺👌',
     },
     slackSmash.sendNotificationToSlack(
       process.env.DEPLOYMENT_INFO_SLACK_URL,
-      `{"text":"User with ID ${payload.sender.id} has an issue with this Facebook Public Profile"}`,
+      `{"text":"User with ID ${payload.sender.id} has an issue with this Facebook Public Profile: ${problem}"}`,
     ),
     'RESPONSE',
-    'ISSUE_RESOLUTION'));
+    'ISSUE_RESOLUTION');
+  });
 };
 
 // -- Chatbot referral handling (when users use the m.link)
