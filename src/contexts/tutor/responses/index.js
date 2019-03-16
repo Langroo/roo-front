@@ -4,4 +4,4 @@
 module.exports = {
   failsafeReplies: require('./failsafe'),
   standardReplies: require('./standard'),
-}
+};

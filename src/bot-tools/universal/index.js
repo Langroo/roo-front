@@ -1,6 +1,1 @@
-/**
- * Export recast
- */
-module.exports = {
-  OneForAll: require('./functions'),
-}
+module.exports = require('./functions');

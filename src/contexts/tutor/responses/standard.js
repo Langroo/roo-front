@@ -185,8 +185,8 @@ const replyChooser = (replyName, senderName) => {
     // haveNotQuestion: [
     //   { type: 'text', content: 'Ok great 👍, enjoy!' },
     // ],
-  }
+  };
 
-  return replies[replyName]
-}
-module.exports = replyChooser
+  return replies[replyName];
+};
+module.exports = replyChooser;

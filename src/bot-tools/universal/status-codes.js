@@ -70,11 +70,11 @@ const statusCodes = {
     name: 'TIMEOUT',
     message: 'Service timeout',
   },
-}
+};
 
 module.exports = function (code, data) {
   return {
     status: statusCodes[code] || statusCodes[500],
     data,
-  }
-}
+  };
+};

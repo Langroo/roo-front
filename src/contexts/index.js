@@ -10,13 +10,6 @@ module.exports = {
   introduction_NLP: require('./introduction').NLP,
   opentalk: require('./open-talk').controller,
   opentalkNLP: require('./open-talk').NLP,
-  opentalkDialogs: require('./open-talk').Dialogs,
-  survey: require('./survey').controller,
-  surveyNLP: require('./survey').NLP,
-  content: require('./content').controller,
-  contentNLP: require('./content').NLP,
-  contentReplies: require('./content').contentReplies,
+  opentalkDialogues: require('./open-talk').Dialogues,
   reminderReplies: require('./reminders').reminderReplies,
-  ratingController: require('./rating').controller,
-  ratingNLP: require('./rating').NLP,
-}
+};

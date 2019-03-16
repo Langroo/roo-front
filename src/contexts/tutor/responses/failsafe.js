@@ -1,5 +1,4 @@
 const replyChooser = (replyName, senderName) => {
-
   const replies = {
     lostInConversation: [
       [{ type: 'text', content: `Well ${senderName}, we took a detour on our conversation, but let's go back to it` }],
@@ -11,10 +10,9 @@ const replyChooser = (replyName, senderName) => {
       [{ type: 'text', content: 'Sorry, but in this particular case, I need you to press a button 🙏' }],
       [{ type: 'text', content: 'Press a button, to continue you must! 😉' }],
     ],
-  }
+  };
 
-  return replies[replyName]
-}
+  return replies[replyName];
+};
 
-module.exports = replyChooser
-
+module.exports = replyChooser;

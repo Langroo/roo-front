@@ -1,9 +1,5 @@
-/**
- * Export the facebook functions
- */
 module.exports = {
+  universal: require('./universal'),
   FacebookAPI: require('./facebook').FacebookAPI,
-  ChatBaseAPI: require('./chatbase').functions,
-  OneForAll: require('./universal').OneForAll,
   BotCache: require('./memory').BotCache,
-}
+};

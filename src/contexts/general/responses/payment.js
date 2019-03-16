@@ -1,34 +1,32 @@
 const replyChooser = (replyName, senderName, url = {}) => {
-
-  const menuOptions = (planURL) => {
-    return [
-      {
-        type: 'web_url',
-        url: url[planURL],
-        title: 'Pay now!',
-      },
-      {
-        type: 'postback',
-        title: 'Payment Complete! ↩️',
-        value: 'payment_complete_postback',
-      },
-      {
-        type: 'postback',
-        title: 'Help❓',
-        value: 'help_paying_postback',
-      },
-    ]
-  }
+  const menuOptions = planURL => [
+    {
+      type: 'web_url',
+      url: url[planURL],
+      title: 'Pay now!',
+    },
+    {
+      type: 'postback',
+      title: 'Payment Complete! ↩️',
+      value: 'payment_complete_postback',
+    },
+    {
+      type: 'postback',
+      title: 'Help❓',
+      value: 'help_paying_postback',
+    },
+  ];
 
   const replies = {
     paymentDialog_Init: [
       {
         type: 'quickReplies',
         content:
-        { title: 'Sure! In which currency would you like to see the prices? 💁',
+        {
+          title: 'Sure! In which currency would you like to see the prices? 💁',
           buttons: [
-              { title: 'USD $', value: 'USD_currency' },
-              { title: 'EURO €', value: 'EUR_currency' },
+            { title: 'USD $', value: 'USD_currency' },
+            { title: 'EURO €', value: 'EUR_currency' },
           ],
         },
       },
@@ -63,8 +61,8 @@ const replyChooser = (replyName, senderName, url = {}) => {
       { type: 'text', content: `Great ${senderName}, a member of our team will check your account 🔎, and contact your tutor to start the classes! 🎉🎉` },
       { type: 'text', content: 'If there is anything you can think of 💡to improve our experience 🚀, send a message here + #help and we will see it! 😀' },
     ],
-  }
+  };
 
-  return replies[replyName]
-}
-module.exports = replyChooser
+  return replies[replyName];
+};
+module.exports = replyChooser;
