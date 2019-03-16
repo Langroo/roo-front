@@ -40,7 +40,7 @@ function botReplier(payload) {
       : text = payload.message.text;
   }
   if (payload.postback) { text = payload.postback.payload; }
-  fbApi.getUserPublicInformation().then((err, profile) => {
+  fbApi.getUserPublicInformation().then((profile) => {
     console.log('\n############### USER INPUT DATE ##############\n[%s]', Date());
 
     payload.profile = profile;
