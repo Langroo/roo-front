@@ -424,6 +424,28 @@ class FacebookAPI {
     })
       .catch(theError => console.error('Error Sending message to Facebook :: \n ', theError.response.data));
   }
+
+  async getUserPublicInformation() {
+    try {
+      return (await axios.request({
+        url: `${process.env.FB_BASE_URL}/${process.env.FB_VERSION}/${this.senderId}`,
+        method: 'get',
+        params: {
+          fields: [
+            'first_name',
+            'last_name',
+            'profile_pic',
+          ].join(),
+          access_token: process.env.FB_ACCESS_TOKEN,
+        },
+      })).data;
+    } catch (reason) {
+      console.error('(╯°□°）╯ ERROR retrieving FB User Public Data');
+      if (reason.response) {
+        console.error('This happened :: ', reason.response.data); throw new Error(reason.response.data);
+      } else { console.error('This happened :: ', reason); throw new Error(reason); }
+    }
+  }
 }
 
 module.exports = FacebookAPI;
