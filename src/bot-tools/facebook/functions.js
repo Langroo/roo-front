@@ -128,49 +128,52 @@ class FacebookAPI {
               };
             }
           });
-          carousel.push({
+          return {
             title: cards.title,
             image_url: cards.imageUrl,
             subtitle: cards.subtitle,
             buttons: buttonsOfCard,
-          });
-        } else if (cards.buttons) {
+          };
+        }
+        if (cards.buttons) {
           const buttonsOfCard = cards.buttons.map((buttonTemplate) => {
             if (buttonTemplate.type === 'postback') {
-              buttonsOfCard.push({
+              return {
                 type: buttonTemplate.type,
                 title: buttonTemplate.title,
                 payload: buttonTemplate.value,
-              });
-            } else if (buttonTemplate.type === 'web_url') {
-              buttonsOfCard.push({
+              };
+            }
+            if (buttonTemplate.type === 'web_url') {
+              return {
                 type: buttonTemplate.type,
                 title: buttonTemplate.title,
                 url: buttonTemplate.url,
-              });
-            } else if (buttonTemplate.type === 'element_share') {
-              buttonsOfCard.push({
+              };
+            }
+            if (buttonTemplate.type === 'element_share') {
+              return {
                 type: buttonTemplate.type,
-              });
+              };
             }
           });
-          carousel.push({
+          return {
             title: cards.title,
             image_url: cards.imageUrl,
             buttons: buttonsOfCard,
-          });
-        } else if (cards.subtitle) {
-          carousel.push({
+          };
+        }
+        if (cards.subtitle) {
+          return {
             title: cards.title,
             image_url: cards.imageUrl,
             subtitle: cards.subtitle,
-          });
-        } else {
-          carousel.push({
-            title: cards.title,
-            image_url: cards.imageUrl,
-          });
+          };
         }
+        return {
+          title: cards.title,
+          image_url: cards.imageUrl,
+        };
       });
 
       // Set the prepared message
@@ -196,21 +199,23 @@ class FacebookAPI {
       if (elements.buttons && elements.subtitle) {
         const buttonsOfCard = elements.buttons.map((buttonTemplate) => {
           if (buttonTemplate.type === 'postback') {
-            buttonsOfCard.push({
+            return {
               type: buttonTemplate.type,
               title: buttonTemplate.title,
               payload: buttonTemplate.value,
-            });
-          } else if (buttonTemplate.type === 'web_url') {
-            buttonsOfCard.push({
+            };
+          }
+          if (buttonTemplate.type === 'web_url') {
+            return {
               type: buttonTemplate.type,
               title: buttonTemplate.title,
               url: buttonTemplate.url,
-            });
-          } else if (buttonTemplate.type === 'element_share') {
-            buttonsOfCard.push({
+            };
+          }
+          if (buttonTemplate.type === 'element_share') {
+            return {
               type: buttonTemplate.type,
-            });
+            };
           }
         });
         payload[0] = ({
@@ -222,21 +227,23 @@ class FacebookAPI {
       } else if (elements.buttons) {
         const buttonsOfCard = elements.buttons.map((buttonTemplate) => {
           if (buttonTemplate.type === 'postback') {
-            buttonsOfCard.push({
+            return {
               type: buttonTemplate.type,
               title: buttonTemplate.title,
               payload: buttonTemplate.value,
-            });
-          } else if (buttonTemplate.type === 'web_url') {
-            buttonsOfCard.push({
+            };
+          }
+          if (buttonTemplate.type === 'web_url') {
+            return {
               type: buttonTemplate.type,
               title: buttonTemplate.title,
               url: buttonTemplate.url,
-            });
-          } else if (buttonTemplate.type === 'element_share') {
-            buttonsOfCard.push({
+            };
+          }
+          if (buttonTemplate.type === 'element_share') {
+            return {
               type: buttonTemplate.type,
-            });
+            };
           }
         });
         payload[0] = ({
@@ -279,21 +286,23 @@ class FacebookAPI {
       // NOTE: content_type supported by FB are text, location, phone number and email
       const buttonsArray = payload.buttons.map((buttons) => {
         if (buttons.type === 'postback') {
-          buttonsArray.push({
+          return {
             type: buttons.type,
             title: buttons.title,
             payload: buttons.value,
-          });
-        } else if (buttons.type === 'web_url') {
-          buttonsArray.push({
+          };
+        }
+        if (buttons.type === 'web_url') {
+          return {
             type: buttons.type,
             title: buttons.title,
             url: buttons.url,
-          });
-        } else if (buttons.type === 'element_share') {
-          buttonsArray.push({
+          };
+        }
+        if (buttons.type === 'element_share') {
+          return {
             type: buttons.type,
-          });
+          };
         }
       });
 
@@ -318,19 +327,18 @@ class FacebookAPI {
       // NOTE: content_type supported by FB are text, location, phone number and email
       const quickRepliesArray = payload.buttons.map((buttons) => {
         if (buttons.image_url) {
-          quickRepliesArray.push({
+          return {
             content_type: 'text',
             title: buttons.title,
             payload: buttons.value,
             image_url: buttons.image_url,
-          });
-        } else {
-          quickRepliesArray.push({
-            content_type: 'text',
-            title: buttons.title,
-            payload: buttons.value,
-          });
+          };
         }
+        return {
+          content_type: 'text',
+          title: buttons.title,
+          payload: buttons.value,
+        };
       });
 
       // Set the prepared Message
