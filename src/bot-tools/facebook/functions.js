@@ -47,6 +47,9 @@ class FacebookAPI {
         break;
       case 1:
         typingState = 'typing_on';
+        break;
+      default:
+        typingState = 'typing_on';
     }
     try {
       await axios.request({
@@ -101,30 +104,30 @@ class FacebookAPI {
     let preparedMessage;
 
     if (type === 'carousel') {
-      const carousel = [];
       // NOTE: content_type supported by FB are text, location, phone number and email
-      for (const cards of payload) {
+      const carousel = payload.map((cards) => {
         if (cards.buttons && cards.subtitle) {
-          const buttonsOfCard = [];
-          for (const buttonTemplate of cards.buttons) {
+          const buttonsOfCard = cards.buttons.map((buttonTemplate) => {
             if (buttonTemplate.type === 'postback') {
-              buttonsOfCard.push({
+              return {
                 type: buttonTemplate.type,
                 title: buttonTemplate.title,
                 payload: buttonTemplate.value,
-              });
-            } else if (buttonTemplate.type === 'web_url') {
-              buttonsOfCard.push({
+              };
+            }
+            if (buttonTemplate.type === 'web_url') {
+              return {
                 type: buttonTemplate.type,
                 title: buttonTemplate.title,
                 url: buttonTemplate.url,
-              });
-            } else if (buttonTemplate.type === 'element_share') {
-              buttonsOfCard.push({
-                type: buttonTemplate.type,
-              });
+              };
             }
-          }
+            if (buttonTemplate.type === 'element_share') {
+              return {
+                type: buttonTemplate.type,
+              };
+            }
+          });
           carousel.push({
             title: cards.title,
             image_url: cards.imageUrl,
@@ -132,8 +135,7 @@ class FacebookAPI {
             buttons: buttonsOfCard,
           });
         } else if (cards.buttons) {
-          const buttonsOfCard = [];
-          for (const buttonTemplate of cards.buttons) {
+          const buttonsOfCard = cards.buttons.map((buttonTemplate) => {
             if (buttonTemplate.type === 'postback') {
               buttonsOfCard.push({
                 type: buttonTemplate.type,
@@ -151,7 +153,7 @@ class FacebookAPI {
                 type: buttonTemplate.type,
               });
             }
-          }
+          });
           carousel.push({
             title: cards.title,
             image_url: cards.imageUrl,
@@ -169,7 +171,7 @@ class FacebookAPI {
             image_url: cards.imageUrl,
           });
         }
-      }
+      });
 
       // Set the prepared message
       preparedMessage = JSON.stringify({
@@ -192,8 +194,7 @@ class FacebookAPI {
     if (type === 'card') {
       const elements = payload[0];
       if (elements.buttons && elements.subtitle) {
-        const buttonsOfCard = [];
-        for (const buttonTemplate of elements.buttons) {
+        const buttonsOfCard = elements.buttons.map((buttonTemplate) => {
           if (buttonTemplate.type === 'postback') {
             buttonsOfCard.push({
               type: buttonTemplate.type,
@@ -211,7 +212,7 @@ class FacebookAPI {
               type: buttonTemplate.type,
             });
           }
-        }
+        });
         payload[0] = ({
           title: elements.title,
           image_url: elements.imageUrl,
@@ -219,8 +220,7 @@ class FacebookAPI {
           buttons: buttonsOfCard,
         });
       } else if (elements.buttons) {
-        const buttonsOfCard = [];
-        for (const buttonTemplate of elements.buttons) {
+        const buttonsOfCard = elements.buttons.map((buttonTemplate) => {
           if (buttonTemplate.type === 'postback') {
             buttonsOfCard.push({
               type: buttonTemplate.type,
@@ -238,7 +238,7 @@ class FacebookAPI {
               type: buttonTemplate.type,
             });
           }
-        }
+        });
         payload[0] = ({
           title: elements.title,
           image_url: elements.imageUrl,
@@ -276,9 +276,8 @@ class FacebookAPI {
     }
 
     if (type === 'button') {
-      const buttonsArray = [];
       // NOTE: content_type supported by FB are text, location, phone number and email
-      for (const buttons of payload.buttons) {
+      const buttonsArray = payload.buttons.map((buttons) => {
         if (buttons.type === 'postback') {
           buttonsArray.push({
             type: buttons.type,
@@ -296,7 +295,7 @@ class FacebookAPI {
             type: buttons.type,
           });
         }
-      }
+      });
 
       // Set the prepared message
       preparedMessage = JSON.stringify({
@@ -316,9 +315,8 @@ class FacebookAPI {
         },
       });
     } else if (type === 'quickReplies') {
-      const quickRepliesArray = [];
       // NOTE: content_type supported by FB are text, location, phone number and email
-      for (const buttons of payload.buttons) {
+      const quickRepliesArray = payload.buttons.map((buttons) => {
         if (buttons.image_url) {
           quickRepliesArray.push({
             content_type: 'text',
@@ -333,7 +331,7 @@ class FacebookAPI {
             payload: buttons.value,
           });
         }
-      }
+      });
 
       // Set the prepared Message
       preparedMessage = JSON.stringify({

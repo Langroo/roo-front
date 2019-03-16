@@ -1,8 +1,6 @@
-const replyChooser = (replyName, senderName, choice = 'this') => {
+const replyChooser = (replyName, senderName) => {
   // -- Required imports
-  const { OneForAll } = require('../../../bot-tools');
-  // -- Instantiation of classes
-  const controllerSmash = new OneForAll();
+  const { shuffle } = require('../../../bot-tools').universal;
 
   // -- Dialogues
   const randomResponses = [
@@ -21,7 +19,7 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
       { type: 'text', content: 'Phew! ☺️🙏' },
       { type: 'image', content: 'https://media1.tenor.com/images/6506e0b55eba4fceb4d4fb0a9c14bd5a/tenor.gif?itemid=10246345' },
       { type: 'text', content: 'haha, I thought we were lost forever! 💔' },
-      { type: 'text', content: controllerSmash.shuffle(randomResponses)[0].content },
+      { type: 'text', content: shuffle(randomResponses)[0].content },
     ],
     getStarted: [
       { type: 'text', content: `Welcome to Langroo ${senderName}! 🎉` },

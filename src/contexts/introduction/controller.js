@@ -3,21 +3,18 @@ const getReply = async (message, params, userFromDB) => {
   const API = require('../../core/index').dbApi;
   const standardReplies = require('./responses').standardReplies;
   const langNames = require('./languages');
-  const OneForAll = require('../../bot-tools').OneForAll;
+  const { translateReply, killCronJob, cronReminder } = require('../../bot-tools').universal;
   const BotCache = require('../../bot-tools').BotCache;
-
-  // -- Instantiations
-  const controllerSmash = new OneForAll();
 
   // Variables
   const flows = require('../index');
   const reminderReplies = require('../index').reminderReplies;
-  let reply; let replyTranslated; let FlowUpdate; let willCreateUser; let DelayedUpdate; let reminderToContinueOn;
+  let reply; let FlowUpdate; let willCreateUser; let DelayedUpdate; let reminderToContinueOn;
   let tempReply; let trueReply;
 
 
-  let delayedReplies; let userLanguage; let userSpeaksEnglish; let langVar; let userMustPressButton; let
-    dontTranslateThisRegex;
+  let delayedReplies; let userLanguage; let langVar; let userMustPressButton;
+  const dontTranslateThisRegex = true;
 
   // -- Seconds before sending a reminder or a delayed reply
   let waitingTime;
@@ -29,10 +26,8 @@ const getReply = async (message, params, userFromDB) => {
   let translateActive = params.translateDialog;
   if (userFromDB.data) {
     userLanguage = userFromDB.data.language.substr(0, 2);
-    userSpeaksEnglish = userLanguage === 'en';
   } else {
     userLanguage = 'en';
-    userSpeaksEnglish = true;
   }
 
   /**
@@ -58,7 +53,7 @@ const getReply = async (message, params, userFromDB) => {
       delayedReplies = reminderReplies('pressBtnSecondReminder', params.senderName, langVar).concat(standardReplies(params.prevPos, params.senderName, langVar).pop());
     }
     if (userLanguage !== 'en' && translateActive) {
-      delayedReplies = await controllerSmash.translateReply(delayedReplies, userLanguage);
+      delayedReplies = await translateReply(delayedReplies, userLanguage);
     }
     // -- Initialize reply as empty to avoid No-Reply autoresponder trigger
     reply = [];
@@ -248,7 +243,7 @@ const getReply = async (message, params, userFromDB) => {
       waitingTime = 40;
     }
 
-    controllerSmash.killCronJob(params.prevPos, message.sender.id);
+    killCronJob(params.prevPos, message.sender.id);
 
     /*
     * In the particular case that the user talks for the first time to the bot and does not continue
@@ -257,20 +252,20 @@ const getReply = async (message, params, userFromDB) => {
     if (params.currentEntity === 'getStarted') {
       FlowUpdate = Object.assign({}, FlowUpdate, { current_pos: '_userChoosesLanguage' });
       params.currentEntity = '_userChoosesLanguage';
-      controllerSmash.CronReminder(params.currentEntity, standardReplies('gifForReminder', params.senderName).concat(standardReplies(params.currentEntity, params.senderName).pop()), waitingTime, FlowUpdate, message.sender.id, userFromDB);
+      cronReminder(params.currentEntity, standardReplies('gifForReminder', params.senderName).concat(standardReplies(params.currentEntity, params.senderName).pop()), waitingTime, FlowUpdate, message.sender.id, userFromDB);
     } else {
-      controllerSmash.CronReminder(params.currentEntity, standardReplies('gifForReminder', params.senderName).concat(standardReplies(params.currentEntity, params.senderName).pop()), waitingTime, FlowUpdate, message.sender.id, userFromDB);
+      cronReminder(params.currentEntity, standardReplies('gifForReminder', params.senderName).concat(standardReplies(params.currentEntity, params.senderName).pop()), waitingTime, FlowUpdate, message.sender.id, userFromDB);
     }
   }
 
   if (userLanguage !== 'en' && translateActive) {
-    reply = await controllerSmash.translateReply(reply, userLanguage, skipTranslationIndex, dontTranslateThisRegex);
+    reply = await translateReply(reply, userLanguage, skipTranslationIndex, dontTranslateThisRegex);
   }
 
   if (userMustPressButton) {
     let time = 6;
     if (params.repeatedThisPos) { time = 10; }
-    controllerSmash.CronReminder(params.currentPos, delayedReplies, time, DelayedUpdate, message.sender.id, userFromDB);
+    cronReminder(params.currentPos, delayedReplies, time, DelayedUpdate, message.sender.id, userFromDB);
     return;
   }
 

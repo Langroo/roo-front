@@ -4,12 +4,9 @@ const getReply = async (message, params, userFromDB) => {
   const axios = require('axios');
   const standardReplies = require('./responses').standardReplies;
   const failsafeReplies = require('./responses').failsafeReplies;
-  const OneForAll = require('../../bot-tools').OneForAll;
+  const { sendNotificationToSlack, cronReminder } = require('../../bot-tools').universal;
   const BotCache = require('../../bot-tools').BotCache;
   const flows = require('../index');
-
-  // -- Instantiations
-  const controllerSmash = new OneForAll();
 
   // -- Variable declaration
   let reply;
@@ -49,18 +46,18 @@ const getReply = async (message, params, userFromDB) => {
     if (params.prevFlow === 'introduction' && params.currentEntity !== 'fromIntroPreTutorFlow') {
       params.currentEntity = params.currentPos;
       await API.updateFlow(message.sender.id, { tutor_flow_status: 'requested' });
-      const tempReply = await flows.introduction(message, params, userFromDB);
-      const trueReply = [tempReply.pop()];
-      return reply = [standardReplies('mustRegisterFirst', senderName)[0]].concat(trueReply);
+      tempReply = await flows.introduction(message, params, userFromDB);
+      trueReply = [tempReply.pop()];
+      return [standardReplies('mustRegisterFirst', senderName)[0]].concat(trueReply);
     }
     if (userFromDB.content) { preTutorAux.accent = userFromDB.content.plan.accent; }
     userLevel = 1;
   } else {
     console.info(`${userFullName} does not have an account with us. Sending him to the intro flow as God commands`);
     params.currentEntity = 'askWhoIsRoo';
-    const tempReply = await flows.introduction(message, params, userFromDB);
-    const trueReply = [tempReply.pop()];
-    return reply = [standardReplies('mustRegisterFirst', senderName)[1]].concat(trueReply);
+    tempReply = await flows.introduction(message, params, userFromDB);
+    trueReply = [tempReply.pop()];
+    return [standardReplies('mustRegisterFirst', senderName)[1]].concat(trueReply);
   }
   // -- Check if the user already did the tutor flow
   if (params.tutorFlowStatus === 'finished') {
@@ -83,8 +80,8 @@ const getReply = async (message, params, userFromDB) => {
       return await flows.opentalk(message, params, userFromDB);
     }
     params.currentEntity = params.currentPos;
-    const tempReply = standardReplies(params.currentEntity, senderName);
-    const trueReply = [tempReply.pop()];
+    tempReply = standardReplies(params.currentEntity, senderName);
+    trueReply = [tempReply.pop()];
     reply = failsafeReplies('pressAButton', senderName)[Math.floor(Math.random() * failsafeReplies('pressAButton', senderName).length)];
     return reply.concat(trueReply);
   }
@@ -101,7 +98,7 @@ const getReply = async (message, params, userFromDB) => {
         reply = standardReplies('exploreTutorFlow', senderName);
         futureMsgFlowUpdate = flowControlUpdate;
         futureRepliesToSend = standardReplies('exploreTutorFlow', senderName);
-        controllerSmash.sendNotificationToSlack(process.env.BOT_NOTIFICATIONS_SLACK_URL, `{"text":"User ${userFullName} is *Requesting a native tutor*"}`, 'Tutor Request Flow Initiated');
+        sendNotificationToSlack(process.env.BOT_NOTIFICATIONS_SLACK_URL, `{"text":"User ${userFullName} is *Requesting a native tutor*"}`, 'Tutor Request Flow Initiated');
         reminderToContinueOn = true;
         break;
 
@@ -112,7 +109,7 @@ const getReply = async (message, params, userFromDB) => {
         reply = standardReplies('badConnection', senderName);
         // futureMsgFlowUpdate = flowControlUpdate
         // utureRepliesToSend = standardReplies('badConnection', senderName)
-        // controllerSmash.sendNotificationToSlack(process.env.BOT_NOTIFICATIONS
+        // sendNotificationToSlack(process.env.BOT_NOTIFICATIONS
         reminderToContinueOn = true;
         break;
 
@@ -123,7 +120,7 @@ const getReply = async (message, params, userFromDB) => {
         reply = standardReplies('goodConnection', senderName);
         futureMsgFlowUpdate = flowControlUpdate;
         futureRepliesToSend = standardReplies('goodConnection', senderName);
-        // controllerSmash.sendNotificationToSlack(process.env.BOT_NOTIFICATIONS
+        // sendNotificationToSlack(process.env.BOT_NOTIFICATIONS
         reminderToContinueOn = true;
         break;
 
@@ -155,7 +152,7 @@ const getReply = async (message, params, userFromDB) => {
         reply = standardReplies('userCannotPay', senderName);
         // futureMsgFlowUpdate = flowControlUpdate
         //   futureRepliesToSend = standardReplies('userCannotPay', senderName)
-        // controllerSmash.sendNotificationToSlack(process.env.BOT_NOTIFICATIONS
+        // sendNotificationToSlack(process.env.BOT_NOTIFICATIONS
         reminderToContinueOn = true;
         break;
 
@@ -166,7 +163,7 @@ const getReply = async (message, params, userFromDB) => {
         reply = standardReplies('userCanPay', senderName);
         futureMsgFlowUpdate = flowControlUpdate;
         futureRepliesToSend = standardReplies('userCanPay', senderName);
-        // controllerSmash.sendNotificationToSlack(process.env.BOT_NOTIFICATIONS
+        // sendNotificationToSlack(process.env.BOT_NOTIFICATIONS
         reminderToContinueOn = true;
         break;
 
@@ -303,7 +300,7 @@ const getReply = async (message, params, userFromDB) => {
     if (process.env.DEBUG_MODE === 'true' || process.env.DEBUG_MODE === '1') {
       futureMsgTime = 40;
     }
-    controllerSmash.CronReminder(params.currentEntity, futureRepliesToSend, futureMsgTime, futureMsgFlowUpdate, message.sender.id, userFromDB);
+    cronReminder(params.currentEntity, futureRepliesToSend, futureMsgTime, futureMsgFlowUpdate, message.sender.id, userFromDB);
   }
 
   return reply;

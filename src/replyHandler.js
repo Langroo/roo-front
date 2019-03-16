@@ -53,11 +53,10 @@ async function replier(messageToSend, dialog, userFromDB, senderId) {
   // -- Import of general tools and functions
   const BotTools = require('./bot-tools');
   const FbAPIClass = BotTools.FacebookAPI;
-  const OneForAll = BotTools.OneForAll;
+  const { textToAudio } = BotTools.universal;
 
   // -- Create instances of tools
   const FacebookAPI = new FbAPIClass(senderId);
-  const controllerSmash = new OneForAll();
 
   // -- Define the function awaiting time
   const awaitingTime = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -86,8 +85,8 @@ async function replier(messageToSend, dialog, userFromDB, senderId) {
       }
       if (userLang === 'en_US' || userLang === 'en_GB') {
         ms = 4000;
-        const textToAudio = await controllerSmash.textToAudio(dialog[messageToSend].content, senderId);
-        dialog[messageToSend] = Object.assign({}, dialog[messageToSend], { content: textToAudio });
+        const audio = await textToAudio(dialog[messageToSend].content, senderId);
+        dialog[messageToSend] = Object.assign({}, dialog[messageToSend], { content: audio });
       } else {
         dialog.splice(messageToSend, 1);
       }
@@ -114,22 +113,10 @@ async function replier(messageToSend, dialog, userFromDB, senderId) {
 }
 
 function getUserName(payload) {
-  // -- Define the variables with the first name and the full name
-  let senderName; let
-    fullName;
-
-  try {
-    if (payload.profile) {
-      senderName = payload.profile.first_name;
-      fullName = `${payload.profile.first_name} ${payload.profile.last_name}`;
-    } else { senderName = 'buddy'; }
-  } catch (error) {
-    console.log('Unable to obtain the username from the data inside the message');
-    senderName = 'buddy';
-    fullName = 'buddy';
-  }
-
-  return { senderName, fullName };
+  return {
+    senderName: payload.profile.first_name,
+    fullName: `${payload.profile.first_name} ${payload.profile.last_name}`,
+  };
 }
 
 // -- Contexts that prevent interaction with other contexts until finished
@@ -147,13 +134,13 @@ function isLockedContext(params, isPostback) {
   return params;
 }
 
-function getUserDialogues(payload, rawInput) {
+function getUserDialogues(data, rawInput) {
   const context = require('./contexts');
   const { getEntityAndFlow } = require('./inputHandler');
   const Cron = require('node-schedule');
   const BotTools = require('./bot-tools');
   const FbAPIClass = BotTools.FacebookAPI;
-  const FacebookAPI = new FbAPIClass(payload.sender.id);
+  const FacebookAPI = new FbAPIClass(data.sender.id);
   const timeOfSending = new Date(Date.now() + 11000);
 
   // -- Flow control variables
@@ -164,8 +151,8 @@ function getUserDialogues(payload, rawInput) {
   let entityAndFlow = {};
 
   // -- Include the userHash inside the object message received
-  const userHash = generateHash(payload.sender.id);
-  payload = Object.assign({}, payload, { userHash });
+  const userHash = generateHash(data.sender.id);
+  data = Object.assign({}, data, { userHash });
 
   async function brain(brainRawInput, payload, userFlow) {
     // -- Initialize variable that indicates if user input comes from pressing a button
@@ -293,19 +280,19 @@ function getUserDialogues(payload, rawInput) {
 
   /* Section where the message is received and processed */
   try {
-    API.retrieveFlow(payload.sender.id)
+    API.retrieveFlow(data.sender.id)
       .then(async (userFlowData) => {
         try {
           if (!userFlowData.data) {
             console.info('This user lacks a Flow Collection, creating it!!!');
             firstTime = true;
-            await API.createFlow(payload.sender.id, flowPositions('newUser'));
-            userFlowData = await API.retrieveFlow(payload.sender.id);
+            await API.createFlow(data.sender.id, flowPositions('newUser'));
+            userFlowData = await API.retrieveFlow(data.sender.id);
           }
 
           // -- Allow user input processing after 6 seconds of the last interaction
           if ((userFlowData.data.last_interaction + 10000) < Date()) {
-            await API.updateFlow(payload.sender.id, { ready_to_reply: 'true' });
+            await API.updateFlow(data.sender.id, { ready_to_reply: 'true' });
             readyToReply = true;
           } else {
             readyToReply = userFlowData.data.ready_to_reply;
@@ -317,15 +304,15 @@ function getUserDialogues(payload, rawInput) {
         // -- If the bot is ready to reply
         if (readyToReply !== 'false') {
           // -- Bot is shut down to prevent more replies being triggered from additional user input before the actual one is sent
-          await API.updateFlow(payload.sender.id, { ready_to_reply: 'false' });
-          if (!payload.profile) {
+          await API.updateFlow(data.sender.id, { ready_to_reply: 'false' });
+          if (!data.profile) {
             console.log('The user\'s userName is undefined, probably writing from a phone.\nSetting it as "buddy"');
-            console.log('The content of data in message is :: ', payload);
+            console.log('The content of data in message is :: ', data);
           }
           // -- Brain function processing the input of the user
-          brain(rawInput, payload, userFlowData)
+          brain(rawInput, data, userFlowData)
             .then(async (replyToSend) => {
-              if (replyToSend) { await replier(0, replyToSend, userFromDB, payload.sender.id); }
+              if (replyToSend) { await replier(0, replyToSend, userFromDB, data.sender.id); }
             });
         } else {
           console.info('\n### BOT STILL REPLYING ###\n');
@@ -334,7 +321,7 @@ function getUserDialogues(payload, rawInput) {
   } catch (error) {
     console.error('Error starting processing of user input :: ', error);
   }
-  API.updateFlow(payload.sender.id, { ready_to_reply: 'true' });
+  API.updateFlow(data.sender.id, { ready_to_reply: 'true' });
 }
 
 module.exports = {
