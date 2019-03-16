@@ -10,7 +10,7 @@ module.exports = {
   introduction_NLP: require('./introduction').NLP,
   opentalk: require('./open-talk').controller,
   opentalkNLP: require('./open-talk').NLP,
-  opentalkDialogs: require('./open-talk').Dialogs,
+  opentalkDialogues: require('./open-talk').Dialogues,
   content: require('./content').controller,
   contentNLP: require('./content').NLP,
   contentReplies: require('./content').contentReplies,

@@ -4,7 +4,7 @@ const replyChooser = (replyName, senderName, choice = 'this') => {
   // -- Instantiation of classes
   const controllerSmash = new OneForAll();
 
-  // -- Dialogs
+  // -- Dialogues
   const randomResponses = [
     { type: 'text', content: 'So 😀, as I was saying... ' },
     { type: 'text', content: 'I know we got lost in conversation 😆, but...' },

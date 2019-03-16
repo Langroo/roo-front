@@ -1,5 +1,5 @@
 const Bot = require('messenger-bot');
-const ReplyHandler = require('./reply.handler');
+const ReplyHandler = require('./replyHandler');
 const OneForAll = require('./bot-tools').OneForAll;
 
 const bot = new Bot({
@@ -9,12 +9,9 @@ const bot = new Bot({
 });
 
 const checkForAdminInput = (payload, text) => {
-  // -- Variable to check for specific admin related input
   const adminRegex = /(activate message delay|deactivate message delay|roo masters 101)/i;
-
-  // -- Handle ADMIN input
   if (adminRegex.test(text)) {
-    ReplyHandler.adminDialogs(text, payload.sender.id);
+    ReplyHandler.adminDialogues(text, payload.sender.id);
     console.info('<< Admin Request received and processed >>');
     return 1;
   }
@@ -22,19 +19,11 @@ const checkForAdminInput = (payload, text) => {
 };
 
 const checkForHashTags = (profile, text) => {
-  // -- Variable to check for specific hashtags in user input
   const helpRegex = /(#team|#help)/ig;
-
-  // -- Notify Slack Bot-Notifications channel if helpRegex is detected in user input
   if (helpRegex.test(text)) {
-    // -- Instantiation of our Smash to Slack
     const slackSmash = new OneForAll();
-
-    // -- Define our message to send to Slack and the URL
     const data = `{"text":"User ${profile.first_name} ${profile.last_name} request for *HELP*: _${text}_"}`;
     const url = process.env.ASKROO_SLACK_URL;
-
-    // -- Send message to Slack and collect the error if any
     const error = slackSmash.sendNotificationToSlack(url, data);
     if (error) { throw error; }
     return 1;
@@ -47,10 +36,7 @@ const checkForHashTags = (profile, text) => {
 * @param {Object} payload
 * */
 const botReplier = (payload) => {
-  // -- Instantiation of our Smash to Slack
   const slackSmash = new OneForAll();
-
-  // -- Define constants for message content and help regex
   let text;
   if (payload.message) {
     payload.message.quick_reply
@@ -59,24 +45,16 @@ const botReplier = (payload) => {
   }
 
   if (payload.postback) { text = payload.postback.payload; }
-
-  // -- Retrieve the user profile and then proceed
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) { throw err; }
-    // -- Log user's input date
     console.log('\n############### USER INPUT DATE ##############\n[%s]', Date());
-    // -- Add the user profile to the payload object
     payload.profile = profile;
 
-    // -- Define the env SENDER_ID to pass data to Chatbase
-    process.env.SENDER_ID = payload.sender.id;
-
-    // -- Verify input for user hashtags or admin input
     if (checkForHashTags(profile, text)) { return 0; }
     if (checkForAdminInput(payload, text)) { return 0; }
 
     // -- Handle User Input and Return Replies
-    ReplyHandler.userDialogs(payload, text);
+    ReplyHandler.userDialogues(payload, text);
   })
     .catch(() => bot.sendMessage(payload.sender.id, {
       text: 'Hello friend 👋! Thanks for trying me out 😁👍!\nUnfortunately, because of Facebook, Messenger or the device 📱 you are using, I cannot function properly 😟 and give you the full Langroo Experience.\nSend me a message with the hashtag #help and a member of our team will contact you to figure out the issue and solve it! ☺👌',
@@ -102,10 +80,10 @@ bot.on('postback', (payload, reply, actions) => botReplier(payload, reply, actio
 bot.on('message', (payload, reply) => botReplier(payload, reply));
 
 // -- Chatbot actions when Facebook informs correct delivery of the message
-bot.on('delivery', (payload, reply, actions) => console.log('Facebook informs correct delivery of the message'));
+bot.on('delivery', () => console.log('Facebook informs correct delivery of the message'));
 
 // -- Handle user Input / Postback
-const interact = (req, res) => {
+const interact = (req) => {
   try {
     bot._handleMessage(req.body);
   } catch (err) {

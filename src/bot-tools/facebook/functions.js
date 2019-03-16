@@ -1,6 +1,4 @@
 const axios = require('axios');
-const Raven = require('raven');
-Raven.config('https://96d6795013a54f8f852719919378cc59@sentry.io/304046').install();
 
 class FacebookAPI {
   constructor(senderId) {

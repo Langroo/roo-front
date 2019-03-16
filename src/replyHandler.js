@@ -4,8 +4,8 @@ const API = require('./core').dbApi;
 const generateHash = str => crypto.createHash('md5').update(str).digest('hex');
 require('dotenv').config();
 
-// -- Function that returns specific dialogs and set specific flows for administrators
-const adminDialogs = (input, senderId) => {
+// -- Function that returns specific Dialogues and set specific flows for administrators
+const adminDialogues = (input, senderId) => {
   const FbAPIClass = require('./bot-tools').FacebookAPI;
   const FacebookAPI = new FbAPIClass(senderId);
 
@@ -49,7 +49,7 @@ const adminDialogs = (input, senderId) => {
     });
 };
 
-// -- Function that sends the messages of the dialogs
+// -- Function that sends the messages of the Dialogues
 const replier = async (messageToSend, dialog, userFromDB, senderId) => {
   // -- Import of general tools and functions
   const BotTools = require('./bot-tools');
@@ -149,14 +149,12 @@ const lockedContext = (params, isPostback) => {
 };
 
 // -- flowLauncher
-const userDialogs = (payload, rawInput) => {
+const userDialogues = (payload, rawInput) => {
   /**
    * Requiring and importing libraries and modules
    */
-  const Raven = require('raven');
-  Raven.config('https://96d6795013a54f8f852719919378cc59@sentry.io/304046').install();
   const context = require('./contexts');
-  const inputHandler = require('./input.handler');
+  const inputHandler = require('./inputHandler');
   const Cron = require('node-schedule');
   const BotTools = require('./bot-tools');
   const FbAPIClass = BotTools.FacebookAPI;
@@ -258,7 +256,6 @@ const userDialogs = (payload, rawInput) => {
       process.env.messageDelay = params.messageDelay;
     } catch (error) {
       console.error('Error while initializing the flow controlling variables :: ', error);
-      Raven.captureException(error);
     }
 
     // -- Set the currentEntity according to its current value after the inputHandler
@@ -348,13 +345,12 @@ const userDialogs = (payload, rawInput) => {
       });
   } catch (error) {
     console.error('Error starting processing of user input :: ', error);
-    Raven.captureException(error);
   }
   API.updateFlow(payload.sender.id, { ready_to_reply: 'true' });
 };
 
 module.exports = {
-  userDialogs,
+  userDialogues,
   replier,
-  adminDialogs,
+  adminDialogues,
 };

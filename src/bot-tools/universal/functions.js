@@ -5,7 +5,7 @@ const translate = require('google-translate-api');
 const axios = require('axios');
 const cronJobScheduler = require('node-schedule');
 const API = require('../../core/index').dbApi;
-const replyLauncher = require('../../reply.handler');
+const replyLauncher = require('../../replyHandler');
 require('dotenv').config();
 
 class OneForAll {

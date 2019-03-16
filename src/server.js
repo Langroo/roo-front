@@ -3,11 +3,9 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const hbs = require('express-handlebars');
+const axios = require('axios');
 const FacebookAPI = require('./bot-tools').FacebookAPI;
 const Redis = require('./persistence/redis/connect');
-const Bluebird = require('bluebird');
-const axios = require('axios');
-global.Promise = Bluebird;
 require('dotenv').load();
 
 Promise.all([Redis])

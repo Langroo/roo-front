@@ -25,7 +25,7 @@ const getReply = async (message, params, userFromDB) => {
   // -- Messages positions to skip from translating
   const skipTranslationIndex = [];
 
-  // -- Variable to control which dialogs will be translated
+  // -- Variable to control which Dialogues will be translated
   let translateActive = params.translateDialog;
   if (userFromDB.data) {
     userLanguage = userFromDB.data.language.substr(0, 2);
