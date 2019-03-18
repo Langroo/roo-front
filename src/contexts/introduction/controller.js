@@ -71,10 +71,16 @@ const getReply = async (message, params, userFromDB) => {
       reply = standardReplies('getStarted', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: 'getStarted', open_question: true, prev_pos: 'getStarted', next_pos: '_userChoosesLanguage', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: 'getStarted', open_question: true, prev_pos: 'getStarted', next_pos: '_newOrGoingToPay', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
       };
       break;
-
+    case '_newOrGoingToPAy':
+      reply = standardReplies('_newOrGoingToPAy',params.senderName);
+      reminderToContinueOn = true;
+      FlowUpdate = {
+        current_pos: '_newOrGoingToPay', open_question: true, prev_pos: '_newOrGoingToPay', next_pos: '_LearnChinese', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+      };
+      break;
     case '_userChoosesLanguage':
       reply = standardReplies('_userChoosesLanguage', params.senderName);
       reminderToContinueOn = true;
