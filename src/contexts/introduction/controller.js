@@ -1,10 +1,10 @@
 const getReply = async (message, params, userFromDB) => {
   // Requirementes and imports of external modules and libraries
-  const API = require('../../core/index').dbApi;
+  const API = require('../../rooCoreApi/index').rooCoreApi;
   const standardReplies = require('./responses').standardReplies;
   const langNames = require('./languages');
-  const { translateReply, killCronJob, cronReminder } = require('../../bot-tools').universal;
-  const BotCache = require('../../bot-tools').BotCache;
+  const { translateReply, killCronJob, cronReminder } = require('../../botTools').universal;
+  const BotCache = require('../../botTools').BotCache;
 
   // Variables
   const flows = require('../index');

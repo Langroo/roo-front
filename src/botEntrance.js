@@ -1,7 +1,7 @@
 const Bot = require('messenger-bot');
 const { getUserDialogues, getAdminDialogues } = require('./replyHandler');
-const { sendNotificationToSlack } = require('./bot-tools').universal;
-const { FacebookAPI } = require('./bot-tools');
+const { sendNotificationToSlack } = require('./botTools').universal;
+const { FacebookAPI } = require('./botTools');
 
 const bot = new Bot({
   token: process.env.FB_ACCESS_TOKEN,

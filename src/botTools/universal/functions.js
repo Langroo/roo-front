@@ -4,11 +4,13 @@
 const translate = require('@vitalets/google-translate-api');
 const axios = require('axios');
 const cronJobScheduler = require('node-schedule');
-const API = require('../../core/index').dbApi;
-const { replier } = require('../../replyHandler');
+const API = require('../../rooCoreApi/index').rooCoreApi;
+const { replier } = require('./replier');
 require('dotenv').config();
 
 module.exports = {
+  replier,
+
   sendNotificationToSlack(url, data) {
     axios.request({
       headers: { 'Content-Type': 'application/json' },

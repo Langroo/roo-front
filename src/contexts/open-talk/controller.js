@@ -4,10 +4,10 @@ const getReply = async (message, params, userFromDB) => {
    * Requiring and importing
    * */
   const flows = require('../index');
-  const API = require('../../core/index').dbApi;
+  const API = require('../../rooCoreApi/index').rooCoreApi;
   const genericReplies = require('./responses').genericReplies;
   const failsafeReplies = require('./responses').failsafeReplies;
-  const { cronReminder, cronFunction } = require('../../bot-tools').universal;
+  const { cronReminder, cronFunction } = require('../../botTools').universal;
 
   // -- Variable Declaration
   let reply; let trueReply; let delayedRepliesToSend; let flowControlUpdate; let metadataUpdate; let hasQuestionMark; let dice; let

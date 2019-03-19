@@ -1,11 +1,11 @@
 const getReply = async (message, params, userFromDB) => {
   // -- Requires and imports of external modules and libraries
-  const API = require('../../core/index').dbApi;
+  const API = require('../../rooCoreApi/index').rooCoreApi;
   const axios = require('axios');
   const standardReplies = require('./responses').standardReplies;
   const failsafeReplies = require('./responses').failsafeReplies;
-  const { sendNotificationToSlack, cronReminder } = require('../../bot-tools').universal;
-  const BotCache = require('../../bot-tools').BotCache;
+  const { sendNotificationToSlack, cronReminder } = require('../../botTools').universal;
+  const BotCache = require('../../botTools').BotCache;
   const flows = require('../index');
 
   // -- Variable declaration
