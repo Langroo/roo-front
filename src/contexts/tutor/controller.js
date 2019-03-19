@@ -27,9 +27,6 @@ const getReply = async (message, params, userFromDB) => {
   if (process.env.NODE_ENV === 'develop') {
     tutorOpsUrl = process.env.BOT_NOTIFICATIONS_SLACK_URL;
     tutorCRMLink = 'https://docs.google.com/spreadsheets/d/1jDbo7Bo5J8hTYM_idcGvBZ0EvoDfTfMSrOnd2a-GCMs/edit#gid=1711779857';
-  } else if (process.env.NODE_ENV === 'quality') {
-    tutorOpsUrl = process.env.BOT_NOTIFICATIONS_SLACK_URL;
-    tutorCRMLink = 'https://docs.google.com/spreadsheets/d/1R0CkLKvW6Eyy3prOMLnXZpkoNmDq1eLXIvCogHuRZvg/edit#gid=1711779857';
   } else if (process.env.NODE_ENV === 'production') {
     tutorOpsUrl = process.env.TUTOR_OPS_SLACK_URL;
     tutorCRMLink = 'https://docs.google.com/spreadsheets/d/1o-9dmt0THrWPtrALbTo96dJFd-AauSNjTwGIf0Fdz1Q/edit#gid=1711779857';
@@ -38,8 +35,7 @@ const getReply = async (message, params, userFromDB) => {
   }
 
   // -- Define variables with sender's first name and full name
-  const senderName = params.senderName;
-  const userFullName = params.fullName;
+  const { senderName, fullName } = params;
 
   // -- Is user allowed to request a tutor yet?
   if (userFromDB.data) {
@@ -53,7 +49,7 @@ const getReply = async (message, params, userFromDB) => {
     if (userFromDB.content) { preTutorAux.accent = userFromDB.content.plan.accent; }
     userLevel = 1;
   } else {
-    console.info(`${userFullName} does not have an account with us. Sending him to the intro flow as God commands`);
+    console.info(`${fullName} does not have an account with us. Sending him to the intro flow as God commands`);
     params.currentEntity = 'askWhoIsRoo';
     tempReply = await flows.introduction(message, params, userFromDB);
     trueReply = [tempReply.pop()];
@@ -98,7 +94,7 @@ const getReply = async (message, params, userFromDB) => {
         reply = standardReplies('exploreTutorFlow', senderName);
         futureMsgFlowUpdate = flowControlUpdate;
         futureRepliesToSend = standardReplies('exploreTutorFlow', senderName);
-        sendNotificationToSlack(process.env.BOT_NOTIFICATIONS_SLACK_URL, `{"text":"User ${userFullName} is *Requesting a native tutor*"}`, 'Tutor Request Flow Initiated');
+        sendNotificationToSlack(process.env.BOT_NOTIFICATIONS_SLACK_URL, `{"text":"User ${fullName} is *Requesting a native tutor*"}`, 'Tutor Request Flow Initiated');
         reminderToContinueOn = true;
         break;
 
@@ -229,7 +225,7 @@ const getReply = async (message, params, userFromDB) => {
             headers: { 'Content-Type': 'application/json' },
             url: tutorOpsUrl,
             method: 'post',
-            data: `{"text":"User ${userFullName} finished the *Tutor Request*. It's a possible Customer.\nSee ${userFullName}'s answers at ${tutorCRMLink}"}`,
+            data: `{"text":"User ${fullName} finished the *Tutor Request*. It's a possible Customer.\nSee ${fullName}'s answers at ${tutorCRMLink}"}`,
           });
           console.log('User finished tutor flow');
         } catch (reason) {
