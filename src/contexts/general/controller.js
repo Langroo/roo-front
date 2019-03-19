@@ -1,11 +1,11 @@
 const axios = require('axios');
-const API = require('../../core/index').dbApi;
+const API = require('../../rooCoreApi/index').rooCoreApi;
 const accountReplies = require('./responses').accountReplies;
 const paymentReplies = require('./responses').paymentReplies;
 const generalReplies = require('./responses').generalReplies;
 const translateReplies = require('./responses').translateReplies;
-const { cronReminder, sendNotificationToSlack, textToAudio } = require('../../bot-tools').universal;
-const FbAPIClass = require('../../bot-tools').FacebookAPI;
+const { cronReminder, sendNotificationToSlack, textToAudio } = require('../../botTools').universal;
+const FbAPIClass = require('../../botTools').FacebookAPI;
 
 // -- Function to return to a closed context
 const goToPreviousContext = async (message, params, userFromDB) => {

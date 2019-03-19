@@ -1,6 +1,6 @@
 const replyChooser = (replyName, senderName) => {
   // -- Required imports
-  const { shuffle } = require('../../../bot-tools').universal;
+  const { shuffle } = require('../../../botTools').universal;
 
   // -- Dialogues
   const randomResponses = [

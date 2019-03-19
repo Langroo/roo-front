@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const hbs = require('express-handlebars');
-const FacebookAPI = require('./bot-tools').FacebookAPI;
+const FacebookAPI = require('./botTools').FacebookAPI;
 const Redis = require('./redis/connect');
 require('dotenv').load();
 
