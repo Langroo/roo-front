@@ -65,13 +65,13 @@ const getReply = async (message, params, userFromDB) => {
 
   switch (params.currentEntity) {
     case 'getStarted': {
-      reply = standardReplies('getStarted', params.senderName);
+      reply = standardReplies('_newOrGoingToPay', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
         current_pos: 'getStarted',
         open_question: true,
         prev_pos: 'getStarted',
-        next_pos: '_userChoosesLanguage',
+        next_pos: '_newOrGoingToPay',
         current_flow: 'introduction',
         prev_flow: 'introduction',
         translate_dialog: 'false',

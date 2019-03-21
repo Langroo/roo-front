@@ -4,7 +4,7 @@ const getEntity = (exp) => {
   expressions = /^(get_started|initial_state|start_from_introduction_now)$/i;
   if (expressions.test(exp)) { return 'getStarted'; }
 
-  expressions = /^(speak_japanese|speak_english)$/i;
+  expressions = /^(speak_japanese|speak_english|speak_chinese)$/i;
   if (expressions.test(exp)) { return '_userIsNewOrInvited'; }
 
   expressions = /^user_has_invite$/i;

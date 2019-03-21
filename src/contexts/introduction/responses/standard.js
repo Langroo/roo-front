@@ -24,7 +24,13 @@ const replyChooser = (replyName, senderName) => {
     getStarted: [
       { type: 'text', content: `Welcome to Langroo ${senderName}! 🎉` },
       { type: 'image', content: 'https://s3.amazonaws.com/langroo/images/hello_woman_kitchen_.gif' },
-      { type: 'text', content: 'How are you?' },
+      { type: 'text', content: {
+        title: 'Are you new or do you want to proceed to payment? :)',
+        buttons: [
+          {title: 'I\'m new'},
+          {title: 'Proceed to Pay'}
+        ]
+      } },
     ],
     _userChoosesLanguage: [
       { type: 'text', content: '👌👌' },
@@ -35,6 +41,7 @@ const replyChooser = (replyName, senderName) => {
           buttons: [
             { title: 'Japanese', value: 'speak_japanese' },
             { title: 'English', value: 'speak_english' },
+            {title: 'Chinese', value: 'speak_chinese'}
           ],
         },
       },
@@ -122,7 +129,7 @@ const replyChooser = (replyName, senderName) => {
         },
       },
     ],
-    _freeTrialAlone: [
+    _trialAlone: [
       { type: 'text', content: `I am going to present you with our finest tutors ${senderName}. All you have to do now is:` },
       { type: 'text', content: '👐 1. Add the one you prefer directly on Facebook' },
       { type: 'text', content: '👐 2. Say hello via Messenger' },
