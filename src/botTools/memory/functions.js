@@ -1,7 +1,7 @@
 /**
  * Global Imports
  * */
-const API = require('../../core').dbApi;
+const API = require('../../rooCoreApi').rooCoreApi;
 const curatedData = require('./curated-data');
 
 class CacheDataPoints {

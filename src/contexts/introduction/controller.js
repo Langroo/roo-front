@@ -1,19 +1,16 @@
 const getReply = async (message, params, userFromDB) => {
   // Requirementes and imports of external modules and libraries
-  const API = require('../../core/index').dbApi;
+  const API = require('../../rooCoreApi/index').rooCoreApi;
   const standardReplies = require('./responses').standardReplies;
   const langNames = require('./languages');
-  const { translateReply, killCronJob, cronReminder } = require('../../bot-tools').universal;
-  const BotCache = require('../../bot-tools').BotCache;
+  const { translateReply, killCronJob, cronReminder } = require('../../botTools').universal;
+  const BotCache = require('../../botTools').BotCache;
+  const { opentalk, reminderReplies, introduction } = require('../index');
 
-  // Variables
-  const flows = require('../index');
-  const reminderReplies = require('../index').reminderReplies;
-  let reply; let FlowUpdate; let willCreateUser; let DelayedUpdate; let reminderToContinueOn;
+  let reply; let FlowUpdate; let saveUserInDatabase; let DelayedUpdate; let reminderToContinueOn;
   let tempReply; let trueReply;
-
-
   let delayedReplies; let userLanguage; let langVar; let userMustPressButton;
+
   const dontTranslateThisRegex = true;
 
   // -- Seconds before sending a reminder or a delayed reply
@@ -45,12 +42,19 @@ const getReply = async (message, params, userFromDB) => {
     langVar = langVar.charAt(0).toUpperCase() + langVar.slice(1);
     userMustPressButton = true;
     DelayedUpdate = {
-      current_pos: params.prevPos, open_question: 'false', prev_pos: params.prevPos, next_pos: 'TBD', prev_flow: 'introduction', repeated_this_pos: '1',
+      current_pos: params.prevPos,
+      open_question: 'false',
+      prev_pos: params.prevPos,
+      next_pos: 'TBD',
+      prev_flow: 'introduction',
+      repeated_this_pos: '1',
     };
     if (params.repeatedThisPos === '0') {
-      delayedReplies = reminderReplies('pressBtnFirstReminder', params.senderName, langVar).concat(standardReplies(params.prevPos, params.senderName, langVar).pop());
+      delayedReplies = reminderReplies('pressBtnFirstReminder', params.senderName, langVar)
+        .concat(standardReplies(params.prevPos, params.senderName, langVar).pop());
     } else {
-      delayedReplies = reminderReplies('pressBtnSecondReminder', params.senderName, langVar).concat(standardReplies(params.prevPos, params.senderName, langVar).pop());
+      delayedReplies = reminderReplies('pressBtnSecondReminder', params.senderName, langVar)
+        .concat(standardReplies(params.prevPos, params.senderName, langVar).pop());
     }
     if (userLanguage !== 'en' && translateActive) {
       delayedReplies = await translateReply(delayedReplies, userLanguage);
@@ -59,117 +63,188 @@ const getReply = async (message, params, userFromDB) => {
     reply = [];
   }
 
-  // -- Create basic account in DB for new - unregistered users
-  if (!userFromDB.data) { await API.createInitialUserProfile(message.sender.id, message.conversation); }
-
-  /* ******************************************************************************************************************************************************
-   * ************************************ Replies to user input according to pre-programmed flow **********************************************************
-   * ***************************************************************************************************************************************************** */
-
   switch (params.currentEntity) {
-    case 'getStarted':
-      reply = standardReplies('getStarted', params.senderName);
+    case 'getStarted': {
+      reply = standardReplies('_newOrGoingToPay', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: 'getStarted', open_question: true, prev_pos: 'getStarted', next_pos: '_newOrGoingToPay', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: 'getStarted',
+        open_question: true,
+        prev_pos: 'getStarted',
+        next_pos: '_newOrGoingToPay',
+        current_flow: 'introduction',
+        prev_flow: 'introduction',
+        translate_dialog: 'false',
       };
       break;
-    case '_newOrGoingToPAy':
-      reply = standardReplies('_newOrGoingToPAy',params.senderName);
-      reminderToContinueOn = true;
-      FlowUpdate = {
-        current_pos: '_newOrGoingToPay', open_question: true, prev_pos: '_newOrGoingToPay', next_pos: '_LearnChinese', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
-      };
-      break;
-    case '_userChoosesLanguage':
+    }
+
+    case '_userChoosesLanguage': {
       reply = standardReplies('_userChoosesLanguage', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_userChoosesLanguage', open_question: true, prev_pos: '_userChoosesLanguage', next_pos: '_userIsNewOrInvited', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_userChoosesLanguage',
+        open_question: true,
+        prev_pos: '_userChoosesLanguage',
+        next_pos: '_userIsNewOrInvited',
+        current_flow: 'introduction',
+        prev_flow: 'introduction',
+        translate_dialog: 'false',
       };
       break;
+    }
 
-    case '_userIsNewOrInvited':
+    case '_userIsNewOrInvited': {
       reply = standardReplies('_userIsNewOrInvited', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_userIsNewOrInvited', open_question: 'false', prev_pos: '_userIsNewOrInvited', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_userIsNewOrInvited',
+        open_question: 'false',
+        prev_pos: '_userIsNewOrInvited',
+        next_pos: 'TBD',
+        current_flow: 'introduction',
+        prev_flow: 'introduction',
+        translate_dialog: 'false',
       };
       break;
+    }
 
-    case '_userHasInvite':
+    case '_userHasInvite': {
       reply = standardReplies('_userHasInvite', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_userHasInvite', open_question: true, prev_pos: '_userHasInvite', next_pos: '_hardestThing', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_userHasInvite',
+        open_question: true,
+        prev_pos: '_userHasInvite',
+        next_pos: '_hardestThing',
+        current_flow: 'introduction',
+        prev_flow: 'introduction',
+        translate_dialog: 'false',
       };
       break;
+    }
 
-    case '_hardestThing':
+    case '_hardestThing': {
       reply = standardReplies('_hardestThing', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_hardestThing', open_question: true, prev_pos: '_hardestThing', next_pos: '_alreadyHadACall', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_hardestThing',
+        open_question: true,
+        prev_pos: '_hardestThing',
+        next_pos: '_alreadyHadACall',
+        current_flow: 'introduction',
+        prev_flow: 'introduction',
+        translate_dialog: 'false',
       };
       break;
+    }
 
-    case '_hardestThingNewUser':
+    case '_hardestThingNewUser': {
       reply = standardReplies('_hardestThingNewUser', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_hardestThingNewUser', open_question: true, prev_pos: '_hardestThingNewUser', next_pos: '_alreadyHadACall', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_hardestThingNewUser',
+        open_question: true,
+        prev_pos: '_hardestThingNewUser',
+        next_pos: '_alreadyHadACall',
+        current_flow: 'introduction',
+        prev_flow: 'introduction',
+        translate_dialog: 'false',
       };
       break;
+    }
 
-    case '_explainABitToUser':
+    case '_explainABitToUser': {
       reply = standardReplies('_explainABitToUser', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_explainABitToUser', open_question: 'false', prev_pos: '_explainABitToUser', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_explainABitToUser',
+        open_question: 'false',
+        prev_pos: '_explainABitToUser',
+        next_pos: 'TBD',
+        current_flow: 'introduction',
+        prev_flow: 'introduction',
+        translate_dialog: 'false',
       };
       break;
+    }
 
-    case '_willProceedWithFreeTrial':
+    case '_willProceedWithFreeTrial': {
       reply = standardReplies('_willProceedWithFreeTrial', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_willProceedWithFreeTrial', open_question: 'false', prev_pos: '_willProceedWithFreeTrial', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_willProceedWithFreeTrial',
+        open_question: 'false',
+        prev_pos: '_willProceedWithFreeTrial',
+        next_pos: 'TBD',
+        current_flow: 'introduction',
+        prev_flow: 'introduction',
+        translate_dialog: 'false',
       };
       break;
+    }
 
-    case '_wontProceedWithFreeTrial':
+    case '_wontProceedWithFreeTrial': {
       reply = standardReplies('_wontProceedWithFreeTrial', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_wontProceedWithFreeTrial', open_question: true, prev_pos: '_wontProceedWithFreeTrial', next_pos: '_introFinalNoFreeTrial', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_wontProceedWithFreeTrial',
+        open_question: true,
+        prev_pos: '_wontProceedWithFreeTrial',
+        next_pos: '_introFinalNoFreeTrial',
+        current_flow: 'introduction',
+        prev_flow: 'introduction',
+        translate_dialog: 'false',
       };
       break;
+    }
 
-    case '_introFinalNoFreeTrial':
+    case '_introFinalNoFreeTrial': {
       reply = standardReplies('_introFinalNoFreeTrial', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_introFinalNoFreeTrial', open_question: true, prev_pos: '_wontProceedWithFreeTrial', next_pos: 'TBD', current_flow: 'opentalk', prev_flow: 'opentalk',
+        current_pos: '_introFinalNoFreeTrial',
+        open_question: true,
+        prev_pos: '_wontProceedWithFreeTrial',
+        next_pos: 'TBD',
+        current_flow: 'opentalk',
+        prev_flow: 'opentalk',
       };
       break;
+    }
 
-    case '_alreadyHadACall':
+    case '_alreadyHadACall': {
       reply = standardReplies('_alreadyHadACall', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_alreadyHadACall', open_question: true, prev_pos: '_alreadyHadACall', next_pos: 'TBD', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_alreadyHadACall',
+        open_question: true,
+        prev_pos: '_alreadyHadACall',
+        next_pos: 'TBD',
+        current_flow: 'introduction',
+        prev_flow: 'introduction',
+        translate_dialog: 'false',
       };
       break;
+    }
 
-    case '_awaitingOurFirstCall':
+    case '_awaitingOurFirstCall': {
       reply = standardReplies('_awaitingOurFirstCall', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_awaitingOurFirstCall', open_question: true, prev_pos: '_awaitingOurFirstCall', next_pos: '_newUser', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_awaitingOurFirstCall',
+        open_question: true,
+        prev_pos: '_awaitingOurFirstCall',
+        next_pos: '_newUser',
+        current_flow: 'introduction',
+        prev_flow: 'introduction',
+        translate_dialog: 'false',
       };
       break;
+    }
 
-    case '_newUser':
+
+    case '_newUser': {
       reply = standardReplies('_newUser', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
@@ -177,72 +252,101 @@ const getReply = async (message, params, userFromDB) => {
       };
       await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput);
       break;
+    }
 
-    case '_userAllDoneDialog':
+    case '_userAllDoneDialog': {
       reply = standardReplies('_userAllDoneDialog', params.senderName);
       reminderToContinueOn = true;
       FlowUpdate = {
-        current_pos: '_userAllDoneDialog', open_question: true, prev_pos: '_userAllDoneDialog', next_pos: '_howQuizWorksDialog', current_flow: 'introduction', prev_flow: 'introduction', translate_dialog: 'false',
+        current_pos: '_userAllDoneDialog',
+        open_question: true,
+        prev_pos: '_userAllDoneDialog',
+        next_pos: '_howQuizWorksDialog',
+        current_flow: 'introduction',
+        prev_flow: 'introduction',
+        translate_dialog: 'false',
       };
       await BotCache.saveUserDataCache(message.sender.id, message.userHash, params.currentFlow, params.prevPos, params.rawUserInput);
       break;
+    }
 
-    case 'introFinal':
+    case 'introFinal': {
       if (params.tutorFlowStatus === 'requested') {
         reply = standardReplies('jumpToTutorFlow', params.senderName);
-        willCreateUser = true;
+        saveUserInDatabase = true;
         reminderToContinueOn = false;
         FlowUpdate = {
-          current_pos: 'introFinal', open_question: 'false', prev_pos: 'introFinal', next_pos: 'TBD', current_flow: 'opentalk', prev_flow: 'opentalk', repeated_this_pos: '0',
+          current_pos: 'introFinal',
+          open_question: 'false',
+          prev_pos: 'introFinal',
+          next_pos: 'TBD',
+          current_flow: 'opentalk',
+          prev_flow: 'opentalk',
+          repeated_this_pos: '0',
         };
       } else {
         reply = standardReplies('introFinal', params.senderName);
-        willCreateUser = true;
+        saveUserInDatabase = true;
         reminderToContinueOn = false;
         FlowUpdate = {
-          current_pos: 'introFinal', open_question: 'false', prev_pos: 'introFinal', next_pos: 'TBD', current_flow: 'opentalk', prev_flow: 'opentalk', repeated_this_pos: '0',
+          current_pos: 'introFinal',
+          open_question: 'false',
+          prev_pos: 'introFinal',
+          next_pos: 'TBD',
+          current_flow: 'opentalk',
+          prev_flow: 'opentalk',
+          repeated_this_pos: '0',
         };
       }
       break;
+    }
 
-    case 'introPostFinal':
+    case 'introPostFinal': {
       reply = standardReplies('introPostFinal', params.senderName);
       reminderToContinueOn = false;
       FlowUpdate = {
-        current_pos: 'introPostFinal', open_question: 'false', prev_pos: 'introPostFinal', next_pos: 'fallback', current_flow: 'opentalk', prev_flow: 'opentalk', repeated_this_pos: '0',
+        current_pos: 'introPostFinal',
+        open_question: 'false',
+        prev_pos: 'introPostFinal',
+        next_pos: 'fallback',
+        current_flow: 'opentalk',
+        prev_flow: 'opentalk',
+        repeated_this_pos: '0',
       };
       break;
+    }
 
-    case 'reliefOfUserContinuing':
+    case 'reliefOfUserContinuing': {
       params.currentEntity = params.prevPos;
-      tempReply = await flows.introduction(message, params, userFromDB);
+      tempReply = await introduction(message, params, userFromDB);
       trueReply = [tempReply.pop()];
       return standardReplies('reliefOfUserContinuing', params.senderName).concat(trueReply);
+    }
 
-    default:
+    default: {
       if (!reply) {
-        console.info('❌ No case matched, reply at Introduction Context Undefined ¯\\_(ツ)_/¯');
+        console.info('WARNING: No case matched, reply at Introduction Context Undefined!');
+        params.currentEntity = 'fallback';
+        params.prevFlow = 'fallback';
+        return await opentalk(message, params, userFromDB);
       }
+    }
   }
 
-  if (!reply) {
-    params.currentEntity = 'fallback';
-    params.prevFlow = 'fallback';
-    reply = await flows.opentalk(message, params, userFromDB);
-    return reply;
-  }
-
-  /**
-   * Update Flow Collection of the User in MongoDB
-   * */
-
-  if (willCreateUser) {
+  if (saveUserInDatabase) {
     const r = await API.createFullUserProfile(message.sender.id);
-    if (r.statusCode >= 200 && r.statusCode < 300) { console.info('User Profile Created in [APIDB] Successfully'); } else { console.error('ERROR :: User Profile Creation after INTRODUCTION has been UNSUCCESSFUL'); }
+    if (r.statusCode >= 200 && r.statusCode < 300) {
+      console.info('User Profile Created in [APIDB] Successfully');
+    } else {
+      console.error('ERROR :: User Profile Creation after INTRODUCTION has been UNSUCCESSFUL');
+    }
     await API.updateContext(message.sender.id, { finished_flows: 'introduction' });
   }
 
   if (reminderToContinueOn) {
+    /**
+     * @var waitingTime is set in seconds
+     * */
     waitingTime = 18000;
     if (process.env.DEBUG_MODE === 'true' || process.env.DEBUG_MODE === '1') {
       console.log('DEBUG MODE IS ENABLED - REMINDER TO COMPLETE INTRO FLOW WILL BE SENT IN 40 SECONDS INSTEAD OF NORMAL TIME');
@@ -251,10 +355,6 @@ const getReply = async (message, params, userFromDB) => {
 
     killCronJob(params.prevPos, message.sender.id);
 
-    /*
-    * In the particular case that the user talks for the first time to the bot and does not continue
-    * the conversation, we will send as the reminder the next message/dialog
-    * */
     if (params.currentEntity === 'getStarted') {
       FlowUpdate = Object.assign({}, FlowUpdate, { current_pos: '_userChoosesLanguage' });
       params.currentEntity = '_userChoosesLanguage';
@@ -264,21 +364,21 @@ const getReply = async (message, params, userFromDB) => {
     }
   }
 
+  if (!userFromDB.data) await API.createInitialUserProfile(message.sender.id, message.conversation);
+
   if (userLanguage !== 'en' && translateActive) {
     reply = await translateReply(reply, userLanguage, skipTranslationIndex, dontTranslateThisRegex);
   }
 
   if (userMustPressButton) {
-    let time = 6;
-    if (params.repeatedThisPos) { time = 10; }
+    let time;
+    params.repeatedThisPos ? time = 10 : time = 6;
     cronReminder(params.currentPos, delayedReplies, time, DelayedUpdate, message.sender.id, userFromDB);
     return;
   }
 
-  // -- Update REDIS flow control variables
-  if (FlowUpdate) {
-    API.updateFlow(message.sender.id, FlowUpdate);
-  }
+  // Update REDIS flow control variables
+  if (FlowUpdate) API.updateFlow(message.sender.id, FlowUpdate);
 
   return await reply;
 };
