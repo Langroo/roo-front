@@ -37,24 +37,6 @@ const getReply = async (message, params, userFromDB) => {
   // -- Define variables with sender's first name and full name
   const { senderName, fullName } = params;
 
-  // -- Is user allowed to request a tutor yet?
-  if (userFromDB.data) {
-    if (params.prevFlow === 'introduction' && params.currentEntity !== 'fromIntroPreTutorFlow') {
-      params.currentEntity = params.currentPos;
-      await API.updateFlow(message.sender.id, { tutor_flow_status: 'requested' });
-      tempReply = await flows.introduction(message, params, userFromDB);
-      trueReply = [tempReply.pop()];
-      return [standardReplies('mustRegisterFirst', senderName)[0]].concat(trueReply);
-    }
-    if (userFromDB.content) { preTutorAux.accent = userFromDB.content.plan.accent; }
-    userLevel = 1;
-  } else {
-    console.info(`${fullName} does not have an account with us. Sending him to the intro flow as God commands`);
-    params.currentEntity = 'askWhoIsRoo';
-    tempReply = await flows.introduction(message, params, userFromDB);
-    trueReply = [tempReply.pop()];
-    return [standardReplies('mustRegisterFirst', senderName)[1]].concat(trueReply);
-  }
   // -- Check if the user already did the tutor flow
   if (params.tutorFlowStatus === 'finished') {
     userLevel = 2;
@@ -163,16 +145,6 @@ const getReply = async (message, params, userFromDB) => {
         reminderToContinueOn = true;
         break;
 
-        // case 'haveQuestion':
-        //   flowControlUpdate = { current_pos: 'haveQuestion', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
-        //   reply = standardReplies('haveQuestion', senderName)
-        //   break
-
-        // case 'haveNotQuestion':
-        //   flowControlUpdate = { current_pos: 'haveNotQuestion', open_question: 'false', next_pos: 'TBD', prev_flow: 'tutor' }
-        //   reply = standardReplies('haveNotQuestion', senderName)
-        //   break
-
       case 'confirmWhenToCallTutor':
         reply = standardReplies('confirmWhenToCallTutor', senderName);
         flowControlUpdate = {
@@ -272,15 +244,13 @@ const getReply = async (message, params, userFromDB) => {
         break;
 
       default:
-        console.log('No case matched in tutor flow');
+        console.log('We got an undefined reply at tutor flow so I will send the user to the Open Conversation ʘ‿ʘ');
+        params.currentEntity = 'fallback';
+        params.prevFlow = 'fallback';
+        reply = await flows.opentalk(message, params, userFromDB);
     }
   } else if (userLevel === 2) {
-    // reply = [standardReplies('tutorFlowFinished', senderName)[Math.floor(Math.random() * standardReplies('tutorFlowFinished', senderName).length)]]
-  }
-
-  // -- Emergency reply in case reply is undefined in this flow
-  if (!reply) {
-    console.log('We got an undefined reply at tutor flow so I will send the user to the Open Conversation ʘ‿ʘ');
+    console.log('User already did the tutor flow');
     params.currentEntity = 'fallback';
     params.prevFlow = 'fallback';
     reply = await flows.opentalk(message, params, userFromDB);
