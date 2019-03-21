@@ -175,6 +175,16 @@ const replyChooser = (replyName, senderName) => {
         ],
       },
     ],
+    mustRegisterFirst: [
+      { type: 'text', content: `Hold on ${senderName} ✋! You're too quick 😮, I'll let you use that option 📲 once we are finished here 👍.` },
+      { type: 'text', content: 'Woah, before I can let you use that option, I need you to tell me a few things first 😁☝' },
+    ],
+    // haveQuestion: [
+    //   { type: 'text', content: 'If you have any questions, please write #help + your question and a member of my team can answer! 🙋:)' },
+    // ],
+    // haveNotQuestion: [
+    //   { type: 'text', content: 'Ok great 👍, enjoy!' },
+    // ],
   };
 
   return replies[replyName];
